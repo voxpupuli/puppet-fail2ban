@@ -1,0 +1,25 @@
+# Class: fail2ban
+#   This module manages fail2ban
+#
+# Definition:
+#   fail2ban::email
+#
+# Parameters:
+#   $email     - specify the email, default is root
+#   $whitelist - specify the whitelist, default is 127.0.0.1
+#
+# Actions:
+#   Installs the jail.conf, jail.local
+#
+# Requires:
+#   Square Brackets, otherwise the conditionals at the
+#   template will throw an error
+#
+# Sample Usage:
+#   fail2ban::email { "/etc/fail2ban/jail.conf":
+#      email     => "fail2ban@${domain}",
+#      whitelist => [
+#         "127.0.0.1",
+#         "192.168.122.0/24"
+#      ],
+#   }
