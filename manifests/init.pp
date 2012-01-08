@@ -15,8 +15,8 @@ class fail2ban {
 			group   => root,
 			mode    => 0644,
 			alias   => "jail.conf",
-			notify  => Service["fail2ban"],
 			content => template("fail2ban/$lsbdistcodename/etc/fail2ban/jail.conf.erb"),
+			notify  => Service["fail2ban"],
 			require => Package["fail2ban"],
 		}
 	}
@@ -34,11 +34,11 @@ class fail2ban {
 		group   => root,
 		mode    => 0644,
 		alias   => "jail.local",
-		notify  => Service["fail2ban"],
 		source  => [
 			"puppet:///modules/fail2ban/common/$hostname/etc/fail2ban/jail.local",
 			"puppet:///modules/fail2ban/common/etc/fail2ban/jail.local"
 		],
+		notify  => Service["fail2ban"],
 		require => Package["fail2ban"],
 	}
 

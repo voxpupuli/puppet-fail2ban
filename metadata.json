@@ -11,7 +11,7 @@
     "Modulefile": "54f98f1963a9fc8e3b6fc272cb0b0424",
     "README": "e828f4d56295b2fd8cdbe54b2c973ff6",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
-    "manifests/init.pp": "c4b669efd40023505f8e30262e09f6a6",
+    "manifests/init.pp": "3e2668107146ac179c9b5e8875d8c54e",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
     "templates/lenny/etc/fail2ban/jail.conf.erb": "bbd89ad903e9134a5ceeaba8faa37d50",
