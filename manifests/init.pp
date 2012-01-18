@@ -15,14 +15,14 @@ class fail2ban {
 			group   => root,
 			mode    => 0644,
 			alias   => "jail.conf",
-			content => template("fail2ban/$lsbdistcodename/etc/fail2ban/jail.conf.erb"),
+			content => template("fail2ban/$::lsbdistcodename/etc/fail2ban/jail.conf.erb"),
 			notify  => Service["fail2ban"],
 			require => Package["fail2ban"],
 		}
 	}
 
 	fail2ban::email { "/etc/fail2ban/jail.conf":
-		email     => "fail2ban@${domain}",
+		email     => "fail2ban@${::domain}",
 		whitelist => [
 			"127.0.0.1",
 			"192.168.122.0/24"
@@ -35,7 +35,7 @@ class fail2ban {
 		mode    => 0644,
 		alias   => "jail.local",
 		source  => [
-			"puppet:///modules/fail2ban/common/$hostname/etc/fail2ban/jail.local",
+			"puppet:///modules/fail2ban/common/$::hostname/etc/fail2ban/jail.local",
 			"puppet:///modules/fail2ban/common/etc/fail2ban/jail.local"
 		],
 		notify  => Service["fail2ban"],
