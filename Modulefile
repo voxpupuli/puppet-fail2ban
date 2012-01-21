@@ -1,5 +1,5 @@
 name 'dhoppe-fail2ban'
-version '0.0.5'
+version '0.0.6'
 
 author 'Dennis Hoppe'
 license 'GPLv2'
