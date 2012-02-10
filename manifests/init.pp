@@ -22,11 +22,8 @@ class fail2ban {
 	}
 
 	fail2ban::email { "/etc/fail2ban/jail.conf":
-		email     => "fail2ban@${::domain}",
-		whitelist => [
-			"127.0.0.1",
-			"192.168.122.0/24"
-		],
+		email     => hiera('email'),
+		whitelist => hiera_array('whitelist'),
 	}
 
 	file { "/etc/fail2ban/jail.local":

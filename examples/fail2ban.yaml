@@ -1,0 +1,5 @@
+---
+email: 'fail2ban@debian-solutions.de'
+whitelist: 
+   - '127.0.0.1'
+   - '192.168.122.0/24'

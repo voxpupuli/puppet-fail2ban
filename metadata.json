@@ -6,12 +6,13 @@
   "project_page": "http://github.com/dhoppe/puppet-fail2ban",
   "source": "git://github.com/dhoppe/puppet-fail2ban",
   "summary": "Fail2Ban Module",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "checksums": {
-    "Modulefile": "7c3a9579c6060b13425746b2fccae38a",
-    "README": "f527552f54d056ed9e73cc266b8f61f1",
+    "Modulefile": "5f1399868088fe7f904e97d1f15fda16",
+    "README": "1972e74414a445aa81c4e6c16c5b4884",
+    "examples/fail2ban.yaml": "831bde6f9b710ed46d2c82aaec5a9751",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
-    "manifests/init.pp": "b321e97430460099fa040ab8957d165b",
+    "manifests/init.pp": "c048a21d61da8d0a09f6ba66436dbbbd",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
     "templates/lenny/etc/fail2ban/jail.conf.erb": "bbd89ad903e9134a5ceeaba8faa37d50",
@@ -20,5 +21,10 @@
     "templates/squeeze/etc/fail2ban/jail.conf.erb": "0df6480cc31ee55d07a4823ac1e0e910",
     "tests/init.pp": "c37a737b004f7efa4774be916cf52112"
   },
-  "dependencies": []
+  "dependencies": [
+    {
+      "name": "dhoppe/puppet",
+      "versionRequirement": "\u003e\u003d0.0.1"
+    }
+  ]
 }
