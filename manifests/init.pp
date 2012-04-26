@@ -23,7 +23,7 @@ class fail2ban {
 
 	fail2ban::email { '/etc/fail2ban/jail.conf':
 		email     => hiera('email'),
-		whitelist => hiera_array('whitelist'),
+		whitelist => hiera('whitelist'),
 	}
 
 	file { '/etc/fail2ban/jail.local':
