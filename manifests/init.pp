@@ -1,4 +1,7 @@
 class fail2ban {
+	validate_string(hiera('email'))
+	validate_array(hiera('whitelist'))
+
 	define fail2ban::email($email = false, $whitelist = false) {
 		$t_email = $email ? {
 			false   => 'root',
