@@ -6,13 +6,14 @@
   "project_page": "http://github.com/dhoppe/puppet-fail2ban",
   "source": "git://github.com/dhoppe/puppet-fail2ban",
   "summary": "Fail2Ban Module",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "checksums": {
-    "Modulefile": "ae9a5f7d8eb765f6e5ae78c7b0a1093d",
+    "Modulefile": "88f2e072e5f9768f0781158fe2ea7227",
     "README": "1972e74414a445aa81c4e6c16c5b4884",
     "examples/fail2ban.yaml": "e8e5a89100951352ba6e344dd8e44d7a",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
-    "manifests/init.pp": "fe2c499c5af091ad56a698c8665332f6",
+    "manifests/email.pp": "71114f73526d9522686b1999d46c0e81",
+    "manifests/init.pp": "0271f17bbb8d12c726a0ea567d267dcc",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
     "templates/lenny/etc/fail2ban/jail.conf.erb": "bbd89ad903e9134a5ceeaba8faa37d50",
@@ -24,7 +25,7 @@
   "dependencies": [
     {
       "name": "dhoppe/puppet",
-      "versionRequirement": "\u003e\u003d0.0.1"
+      "version_requirement": "\u003e\u003d0.0.1"
     }
   ]
 }
