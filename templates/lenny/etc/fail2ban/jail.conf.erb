@@ -23,10 +23,10 @@
 [DEFAULT]
 
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host
-<% if t_whitelist.length > 1 -%>
-ignoreip = <%= t_whitelist.join(" ") %>
+<% if whitelists.length > 1 -%>
+ignoreip = <%= whitelists.join(" ") %>
 <% else -%>
-ignoreip = <%= t_whitelist %>
+ignoreip = <%= whitelists %>
 <% end -%>
 bantime  = 259200
 maxretry = 3
@@ -40,7 +40,7 @@ backend = polling
 #
 # Destination email address used solely for the interpolations in
 # jail.{conf,local} configuration files.
-destemail = <%= t_email %>
+destemail = <%= email %>
 
 #
 # ACTIONS

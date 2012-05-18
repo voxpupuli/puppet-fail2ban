@@ -5,8 +5,8 @@
 #   fail2ban::email
 #
 # Parameters:
-#   $email     - specify the email, default is root
-#   $whitelist - specify the whitelist, default is 127.0.0.1
+#   $email     - specify the email
+#   $whitelist - specify the whitelist
 #
 # Actions:
 #   Installs the jail.conf, jail.local
@@ -16,7 +16,7 @@
 #   template will throw an error
 #
 # Sample Usage:
-#   fail2ban::email { "/etc/fail2ban/jail.conf":
-#      email     => hiera('email'),
-#      whitelist => hiera_array('whitelist'),
+#   fail2ban::email { '/etc/fail2ban/jail.conf':
+#     email      => $email,
+#     whitelists => $whitelist,
 #   }

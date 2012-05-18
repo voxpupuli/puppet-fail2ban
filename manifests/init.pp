@@ -1,15 +1,19 @@
-class fail2ban {
+class fail2ban (
+  $email     = $fail2ban::params::email,
+  $whitelist = $fail2ban::params::whitelist
+) inherits fail2ban::params {
+
   validate_string(hiera('email'))
   validate_array(hiera('whitelist'))
 
   fail2ban::email { '/etc/fail2ban/jail.conf':
-    email     => hiera('email'),
-    whitelist => hiera('whitelist'),
+    email      => $email,
+    whitelists => $whitelist,
   }
 
   file { '/etc/fail2ban/jail.local':
-    owner   => root,
-    group   => root,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0644',
     alias   => 'jail.local',
     source  => [
