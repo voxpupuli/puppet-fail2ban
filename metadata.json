@@ -8,8 +8,10 @@
   "summary": "Fail2Ban Module",
   "version": "0.0.14",
   "checksums": {
+    "Gemfile": "d5ce5c80f3c31e583507eb80b61b7400",
     "Modulefile": "3d5ca819fc10dc36d228757096deec03",
     "README": "e51592f8778ac23c867e8096923c782b",
+    "Rakefile": "aac3a0179a3d0a7749c5dfc1384829e5",
     "examples/fail2ban.yaml": "e8e5a89100951352ba6e344dd8e44d7a",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
     "manifests/email.pp": "7e8e946ad8f415b91150faa6896743b7",
