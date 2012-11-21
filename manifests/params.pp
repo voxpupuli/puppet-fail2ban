@@ -1,6 +1,6 @@
 class fail2ban::params {
   case $::lsbdistcodename {
-    'squeeze', 'maverick', 'natty': {
+    'squeeze', 'natty': {
       $email     = hiera('email')
       $whitelist = hiera('whitelist')
     }
