@@ -20,10 +20,11 @@
     "manifests/config.pp": "18fec220e14beb89f7fbc2f242c2f822",
     "manifests/init.pp": "fa91c0c1b25375c2e18eecdace2084e1",
     "manifests/package.pp": "adf4a09968f1cb08936b3a0dfc87fcd2",
-    "manifests/params.pp": "4e26aa08bffed86ccc45af5aa294ac37",
+    "manifests/params.pp": "4805a863bde5589d286755cd354bea5b",
     "manifests/service.pp": "559666a1b13477c03f505c192f9f70bd",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "templates/precise/etc/fail2ban/jail.conf.erb": "27553405eec9cfd927040575c501dbbd",
     "templates/squeeze/etc/fail2ban/jail.conf.erb": "bc5c2324d18cdeba378f913b1c619191",
     "templates/wheezy/etc/fail2ban/jail.conf.erb": "27553405eec9cfd927040575c501dbbd",
     "tests/init.pp": "c37a737b004f7efa4774be916cf52112"
