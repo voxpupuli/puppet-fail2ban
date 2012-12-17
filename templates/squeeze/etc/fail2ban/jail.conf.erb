@@ -23,10 +23,10 @@
 [DEFAULT]
 
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host
-<% if whitelists.length > 1 -%>
-ignoreip = <%= whitelists.join(" ") %>
+<% if whitelist.length > 1 -%>
+ignoreip = <%= whitelist.join(" ") %>
 <% else -%>
-ignoreip = <%= whitelists %>
+ignoreip = <%= whitelist %>
 <% end -%>
 bantime  = 259200
 maxretry = 3

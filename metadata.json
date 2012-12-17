@@ -6,28 +6,30 @@
   "project_page": "http://github.com/dhoppe/puppet-fail2ban",
   "source": "git://github.com/dhoppe/puppet-fail2ban",
   "summary": "Fail2Ban Module",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "checksums": {
     ".fixtures.yml": "2a7f88d7b39fe63578a82df4eb578eaf",
     ".gemfile": "73cc3f47b89e2b1dbde81dd5cb35d230",
     ".travis.yml": "42dc25c6f766b53cbe7cbe8c5a293561",
     "LICENSE": "b234ee4d69f5fce4486a80fdaf4a4263",
-    "Modulefile": "3d5ca819fc10dc36d228757096deec03",
+    "Modulefile": "c07a03681bf86bf95a0877051ed0e05c",
     "README": "e51592f8778ac23c867e8096923c782b",
     "Rakefile": "6c0454b5f83810523ed776de5afd1fe6",
-    "examples/fail2ban.yaml": "e8e5a89100951352ba6e344dd8e44d7a",
+    "examples/fail2ban.yaml": "45065c3b3ebed78c1a2be626b8457151",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
-    "manifests/email.pp": "7e8e946ad8f415b91150faa6896743b7",
-    "manifests/init.pp": "4f56e01a2f49fcf5581eaeb5a98d9171",
-    "manifests/params.pp": "2f3c801a9aa2677a45eea80eea7ebc00",
+    "manifests/config.pp": "18fec220e14beb89f7fbc2f242c2f822",
+    "manifests/init.pp": "fa91c0c1b25375c2e18eecdace2084e1",
+    "manifests/package.pp": "adf4a09968f1cb08936b3a0dfc87fcd2",
+    "manifests/params.pp": "734d6adfc06edbeb39bab7abf955d588",
+    "manifests/service.pp": "559666a1b13477c03f505c192f9f70bd",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
-    "templates/squeeze/etc/fail2ban/jail.conf.erb": "c15f898413989e1f2cbbec27768948df",
+    "templates/squeeze/etc/fail2ban/jail.conf.erb": "bc5c2324d18cdeba378f913b1c619191",
     "tests/init.pp": "c37a737b004f7efa4774be916cf52112"
   },
   "dependencies": [
     {
-      "name": "dhoppe/puppet",
+      "name": "puppetlabs/stdlib",
       "version_requirement": "\u003e\u003d0.0.1"
     }
   ]
