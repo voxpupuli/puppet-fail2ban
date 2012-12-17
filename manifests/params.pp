@@ -12,7 +12,7 @@
 #
 class fail2ban::params {
   case $::lsbdistcodename {
-    'squeeze', 'wheezy', 'precise': {
+    'squeeze', 'wheezy', 'precise', 'quantal': {
       $ensure           = present
       $ensure_enable    = true
       $ensure_running   = running
