@@ -16,6 +16,7 @@ class fail2ban::params {
       $ensure           = present
       $ensure_enable    = true
       $ensure_running   = running
+      $disabled_hosts   = []
       $email            = "fail2ban@${::domain}"
       $whitelist        = [
         '127.0.0.1',
