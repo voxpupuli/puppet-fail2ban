@@ -15,7 +15,7 @@
     "Modulefile": "c07a03681bf86bf95a0877051ed0e05c",
     "README": "e51592f8778ac23c867e8096923c782b",
     "Rakefile": "6c0454b5f83810523ed776de5afd1fe6",
-    "examples/fail2ban.yaml": "45065c3b3ebed78c1a2be626b8457151",
+    "examples/fail2ban.yaml": "d542465c3308c0e113b07f7b3b365c2d",
     "files/common/etc/fail2ban/jail.local": "429d390f26ec7e6449c954e91ef525b0",
     "manifests/config.pp": "18fec220e14beb89f7fbc2f242c2f822",
     "manifests/init.pp": "fa91c0c1b25375c2e18eecdace2084e1",
