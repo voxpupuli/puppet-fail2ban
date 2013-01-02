@@ -14,4 +14,8 @@ class fail2ban {
   class { 'fail2ban::package': }
   class { 'fail2ban::config': }
   class { 'fail2ban::service': }
+
+  if defined('monit') {
+    monit::file { 'fail2ban': }
+  }
 }
