@@ -1,0 +1,12 @@
+HOSTS:
+  debian-6.0.10-amd64:
+    roles:
+      - master
+    platform: debian-6.0.10-amd64
+    box: dhoppe/debian-6.0.10-amd64-nocm
+    box_url: https://vagrantcloud.com/dhoppe/debian-6.0.10-amd64-nocm
+    hypervisor: vagrant
+    ip: 192.168.56.11
+CONFIG:
+  log_level: verbose
+  type: foss

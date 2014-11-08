@@ -1,0 +1,43 @@
+{
+  "name": "dhoppe-fail2ban",
+  "version": "1.0.0",
+  "author": "Dennis Hoppe",
+  "summary": "This module installs, configures and manages the Fail2ban service.",
+  "license": "Apache 2.0",
+  "source": "git://github.com/dhoppe/fail2ban",
+  "project_page": "https://github.com/dhoppe/fail2ban",
+  "issues_url": "https://github.com/dhoppe/fail2ban/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04",
+        "14.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
+  "tags": [
+    "fail2ban",
+    "debian",
+    "ubuntu"
+  ]
+}
