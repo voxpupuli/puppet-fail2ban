@@ -69,7 +69,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        it { is_expected.not_to be_running }
+#        it { is_expected.not_to be_running }
         it { is_expected.not_to be_enabled }
       end
     end
