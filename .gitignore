@@ -1,0 +1,5 @@
+.vagrant/
+pkg/
+spec/fixtures/
+.*.sw?
+Gemfile.lock
