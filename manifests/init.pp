@@ -2,30 +2,30 @@
 #
 class fail2ban (
   $package_ensure           = 'present',
-  $package_name             = $fail2ban::params::package_name,
-  $package_list             = $fail2ban::params::package_list,
+  $package_name             = $::fail2ban::params::package_name,
+  $package_list             = $::fail2ban::params::package_list,
 
-  $config_dir_path          = $fail2ban::params::config_dir_path,
+  $config_dir_path          = $::fail2ban::params::config_dir_path,
   $config_dir_purge         = false,
   $config_dir_recurse       = true,
   $config_dir_source        = undef,
 
-  $config_file_path         = $fail2ban::params::config_file_path,
-  $config_file_owner        = $fail2ban::params::config_file_owner,
-  $config_file_group        = $fail2ban::params::config_file_group,
-  $config_file_mode         = $fail2ban::params::config_file_mode,
+  $config_file_path         = $::fail2ban::params::config_file_path,
+  $config_file_owner        = $::fail2ban::params::config_file_owner,
+  $config_file_group        = $::fail2ban::params::config_file_group,
+  $config_file_mode         = $::fail2ban::params::config_file_mode,
   $config_file_source       = undef,
   $config_file_string       = undef,
   $config_file_template     = undef,
 
-  $config_file_notify       = $fail2ban::params::config_file_notify,
-  $config_file_require      = $fail2ban::params::config_file_require,
+  $config_file_notify       = $::fail2ban::params::config_file_notify,
+  $config_file_require      = $::fail2ban::params::config_file_require,
 
   $config_file_hash         = {},
   $config_file_options_hash = {},
 
   $service_ensure           = 'running',
-  $service_name             = $fail2ban::params::service_name,
+  $service_name             = $::fail2ban::params::service_name,
   $service_enable           = true,
 
   $action                   = 'action_mb',
@@ -34,7 +34,7 @@ class fail2ban (
   $jails                    = ['ssh', 'ssh-ddos'],
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
-) inherits fail2ban::params {
+) inherits ::fail2ban::params {
   validate_re($package_ensure, '^(absent|latest|present|purged)$')
   validate_string($package_name)
   if $package_list { validate_array($package_list) }

@@ -23,9 +23,9 @@
 [DEFAULT]
 
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host
-ignoreip = <%= @whitelist.join(" ") %>
-bantime  = <%= @bantime %>
-maxretry = <%= @maxretry %>
+ignoreip = <%= scope.lookupvar('::fail2ban::whitelist').join(" ") %>
+bantime  = <%= scope.lookupvar('::fail2ban::bantime') %>
+maxretry = <%= scope.lookupvar('::fail2ban::maxretry') %>
 
 # "backend" specifies the backend used to get files modification. Available
 # options are "gamin", "polling" and "auto".
@@ -36,7 +36,7 @@ backend = polling
 #
 # Destination email address used solely for the interpolations in
 # jail.{conf,local} configuration files.
-destemail = <%= @email %>
+destemail = <%= scope.lookupvar('::fail2ban::email') %>
 
 #
 # ACTIONS
@@ -78,7 +78,7 @@ action_mwl = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(proto
 # Choose default action.  To change, just override value of 'action' with the
 # interpolation to the chosen action shortcut (e.g.  action_mw, action_mwl, etc) in jail.local
 # globally (section [DEFAULT]) or per specific section 
-action = %(<%= @action %>)s
+action = %(<%= scope.lookupvar('::fail2ban::action') %>)s
 
 #
 # JAILS
@@ -98,7 +98,7 @@ action = %(<%= @action %>)s
 
 [ssh]
 
-enabled = <%= @jails.include? "ssh" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "ssh" %>
 port	= ssh
 filter	= sshd
 logpath  = /var/log/auth.log
@@ -108,7 +108,7 @@ maxretry = 6
 # such as iptables-allports, shorewall
 [pam-generic]
 
-enabled = <%= @jails.include? "pam-generic" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "pam-generic" %>
 # pam-generic filter can be customized to monitor specific subset of 'tty's
 filter	= pam-generic
 # port actually must be irrelevant but lets leave it all for some possible uses
@@ -120,7 +120,7 @@ maxretry = 6
 
 [xinetd-fail]
 
-enabled   = <%= @jails.include? "xinetd-fail" %>
+enabled   = <%= scope.lookupvar('::fail2ban::jails').include? "xinetd-fail" %>
 filter    = xinetd-fail
 port      = all
 banaction = iptables-multiport-log
@@ -130,7 +130,7 @@ maxretry  = 2
 
 [ssh-ddos]
 
-enabled = <%= @jails.include? "ssh-ddos" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "ssh-ddos" %>
 port    = ssh
 filter  = sshd-ddos
 logpath  = /var/log/auth.log
@@ -142,7 +142,7 @@ maxretry = 6
 
 [apache]
 
-enabled = <%= @jails.include? "apache" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "apache" %>
 port	= http,https
 filter	= apache-auth
 logpath = /var/log/apache*/*error.log
@@ -152,7 +152,7 @@ maxretry = 6
 # for compatibility with previous (<0.7.6-2) releases
 [apache-multiport]
 
-enabled   = <%= @jails.include? "apache-multiport" %>
+enabled   = <%= scope.lookupvar('::fail2ban::jails').include? "apache-multiport" %>
 port	  = http,https
 filter	  = apache-auth
 logpath   = /var/log/apache*/*error.log
@@ -160,7 +160,7 @@ maxretry  = 6
 
 [apache-noscript]
 
-enabled = <%= @jails.include? "apache-noscript" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "apache-noscript" %>
 port    = http,https
 filter  = apache-noscript
 logpath = /var/log/apache*/*error.log
@@ -168,7 +168,7 @@ maxretry = 6
 
 [apache-overflows]
 
-enabled = <%= @jails.include? "apache-overflows" %>
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "apache-overflows" %>
 port    = http,https
 filter  = apache-overflows
 logpath = /var/log/apache*/*error.log
@@ -180,7 +180,7 @@ maxretry = 2
 
 [vsftpd]
 
-enabled  = <%= @jails.include? "vsftpd" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "vsftpd" %>
 port	 = ftp,ftp-data,ftps,ftps-data
 filter   = vsftpd
 logpath  = /var/log/vsftpd.log
@@ -193,7 +193,7 @@ maxretry = 6
 
 [proftpd]
 
-enabled  = <%= @jails.include? "proftpd" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "proftpd" %>
 port	 = ftp,ftp-data,ftps,ftps-data
 filter   = proftpd
 logpath  = /var/log/proftpd/proftpd.log
@@ -202,7 +202,7 @@ maxretry = 6
 
 [wuftpd]
 
-enabled  = <%= @jails.include? "wuftpd" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "wuftpd" %>
 port	 = ftp,ftp-data,ftps,ftps-data
 filter   = wuftpd
 logpath  = /var/log/auth.log
@@ -215,7 +215,7 @@ maxretry = 6
 
 [postfix]
 
-enabled  = <%= @jails.include? "postfix" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "postfix" %>
 port	 = smtp,ssmtp
 filter   = postfix
 logpath  = /var/log/mail.log
@@ -223,7 +223,7 @@ logpath  = /var/log/mail.log
 
 [couriersmtp]
 
-enabled  = <%= @jails.include? "couriersmtp" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "couriersmtp" %>
 port	 = smtp,ssmtp
 filter   = couriersmtp
 logpath  = /var/log/mail.log
@@ -236,7 +236,7 @@ logpath  = /var/log/mail.log
 
 [courierauth]
 
-enabled  = <%= @jails.include? "courierauth" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "courierauth" %>
 port	 = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
 filter   = courierlogin
 logpath  = /var/log/mail.log
@@ -244,7 +244,7 @@ logpath  = /var/log/mail.log
 
 [sasl]
 
-enabled  = <%= @jails.include? "sasl" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "sasl" %>
 port	 = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
 filter   = sasl
 # You might consider monitoring /var/log/warn.log instead
@@ -288,7 +288,7 @@ logpath  = /var/log/mail.log
 
 [named-refused-tcp]
 
-enabled  = <%= @jails.include? "named-refused-tcp" %>
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "named-refused-tcp" %>
 port     = domain,953
 protocol = tcp
 filter   = named-refused

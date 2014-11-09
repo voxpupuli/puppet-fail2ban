@@ -44,14 +44,14 @@ describe 'fail2ban::define', :type => :define do
           :config_file_template => 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb',
         }}
 
-#        it do
-#          is_expected.to contain_file('define_fail2ban.conf').with({
-#            'ensure'  => 'present',
-#            'content' => /THIS FILE IS MANAGED BY PUPPET/,
-#            'notify'  => 'Service[fail2ban]',
-#            'require' => 'Package[fail2ban]',
-#          })
-#        end
+        it do
+          is_expected.to contain_file('define_fail2ban.conf').with({
+            'ensure'  => 'present',
+            'content' => /THIS FILE IS MANAGED BY PUPPET/,
+            'notify'  => 'Service[fail2ban]',
+            'require' => 'Package[fail2ban]',
+          })
+        end
       end
 
       context 'when content template (custom)' do
@@ -62,14 +62,14 @@ describe 'fail2ban::define', :type => :define do
           },
         }}
 
-#        it do
-#          is_expected.to contain_file('define_fail2ban.conf').with({
-#            'ensure'  => 'present',
-#            'content' => /THIS FILE IS MANAGED BY PUPPET/,
-#            'notify'  => 'Service[fail2ban]',
-#            'require' => 'Package[fail2ban]',
-#          })
-#        end
+        it do
+          is_expected.to contain_file('define_fail2ban.conf').with({
+            'ensure'  => 'present',
+            'content' => /THIS FILE IS MANAGED BY PUPPET/,
+            'notify'  => 'Service[fail2ban]',
+            'require' => 'Package[fail2ban]',
+          })
+        end
       end
     end
   end
