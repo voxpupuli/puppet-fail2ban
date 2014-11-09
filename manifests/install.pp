@@ -9,6 +9,6 @@ class fail2ban::install {
   }
 
   if $fail2ban::package_list {
-    ensure_resource('package', $fail2ban::package_list, { 'ensure' => fail2ban::package_ensure })
+    ensure_resource('package', $fail2ban::package_list, { 'ensure' => $fail2ban::package_ensure })
   }
 }
