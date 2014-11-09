@@ -1,3 +1,7 @@
+## 2014-11-09 Release 1.0.2
+### Summary:
+- [Puppet] Amending attributes
+
 ## 2014-11-09 Release 1.0.1
 ### Summary:
 - [Beaker] Disable test
