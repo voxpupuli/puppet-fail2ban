@@ -1,3 +1,8 @@
+## 2014-11-09 Release 1.0.3
+### Summary:
+- [Puppet] Switch to top-scope variables
+- [Rspec] Enable tests
+
 ## 2014-11-09 Release 1.0.2
 ### Summary:
 - [Puppet] Amending attributes
