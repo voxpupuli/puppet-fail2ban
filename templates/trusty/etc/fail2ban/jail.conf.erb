@@ -24,16 +24,15 @@
 # ban a host which matches an address in this list. Several addresses can be
 # defined using space separator.
 ignoreip = <%= scope.lookupvar('::fail2ban::whitelist').join(" ") %>
-bantime  = <%= scope.lookupvar('::fail2ban::bantime') %>
-maxretry = <%= scope.lookupvar('::fail2ban::maxretry') %>
+
 
 # "bantime" is the number of seconds that a host is banned.
-bantime  = 600
+bantime  = <%= scope.lookupvar('::fail2ban::bantime') %>
 
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
 findtime = 600
-maxretry = 3
+maxretry = <%= scope.lookupvar('::fail2ban::maxretry') %>
 
 # "backend" specifies the backend used to get files modification.
 # Available options are "pyinotify", "gamin", "polling" and "auto".
