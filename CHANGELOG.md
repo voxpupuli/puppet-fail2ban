@@ -1,3 +1,7 @@
+## 2014-12-01 Release 1.0.4
+### Summary:
+- [Puppet] Fix duplicate variable declaration [GH-3](https://github.com/dhoppe/puppet-fail2ban/pull/3)
+
 ## 2014-11-09 Release 1.0.3
 ### Summary:
 - [Puppet] Switch to top-scope variables
