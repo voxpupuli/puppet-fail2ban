@@ -279,7 +279,7 @@ Determines how many seconds ip addresses will be banned. Defaults to '432000'.
 
 #### `email`
 
-Determines which email address should be notified about restricted hosts and suspicious logins. Defaults to 'fail2ban@${::domain}'.
+Determines which email address should be notified about restricted hosts and suspicious logins. Defaults to "fail2ban@${::domain}".
 
 #### `jails`
 
