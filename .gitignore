@@ -1,5 +1,7 @@
+.bundle/
 .vagrant/
 pkg/
 spec/fixtures/
 .*.sw?
+.DS_store
 Gemfile.lock
