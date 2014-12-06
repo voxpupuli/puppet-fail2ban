@@ -1,6 +1,6 @@
 {
   "name": "dhoppe-fail2ban",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Dennis Hoppe",
   "summary": "This module installs, configures and manages the Fail2ban service.",
   "license": "Apache 2.0",

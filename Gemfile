@@ -1,11 +1,14 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
-group :development, :test do
+group :default do
   gem 'rake',                    :require => false
   gem 'rspec-puppet',            :require => false
   gem 'puppetlabs_spec_helper',  :require => false
-  gem 'serverspec',              :require => false
   gem 'puppet-lint',             :require => false
+end
+
+group :development do
+  gem 'serverspec',              :require => false
   gem 'beaker',                  :require => false
   gem 'beaker-rspec',            :require => false
   gem 'pry',                     :require => false
