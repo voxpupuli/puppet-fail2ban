@@ -1,3 +1,8 @@
+## 2014-12-06 Release 1.0.5
+### Summary:
+- [Puppet] Update documentation
+- [Rspec] Made some changes to the build environment
+
 ## 2014-12-01 Release 1.0.4
 ### Summary:
 - [Puppet] Fix duplicate variable declaration [GH-3](https://github.com/dhoppe/puppet-fail2ban/pull/3)
