@@ -6,7 +6,7 @@ HOSTS:
     box: dhoppe/ubuntu-12.04.5-amd64-nocm
     box_url: https://vagrantcloud.com/dhoppe/ubuntu-12.04.5-amd64-nocm
     hypervisor: vagrant
-    ip: 192.168.56.31
+    ip: 192.168.56.41
 CONFIG:
   log_level: verbose
   type: foss
