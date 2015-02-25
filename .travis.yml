@@ -1,6 +1,6 @@
 ---
 language: ruby
-bundler_args: --without development --jobs 3 --retry 3
+bundler_args: --without system_tests --jobs 3 --retry 3
 script: "bundle exec rake validate && bundle exec rake lint && bundle exec rake spec SPEC_OPTS='--format documentation'"
 sudo: false
 after_success:
