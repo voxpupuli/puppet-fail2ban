@@ -1,3 +1,8 @@
+## 2015-02-25 Release 1.0.6
+### Summary:
+- [Beaker] Update Beaker environment
+- [Puppet] Add support for Debian 8.x (Jessie)
+
 ## 2014-12-06 Release 1.0.5
 ### Summary:
 - [Puppet] Update documentation
