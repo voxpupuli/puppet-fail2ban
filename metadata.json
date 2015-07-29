@@ -28,6 +28,14 @@
         "12.04",
         "14.04"
       ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
     }
   ],
   "requirements": [
@@ -39,6 +47,7 @@
   "tags": [
     "fail2ban",
     "debian",
-    "ubuntu"
+    "ubuntu",
+    "redhat"
   ]
 }
