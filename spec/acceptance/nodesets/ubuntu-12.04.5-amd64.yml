@@ -2,7 +2,7 @@ HOSTS:
   ubuntu-12.04.5-amd64:
     roles:
       - master
-    platform: ubuntu-12.04.5-amd64
+    platform: ubuntu-12.04-amd64
     box: dhoppe/ubuntu-12.04.5-amd64-nocm
     box_url: https://vagrantcloud.com/dhoppe/ubuntu-12.04.5-amd64-nocm
     hypervisor: vagrant

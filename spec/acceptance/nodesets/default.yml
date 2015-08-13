@@ -2,7 +2,7 @@ HOSTS:
   debian-8.1.0-amd64:
     roles:
       - master
-    platform: debian-8.1.0-amd64
+    platform: debian-8-amd64
     box: dhoppe/debian-8.1.0-amd64-nocm
     box_url: https://vagrantcloud.com/dhoppe/debian-8.1.0-amd64-nocm
     hypervisor: vagrant
