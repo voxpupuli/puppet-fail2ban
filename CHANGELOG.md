@@ -1,3 +1,10 @@
+## 2015-08-13 Release 1.0.8
+### Summary:
+- [Beaker] Update Beaker environment
+- [RSpec] Update RSpec environment
+- [Travis CI] Update Travis CI environment
+- [Puppet Forge] Update license, version requirement
+
 ## 2015-02-25 Release 1.0.7
 ### Summary:
 - [Beaker] Update Beaker environment
