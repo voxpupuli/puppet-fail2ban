@@ -140,7 +140,7 @@ action = %(<%= scope.lookupvar('::fail2ban::action') %>)s
 enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "ssh" %>
 port     = ssh
 filter   = sshd
-logpath  = /var/log/auth.log
+logpath  = /var/log/secure
 maxretry = 6
 
 [dropbear]
@@ -148,7 +148,7 @@ maxretry = 6
 enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "dropbear" %>
 port     = ssh
 filter   = dropbear
-logpath  = /var/log/auth.log
+logpath  = /var/log/secure
 maxretry = 6
 
 # Generic filter for pam. Has to be used with action which bans all ports
@@ -162,7 +162,7 @@ filter   = pam-generic
 port     = all
 banaction = iptables-allports
 port     = anyport
-logpath  = /var/log/auth.log
+logpath  = /var/log/secure
 maxretry = 6
 
 [xinetd-fail]
@@ -180,7 +180,7 @@ maxretry  = 2
 enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "ssh-ddos" %>
 port     = ssh
 filter   = sshd-ddos
-logpath  = /var/log/auth.log
+logpath  = /var/log/secure
 maxretry = 6
 
 
@@ -345,7 +345,7 @@ port     = ftp,ftp-data,ftps,ftps-data
 filter   = vsftpd
 logpath  = /var/log/vsftpd.log
 # or overwrite it in jails.local to be
-# logpath = /var/log/auth.log
+# logpath = /var/log/secure
 # if you want to rely on PAM failed login attempts
 # vsftpd's failregex should match both of those formats
 maxretry = 6
