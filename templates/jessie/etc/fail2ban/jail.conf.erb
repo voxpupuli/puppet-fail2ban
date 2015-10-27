@@ -312,7 +312,7 @@ logpath = /var/log/lighttpd/error.log
 enabled = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-http-auth" %>
 filter  = nginx-http-auth
 port    = http,https
-logpath = /var/log/nginx/error.log
+logpath = /var/log/nginx/*error*.log
 
 # Monitor roundcube server
 
