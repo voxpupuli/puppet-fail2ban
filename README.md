@@ -293,6 +293,15 @@ Determines the number of failed login attempts needed to block a host. Defaults 
 
 Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8', '192.168.56.0/24']'.
 
+#### `additional_jails`
+
+Enables additional jails (and its filters) such as:
+- nginx-wp-login
+- nginx-login
+- nginx-badbots
+- nginx-noscript
+- nginx-proxy
+
 ## Limitations
 
 This module has been tested on:
