@@ -31,11 +31,11 @@ class fail2ban::config {
   if $::fail2ban::additional_jails {
     file { 'filter.d':
       ensure  => directory,
-      path    => "$::fail2ban::config_dir_path/filter.d",
+      path    => "${::fail2ban::config_dir_path}/filter.d",
       owner   => $::fail2ban::config_file_owner,
       group   => $::fail2ban::config_file_group,
       mode    => $::fail2ban::config_file_mode,
-      source  => "puppet:///modules/fail2ban/filter.d",
+      source  => 'puppet:///modules/fail2ban/filter.d',
       recurse => remote,
       notify  => $::fail2ban::config_file_notify,
       require => $::fail2ban::config_file_require,
