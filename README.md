@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/dhoppe/puppet-fail2ban.png?branch=master)](https://travis-ci.org/dhoppe/puppet-fail2ban)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
+[![Puppet Forge](https://img.shields.io/puppetforge/dt/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
+[![Puppet Forge](https://img.shields.io/puppetforge/mc/dhoppe.svg)](https://forge.puppetlabs.com/dhoppe)
+[![Puppet Forge](https://img.shields.io/puppetforge/rc/dhoppe.svg)](https://forge.puppetlabs.com/dhoppe)
 
 #### Table of Contents
 
