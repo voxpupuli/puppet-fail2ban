@@ -3,7 +3,6 @@ require 'spec_helper_acceptance'
 case fact('osfamily')
 when 'Debian'
   package_name     = 'fail2ban'
-  config_dir_path  = '/etc/fail2ban'
   config_file_path = '/etc/fail2ban/jail.conf'
   service_name     = 'fail2ban'
 end
@@ -69,7 +68,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-#        it { is_expected.not_to be_running }
+        # it { is_expected.not_to be_running }
         it { is_expected.not_to be_enabled }
       end
     end
