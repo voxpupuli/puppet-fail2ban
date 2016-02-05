@@ -37,7 +37,7 @@ This module handles installing, configuring and running Fail2ban across a range 
 
 ### Setup Requirements
 
-* Puppet >= 2.7
+* Puppet >= 3.0
 * Facter >= 1.6
 * [Stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 
