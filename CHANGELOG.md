@@ -1,3 +1,7 @@
+## 2016-02-07 Release 1.1.1
+### Summary:
+- [Travis CI] Fix matrix of tested Puppet and RVM versions (travis-ci/travis-ci #5580)
+
 ## 2016-02-05 Release 1.1.0
 ### Summary:
 - [Puppet] Add support for Puppet Enterprise
