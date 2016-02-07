@@ -4,9 +4,7 @@ HOSTS:
       - master
     platform: ubuntu-12.04-amd64
     box: dhoppe/ubuntu-12.04.5-amd64-nocm
-    box_url: https://vagrantcloud.com/dhoppe/ubuntu-12.04.5-amd64-nocm
-    hypervisor: vagrant
+    hypervisor: vagrant_virtualbox
     ip: 192.168.56.41
 CONFIG:
-  log_level: verbose
   type: foss
