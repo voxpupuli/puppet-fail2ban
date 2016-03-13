@@ -27,7 +27,7 @@ group :test do
   gem 'rspec-puppet',                                              :require => false, :git => 'https://github.com/rodjek/rspec-puppet.git'
   gem 'rspec-puppet-facts',                                        :require => false
   gem 'rspec-puppet-utils',                                        :require => false
-  gem 'rubocop', '0.35.0',                                         :require => false
+  gem 'rubocop', '~> 0.38',                                        :require => false
 end
 
 group :development do
@@ -37,7 +37,7 @@ group :development do
 end
 
 group :system_tests do
-  gem 'beaker', :require => false
+  gem 'beaker',                       :require => false
   if beaker_version = ENV['BEAKER_VERSION']
     gem 'beaker', *location_for(beaker_version)
   end
@@ -55,7 +55,7 @@ else
   gem 'facter', :require => false, :groups => [:test]
 end
 
-ENV['PUPPET_VERSION'].nil? ? puppetversion = '3.8.5' : puppetversion = ENV['PUPPET_VERSION'].to_s
+ENV['PUPPET_VERSION'].nil? ? puppetversion = '~> 3.0' : puppetversion = ENV['PUPPET_VERSION'].to_s
 gem 'puppet', puppetversion, :require => false, :groups => [:test]
 
 # vim:ft=ruby

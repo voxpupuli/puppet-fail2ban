@@ -5,6 +5,6 @@ HOSTS:
     platform: debian-8-amd64
     box: dhoppe/debian-8.3.0-amd64-nocm
     hypervisor: vagrant_virtualbox
-    ip: 192.168.56.31
+    ip: 192.168.56.21
 CONFIG:
   type: foss

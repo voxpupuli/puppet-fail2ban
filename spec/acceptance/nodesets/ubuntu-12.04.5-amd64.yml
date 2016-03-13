@@ -5,6 +5,6 @@ HOSTS:
     platform: ubuntu-12.04-amd64
     box: dhoppe/ubuntu-12.04.5-amd64-nocm
     hypervisor: vagrant_virtualbox
-    ip: 192.168.56.41
+    ip: 192.168.56.31
 CONFIG:
   type: foss

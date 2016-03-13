@@ -1,0 +1,16 @@
+HOSTS:
+  ubuntu-14.04.4-amd64:
+    roles:
+      - master
+      - database
+      - dashboard
+    platform: ubuntu-14.04-amd64
+    box: dhoppe/ubuntu-14.04.4-amd64-nocm
+    hypervisor: vagrant_virtualbox
+    ip: 192.168.56.42
+    vagrant_cpu: 2
+    vagrant_memsize: 4096
+CONFIG:
+  type: pe
+  pe_dir: 'https://s3.amazonaws.com/pe-builds/released/3.8.3'
+  pe_ver: '3.8.3'
