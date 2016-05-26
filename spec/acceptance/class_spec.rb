@@ -5,6 +5,10 @@ when 'Debian'
   package_name     = 'fail2ban'
   config_file_path = '/etc/fail2ban/jail.conf'
   service_name     = 'fail2ban'
+when 'RedHat'
+  package_name     = 'fail2ban'
+  config_file_path = '/etc/fail2ban/jail.conf'
+  service_name     = 'fail2ban'
 end
 
 describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do

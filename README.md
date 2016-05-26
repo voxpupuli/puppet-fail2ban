@@ -53,8 +53,26 @@ Install fail2ban with the recommended parameters.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
     }
+```
+
+### Config file template
+You'll find an example on examples folder for each operating system.
+Previous example show how to enable config for Debian operating system, using ${::osfamily}/${::lsbdistcodename} fact.
+
+RedHat/CentOS requires a totally different configuration file. To add it, instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use the following one:
+
+```puppet
+  class { 'fail2ban':
+    config_file_template => "fail2ban/%{::osfamily}/etc/fail2ban/jail.conf.erb"
+  }
+```
+
+Or using Hiera:
+
+```hiera
+fail2ban::config_file_template: "fail2ban/%{::osfamily}/etc/fail2ban/jail.conf.erb"
 ```
 
 ## Usage
@@ -87,7 +105,7 @@ Deploy the configuration files from source directory.
 
 ```puppet
     class { 'fail2ban':
-      config_dir_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban",
+      config_dir_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban",
     }
 ```
 
@@ -96,7 +114,7 @@ Deploy the configuration files from source directory ***(Unmanaged configuration
 ```puppet
     class { 'fail2ban':
       config_dir_purge  => true,
-      config_dir_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban",
+      config_dir_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban",
     }
 ```
 
@@ -104,7 +122,7 @@ Deploy the configuration file from source.
 
 ```puppet
     class { 'fail2ban':
-      config_file_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf",
+      config_file_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf",
     }
 ```
 
@@ -120,7 +138,7 @@ Deploy the configuration file from template.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
     }
 ```
 
@@ -128,7 +146,7 @@ Deploy the configuration file from custom template ***(Additional parameters can
 
 ```puppet
     class { 'fail2ban':
-      config_file_template     => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template     => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
       config_file_options_hash => {
         'key' => 'value',
       },
@@ -142,7 +160,7 @@ Deploy additional configuration files from source, string or template.
       config_file_hash => {
         'jail.2nd.conf' => {
           config_file_path   => '/etc/fail2ban/jail.2nd.conf',
-          config_file_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.2nd.conf",
+          config_file_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.2nd.conf",
         },
         'jail.3rd.conf' => {
           config_file_path   => '/etc/fail2ban/jail.3rd.conf',
@@ -150,7 +168,7 @@ Deploy additional configuration files from source, string or template.
         },
         'jail.4th.conf' => {
           config_file_path     => '/etc/fail2ban/jail.4th.conf',
-          config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.erb",
+          config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.erb",
         },
       },
     }
@@ -305,12 +323,127 @@ Enables additional jails (and its filters) such as:
 - nginx-noscript
 - nginx-proxy
 
+## Pre-defined jails available
+### RedHat osfamily:
+* 3proxy
+* apache-auth
+* apache-badbots
+* apache-botsearch
+* apache-fakegooglebot
+* apache-modsecurity
+* apache-nohome
+* apache-noscript
+* apache-overflows
+* apache-shellshock
+* assp
+* asterisk
+* counter-strike
+* courier-auth
+* courier-smtp
+* cyrus-imap
+* directadmin
+* dovecot
+* dropbear
+* drupal-auth
+* ejabberd-auth
+* exim
+* exim-spam
+* freeswitch
+* froxlor-auth
+* groupoffice
+* gssftpd
+* guacamole
+* horde
+* kerio
+* lighttpd-auth
+* monit
+* mysqld-auth
+* nagios
+* named-refused
+* nginx-botsearch
+* nginx-http-auth
+* nsd
+* openwebmail
+* oracleims
+* pam-generic
+* pass2allow-ftp
+* perdition
+* php-url-fopen
+* portsentry
+* postfix
+* postfix-rbl
+* postfix-sasl
+* proftpd
+* pure-ftpd
+* qmail-rbl
+* recidive
+* roundcube-auth
+* selinux-ssh
+* sendmail-auth
+* sendmail-reject
+* sieve
+* sogo-auth
+* solid-pop3d
+* squid
+* squirrelmail
+* sshd
+* sshd-ddos
+* stunnel
+* suhosin
+* tine20
+* uwimap-auth
+* vsftpd
+* webmin-auth
+* wuftpd
+* xinetd-fail
+
+### Debian osfamily:
+* apache
+* apache-modsecurity
+* apache-multiport
+* apache-nohome
+* apache-noscript
+* apache-overflows
+* asterisk-tcp
+* asterisk-udp
+* courierauth
+* couriersmtp
+* dovecot
+* dropbear
+* ejabberd-auth
+* freeswitch
+* lighttpd-auth
+* lighttpd-fastcgi
+* mysqld-auth
+* nagios
+* named-refused-tcp
+* nginx-http-auth
+* pam-generic
+* php-url-fopen
+* postfix
+* proftpd
+* pure-ftpd
+* recidive
+* roundcube-auth
+* sasl
+* sogo-auth
+* ssh
+* ssh-blocklist
+* ssh-ddos
+* ssh-iptables-ipset4
+* ssh-iptables-ipset6
+* ssh-route
+* vsftpd
+* wuftpd
+* xinetd-fail
+
 ## Limitations
 
 This module has been tested on:
 
 * Debian 6/7/8
 * Ubuntu 12.04/14.04
+* CentOS 7
 
 ## Development
 

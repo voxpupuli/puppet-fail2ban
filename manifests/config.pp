@@ -41,4 +41,22 @@ class fail2ban::config {
       require => $::fail2ban::config_file_require,
     }
   }
+
+  case $::operatingsystem {
+    # Not using firewalld by now
+    /^(RedHat|CentOS|Scientific)$/: {
+      file { '00-firewalld.conf':
+        ensure  => 'absent',
+        path    => "${::fail2ban::config_dir_path}/jail.d/00-firewalld.conf",
+        notify  => $::fail2ban::config_file_notify,
+        require => $::fail2ban::config_file_require,
+      }
+    }
+    'Debian': {
+    }
+    default: {
+      fail("${::operatingsystem} not supported.")
+    }
+  }
+
 }
