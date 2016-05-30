@@ -17,7 +17,7 @@
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 6. [Limitations - OS compatibility, etc.](#limitations)
-7. [Pre-defined jails available](#pre-defined-jails-available)
+7. [Jails available](#jails-available)
 8. [Development - Guide for contributing to the module](#development)
 
 ## Overview
@@ -317,15 +317,12 @@ Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 
 #### `additional_jails`
 
-Enables additional jails (and its filters) such as:
-- nginx-wp-login
-- nginx-login
-- nginx-badbots
-- nginx-noscript
-- nginx-proxy
+Enables additional jails included in this module (see [Additional Jails](#additional-jails):
 
-## Pre-defined jails available
-### RedHat osfamily:
+
+## Jails available
+### Pre-defined jails
+#### RedHat osfamily:
 * 3proxy
 * apache-auth
 * apache-badbots
@@ -398,7 +395,7 @@ Enables additional jails (and its filters) such as:
 * wuftpd
 * xinetd-fail
 
-### Debian osfamily:
+#### Debian osfamily:
 * apache
 * apache-modsecurity
 * apache-multiport
@@ -437,6 +434,28 @@ Enables additional jails (and its filters) such as:
 * vsftpd
 * wuftpd
 * xinetd-fail
+
+
+### Custom jails
+Users can add their own jails by using this YAML definition:
+
+```yaml
+---
+  fail2ban::custom_jails:
+    'nginx-wp-login':
+      filter_failregex: '<HOST>.*] "POST /wp-login.php'
+      port: 'http,https'
+      logpath: '/var/log/nginx/access.log'
+      maxretry: 3
+      findtime: 120
+      bantime: 1200
+    'nginx-login':
+      filter_failregex: '^<HOST> -.*POST /sessions HTTP/1\.." 200'
+      action: 'iptables-multiport[name=NoLoginFailures, port="http,https"]'
+      logpath: '/var/log/nginx*/*access*.log'
+      maxretry: 6
+      bantime: 600
+```
 
 ## Limitations
 

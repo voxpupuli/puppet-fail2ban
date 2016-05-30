@@ -4,7 +4,7 @@ require 'beaker/puppet_install_helper'
 
 run_puppet_install_helper
 
-SUPPORTED_PLATFORMS = ['Debian', 'CentOS']
+SUPPORTED_PLATFORMS = %w(Debian CentOS)
 
 RSpec.configure do |c|
   # Project root

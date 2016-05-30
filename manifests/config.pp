@@ -1,6 +1,9 @@
 # == Class: fail2ban::config
 #
 class fail2ban::config {
+  # Load custom jails definition
+  $config_custom_jails = hiera_hash('fail2ban::custom_jails',undef)
+
   if $::fail2ban::config_dir_source {
     file { 'fail2ban.dir':
       ensure  => $::fail2ban::config_dir_ensure,
@@ -28,18 +31,8 @@ class fail2ban::config {
     }
   }
 
-  if $::fail2ban::additional_jails {
-    file { 'filter.d':
-      ensure  => directory,
-      path    => "${::fail2ban::config_dir_path}/filter.d",
-      owner   => $::fail2ban::config_file_owner,
-      group   => $::fail2ban::config_file_group,
-      mode    => $::fail2ban::config_file_mode,
-      source  => 'puppet:///modules/fail2ban/filter.d',
-      recurse => remote,
-      notify  => $::fail2ban::config_file_notify,
-      require => $::fail2ban::config_file_require,
-    }
+  if $config_custom_jails {
+    create_resources('fail2ban::jail', $config_custom_jails)
   }
 
   case $::operatingsystem {
