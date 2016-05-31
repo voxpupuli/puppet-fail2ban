@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'fail2ban', :type => :class do
-  ['Debian'].each do |osfamily|
+  ['Debian', 'RedHat'].each do |osfamily|
     let(:facts) {{
       :osfamily => osfamily,
     }}
