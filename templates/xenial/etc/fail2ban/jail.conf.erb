@@ -153,7 +153,6 @@ filter   = pam-generic
 # port actually must be irrelevant but lets leave it all for some possible uses
 port     = all
 banaction = iptables-allports
-port     = anyport
 logpath  = /var/log/auth.log
 maxretry = 6
 
@@ -491,4 +490,3 @@ action   = iptables-allports[name=recidive]
 bantime  = 604800  ; 1 week
 findtime = 86400   ; 1 day
 maxretry = 5
-
