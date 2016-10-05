@@ -18,6 +18,8 @@
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Jails available](#jails-available)
+    * [Pre-defined jails](#pre-defined-jails)
+    * [Custom jails](#custom-jails)
 8. [Development - Guide for contributing to the module](#development)
 
 ## Overview
@@ -315,10 +317,9 @@ Determines the number of failed login attempts needed to block a host. Defaults 
 
 Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8', '192.168.56.0/24']'.
 
-#### `additional_jails`
+#### `custom_jails`
 
-Enables additional jails included in this module (see [Additional Jails](#additional-jails):
-
+Determines which custom jails should be included (see [Custom jails](#custom-jails).
 
 ## Jails available
 ### Pre-defined jails
