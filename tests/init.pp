@@ -9,4 +9,4 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-include ::fail2ban
+include ::fail2ban # lint:ignore:code_on_top_scope
