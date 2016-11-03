@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'fail2ban', :type => :class do
-  ['Debian', 'RedHat'].each do |osfamily|
-    let(:facts) {{
-      :osfamily => osfamily,
-    }}
+  on_supported_os.each do |os, facts|
+    let(:facts) do
+      facts
+    end
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_anchor('fail2ban::begin') }
@@ -14,7 +14,7 @@ describe 'fail2ban', :type => :class do
     it { is_expected.to contain_class('fail2ban::service') }
     it { is_expected.to contain_anchor('fail2ban::end') }
 
-    context "on #{osfamily}" do
+    context "on #{os}" do
       describe 'fail2ban::install' do
         context 'defaults' do
           it do
