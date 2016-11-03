@@ -15,12 +15,12 @@ describe 'fail2ban::define', :type => :define do
         }}
 
         it do
-          is_expected.to contain_file('define_fail2ban.conf').with({
+          is_expected.to contain_file('define_fail2ban.conf').with(
             'ensure'  => 'present',
             'source'  => 'puppet:///modules/fail2ban/wheezy/etc/fail2ban/jail.conf',
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]',
-          })
+          )
         end
       end
 
@@ -30,12 +30,12 @@ describe 'fail2ban::define', :type => :define do
         }}
 
         it do
-          is_expected.to contain_file('define_fail2ban.conf').with({
+          is_expected.to contain_file('define_fail2ban.conf').with(
             'ensure'  => 'present',
             'content' => /THIS FILE IS MANAGED BY PUPPET/,
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]',
-          })
+          )
         end
       end
 
@@ -45,12 +45,12 @@ describe 'fail2ban::define', :type => :define do
         }}
 
         it do
-          is_expected.to contain_file('define_fail2ban.conf').with({
+          is_expected.to contain_file('define_fail2ban.conf').with(
             'ensure'  => 'present',
             'content' => /THIS FILE IS MANAGED BY PUPPET/,
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]',
-          })
+          )
         end
       end
 
@@ -63,12 +63,12 @@ describe 'fail2ban::define', :type => :define do
         }}
 
         it do
-          is_expected.to contain_file('define_fail2ban.conf').with({
+          is_expected.to contain_file('define_fail2ban.conf').with(
             'ensure'  => 'present',
             'content' => /THIS FILE IS MANAGED BY PUPPET/,
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]',
-          })
+          )
         end
       end
     end

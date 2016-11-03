@@ -1,0 +1,10 @@
+HOSTS:
+  debian-7.9.0-amd64:
+    roles:
+      - master
+    platform: debian-7-amd64
+    box: dhoppe/debian-7.9.0-amd64-nocm
+    hypervisor: vagrant_virtualbox
+    ip: 192.168.56.21
+CONFIG:
+  type: foss

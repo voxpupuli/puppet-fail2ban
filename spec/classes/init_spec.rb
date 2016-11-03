@@ -18,9 +18,9 @@ describe 'fail2ban', :type => :class do
       describe 'fail2ban::install' do
         context 'defaults' do
           it do
-            is_expected.to contain_package('fail2ban').with({
+            is_expected.to contain_package('fail2ban').with(
               'ensure' => 'present',
-            })
+            )
           end
         end
 
@@ -30,9 +30,9 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_package('fail2ban').with({
+            is_expected.to contain_package('fail2ban').with(
               'ensure' => 'latest',
-            })
+            )
           end
         end
 
@@ -44,22 +44,22 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_package('fail2ban').with({
+            is_expected.to contain_package('fail2ban').with(
               'ensure' => 'absent',
-            })
+            )
           end
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
           it do
-            is_expected.to contain_service('fail2ban').with({
+            is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
               'enable' => false,
-            })
+            )
           end
         end
 
@@ -71,22 +71,22 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_package('fail2ban').with({
+            is_expected.to contain_package('fail2ban').with(
               'ensure' => 'purged',
-            })
+            )
           end
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'absent',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
           it do
-            is_expected.to contain_service('fail2ban').with({
+            is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
               'enable' => false,
-            })
+            )
           end
         end
       end
@@ -94,11 +94,11 @@ describe 'fail2ban', :type => :class do
       describe 'fail2ban::config' do
         context 'defaults' do
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -108,7 +108,7 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.dir').with({
+            is_expected.to contain_file('fail2ban.dir').with(
               'ensure'  => 'directory',
               'force'   => false,
               'purge'   => false,
@@ -116,7 +116,7 @@ describe 'fail2ban', :type => :class do
               'source'  => 'puppet:///modules/fail2ban/wheezy/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -127,7 +127,7 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.dir').with({
+            is_expected.to contain_file('fail2ban.dir').with(
               'ensure'  => 'directory',
               'force'   => true,
               'purge'   => true,
@@ -135,7 +135,7 @@ describe 'fail2ban', :type => :class do
               'source'  => 'puppet:///modules/fail2ban/wheezy/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -145,12 +145,12 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'source'  => 'puppet:///modules/fail2ban/wheezy/etc/fail2ban/jail.conf',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -160,12 +160,12 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'content' => /THIS FILE IS MANAGED BY PUPPET/,
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -175,12 +175,12 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'content' => /THIS FILE IS MANAGED BY PUPPET/,
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
 
@@ -193,12 +193,12 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with({
+            is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
               'content' => /THIS FILE IS MANAGED BY PUPPET/,
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]',
-            })
+            )
           end
         end
       end
@@ -206,10 +206,10 @@ describe 'fail2ban', :type => :class do
       describe 'fail2ban::service' do
         context 'defaults' do
           it do
-            is_expected.to contain_service('fail2ban').with({
+            is_expected.to contain_service('fail2ban').with(
               'ensure' => 'running',
               'enable' => true,
-            })
+            )
           end
         end
 
@@ -219,10 +219,10 @@ describe 'fail2ban', :type => :class do
           }}
 
           it do
-            is_expected.to contain_service('fail2ban').with({
+            is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
               'enable' => true,
-            })
+            )
           end
         end
       end
