@@ -1,0 +1,14 @@
+---
+HOSTS:
+  ubuntu-16.04.1-amd64:
+    roles:
+      - master
+    platform: ubuntu-16.04-amd64
+    box: dhoppe/ubuntu-16.04.1-amd64-nocm
+    hypervisor: vagrant_virtualbox
+    ip: 192.168.56.51
+CONFIG:
+  type: foss
+...
+
+# vim: syntax=yaml

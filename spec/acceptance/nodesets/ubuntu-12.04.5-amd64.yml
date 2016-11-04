@@ -1,3 +1,4 @@
+---
 HOSTS:
   ubuntu-12.04.5-amd64:
     roles:
@@ -8,3 +9,6 @@ HOSTS:
     ip: 192.168.56.31
 CONFIG:
   type: foss
+...
+
+# vim: syntax=yaml

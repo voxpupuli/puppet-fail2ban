@@ -1,70 +1,506 @@
+require: rubocop-rspec
+
 AllCops:
+  TargetRubyVersion: 1.9
   Include:
     - ./**/*.rb
   Exclude:
+    - files/**/*
     - vendor/**/*
     - pkg/**/*
     - spec/fixtures/**/*
 
-# Configuration parameters: AllowURI, URISchemes.
-Metrics/LineLength:
-  Max: 328
-
-# 'Complexity' is very relative
-Metrics/PerceivedComplexity:
-  Enabled: false
-
-# 'Complexity' is very relative
-Metrics/CyclomaticComplexity:
-  Enabled: false
-
-# 'Complexity' is very relative
-Metrics/AbcSize:
-  Enabled: false
-
-# Method length is not necessarily an indicator of code quality
-Metrics/MethodLength:
-  Enabled: false
-
-# Module length is not necessarily an indicator of code quality
-Metrics/ModuleLength:
-  Enabled: false
-
-# Class length is not necessarily an indicator of code quality
-Metrics/ClassLength:
-  Enabled: false
-
-# dealbreaker:
-Style/TrailingCommaInArguments:
-  Enabled: false
-Style/TrailingCommaInLiteral:
-  Enabled: false
-Style/ClosingParenthesisIndentation:
-  Enabled: false
-
-# we still support ruby 1.8
-Style/HashSyntax:
-  Enabled: false
+# Lint
+Lint/AmbiguousOperator:
+  Enabled: True
 
 Lint/AmbiguousRegexpLiteral:
-  Enabled: true
-Style/RegexpLiteral:
-  Enabled: true
-Style/WordArray:
-  Enabled: true
+  Enabled: True
 
-# this catches the cases of using `module` for parser functions, types, or
-# providers
+Lint/AssignmentInCondition:
+  Enabled: True
+
+Lint/BlockAlignment:
+  Enabled: True
+
+Lint/ConditionPosition:
+  Enabled: True
+
+Lint/Debugger:
+  Enabled: True
+
+Lint/DefEndAlignment:
+  Enabled: True
+
+Lint/DeprecatedClassMethods:
+  Enabled: True
+
+Lint/ElseLayout:
+  Enabled: True
+
+Lint/EndAlignment:
+  Enabled: True
+
+Lint/EnsureReturn:
+  Enabled: True
+
+Lint/Eval:
+  Enabled: True
+
+Lint/HandleExceptions:
+  Enabled: True
+
+Lint/LiteralInCondition:
+  Enabled: True
+
+Lint/LiteralInInterpolation:
+  Enabled: True
+
+Lint/Loop:
+  Enabled: True
+
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: True
+
+Lint/RequireParentheses:
+  Enabled: True
+
+Lint/RescueException:
+  Enabled: True
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: True
+
+Lint/StringConversionInInterpolation:
+  Enabled: True
+
+Lint/UnderscorePrefixedVariableName:
+  Enabled: True
+
+Lint/UnreachableCode:
+  Enabled: True
+
+Lint/UnusedBlockArgument:
+  Enabled: True
+
+Lint/UnusedMethodArgument:
+  Enabled: True
+
+Lint/UselessAccessModifier:
+  Enabled: True
+
+Lint/UselessAssignment:
+  Enabled: True
+
+Lint/UselessAssignment:
+  Enabled: True
+
+Lint/UselessComparison:
+  Enabled: True
+
+Lint/Void:
+  Enabled: True
+
+# Metrics
+Metrics/AbcSize:
+  Enabled: False
+
+Metrics/BlockLength:
+  Enabled: False
+
+Metrics/BlockNesting:
+  Enabled: True
+
+Metrics/ClassLength:
+  Enabled: False
+
+Metrics/CyclomaticComplexity:
+  Enabled: False
+
+Metrics/LineLength:
+  Enabled: False
+
+Metrics/MethodLength:
+  Enabled: False
+
+Metrics/ModuleLength:
+  Enabled: False
+
+Metrics/ParameterLists:
+  Enabled: False
+
+Metrics/PerceivedComplexity:
+  Enabled: False
+
+# RSpec
+RSpec/DescribeClass:
+  Enabled: False
+
+RSpec/ExampleLength:
+  Enabled: False
+
+RSpec/NamedSubject:
+  Enabled: False
+
+# Style
+Style/AccessModifierIndentation:
+  Enabled: True
+
+Style/AccessorMethodName:
+  Enabled: True
+
+Style/Alias:
+  Enabled: True
+
+Style/AlignArray:
+  Enabled: True
+
+Style/AlignHash:
+  Enabled: True
+
+Style/AlignParameters:
+  Enabled: True
+
+Style/AndOr:
+  Enabled: True
+
+Style/AsciiComments:
+  Enabled: True
+
+Style/Attr:
+  Enabled: True
+
+Style/BlockDelimiters:
+  Enabled: True
+
+Style/BracesAroundHashParameters:
+  Enabled: True
+
+Style/CaseEquality:
+  Enabled: True
+
+Style/CaseIndentation:
+  Enabled: True
+
+Style/CharacterLiteral:
+  Enabled: True
+
+Style/ClassAndModuleCamelCase:
+  Enabled: True
+
 Style/ClassAndModuleChildren:
-  Enabled: false
+  Enabled: False
+
+Style/ClassCheck:
+  Enabled: True
+
+Style/ClassMethods:
+  Enabled: True
+
+Style/ClassVars:
+  Enabled: True
+
+Style/ClosingParenthesisIndentation:
+  Enabled: True
+
+Style/CollectionMethods:
+  Enabled: True
+
+Style/ColonMethodCall:
+  Enabled: True
+
+Style/CommentAnnotation:
+  Enabled: True
+
+Style/CommentIndentation:
+  Enabled: True
+
+Style/ConstantName:
+  Enabled: True
+
+Style/DefWithParentheses:
+  Enabled: True
 
 Style/Documentation:
-  Description: 'Document classes and non-namespace modules.'
-  Enabled: false
-
-# More comfortable block layouts
-Style/BlockDelimiters:
   Enabled: False
+
+Style/DotPosition:
+  Enabled: True
+  EnforcedStyle: trailing
+
+Style/DoubleNegation:
+  Enabled: True
+
+Style/EachWithObject:
+  Enabled: True
+
+Style/EmptyLineBetweenDefs:
+  Enabled: True
+
+Style/EmptyLines:
+  Enabled: True
+
+Style/EmptyLinesAroundAccessModifier:
+  Enabled: True
+
+Style/EmptyLiteral:
+  Enabled: True
+
+Style/Encoding:
+  Enabled: True
+
+Style/EvenOdd:
+  Enabled: True
+
+Style/FileName:
+  Enabled: True
+
+Style/For:
+  Enabled: True
+
+Style/FormatString:
+  Enabled: True
+
+Style/GlobalVars:
+  Enabled: True
+
+Style/GuardClause:
+  Enabled: True
+
+Style/HashSyntax:
+  Enabled: True
+
+Style/IfUnlessModifier:
+  Enabled: True
+
+Style/IfWithSemicolon:
+  Enabled: True
+
+Style/IndentArray:
+  Enabled: True
+
+Style/IndentHash:
+  Enabled: True
+
+Style/IndentationConsistency:
+  Enabled: True
+
+Style/IndentationWidth:
+  Enabled: True
+
+Style/Lambda:
+  Enabled: True
+
+Style/LeadingCommentSpace:
+  Enabled: True
+
+Style/LineEndConcatenation:
+  Enabled: True
+
+Style/MethodCallParentheses:
+  Enabled: True
+
+Style/MethodDefParentheses:
+  Enabled: True
+
+Style/MethodName:
+  Enabled: True
+
+Style/ModuleFunction:
+  Enabled: True
+
+Style/MultilineBlockChain:
+  Enabled: True
 
 Style/MultilineBlockLayout:
-  Enabled: False
+  Enabled: True
+
+Style/MultilineIfThen:
+  Enabled: True
+
+Style/MultilineTernaryOperator:
+  Enabled: True
+
+Style/NegatedIf:
+  Enabled: True
+
+Style/NegatedWhile:
+  Enabled: True
+
+Style/NestedTernaryOperator:
+  Enabled: True
+
+Style/Next:
+  Enabled: True
+
+Style/NilComparison:
+  Enabled: True
+
+Style/NonNilCheck:
+  Enabled: True
+
+Style/Not:
+  Enabled: True
+
+Style/NumericLiterals:
+  Enabled: True
+
+Style/OneLineConditional:
+  Enabled: True
+
+Style/OpMethod:
+  Enabled: True
+
+Style/ParenthesesAroundCondition:
+  Enabled: True
+
+Style/PercentLiteralDelimiters:
+  Enabled: True
+
+Style/PerlBackrefs:
+  Enabled: True
+
+Style/PredicateName:
+  Enabled: True
+
+Style/PreferredHashMethods:
+  Enabled: True
+
+Style/Proc:
+  Enabled: True
+
+Style/RaiseArgs:
+  Enabled: True
+
+Style/RedundantBegin:
+  Enabled: True
+
+Style/RedundantException:
+  Enabled: True
+
+Style/RedundantReturn:
+  Enabled: True
+
+Style/RedundantSelf:
+  Enabled: True
+
+Style/RegexpLiteral:
+  Enabled: True
+  EnforcedStyle: percent_r
+
+Style/RescueModifier:
+  Enabled: True
+
+Style/SelfAssignment:
+  Enabled: True
+
+Style/Semicolon:
+  Enabled: True
+
+Style/SignalException:
+  Enabled: True
+
+Style/SingleLineBlockParams:
+  Enabled: True
+
+Style/SingleLineMethods:
+  Enabled: True
+
+Style/SpaceAfterColon:
+  Enabled: True
+
+Style/SpaceAfterComma:
+  Enabled: True
+
+Style/SpaceAfterMethodName:
+  Enabled: True
+
+Style/SpaceAfterNot:
+  Enabled: True
+
+Style/SpaceAfterSemicolon:
+  Enabled: True
+
+Style/SpaceAroundEqualsInParameterDefault:
+  Enabled: True
+
+Style/SpaceAroundOperators:
+  Enabled: True
+
+Style/SpaceBeforeBlockBraces:
+  Enabled: True
+
+Style/SpaceBeforeComma:
+  Enabled: True
+
+Style/SpaceBeforeComment:
+  Enabled: True
+
+Style/SpaceBeforeFirstArg:
+  Enabled: True
+
+Style/SpaceBeforeFirstArg:
+  Enabled: True
+
+Style/SpaceBeforeSemicolon:
+  Enabled: True
+
+Style/SpaceInsideBlockBraces:
+  Enabled: True
+
+Style/SpaceInsideBrackets:
+  Enabled: True
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: True
+
+Style/SpaceInsideParens:
+  Enabled: True
+
+Style/SpecialGlobalVars:
+  Enabled: True
+
+Style/StringLiterals:
+  Enabled: True
+
+Style/Tab:
+  Enabled: True
+
+Style/TrailingBlankLines:
+  Enabled: True
+
+Style/TrailingCommaInArguments:
+  Enabled: True
+
+Style/TrailingCommaInLiteral:
+  Enabled: True
+
+Style/TrailingWhitespace:
+  Enabled: True
+
+Style/TrivialAccessors:
+  Enabled: True
+
+Style/UnlessElse:
+  Enabled: True
+
+Style/UnneededPercentQ:
+  Enabled: True
+
+Style/VariableInterpolation:
+  Enabled: True
+
+Style/VariableName:
+  Enabled: True
+
+Style/WhenThen:
+  Enabled: True
+
+Style/WhileUntilDo:
+  Enabled: True
+
+Style/WhileUntilModifier:
+  Enabled: True
+
+Style/WordArray:
+  Enabled: True
