@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe 'fail2ban::define', type: :define do
-  ['Debian'].each do |osfamily|
-    let(:facts) do
-      {
-        osfamily: osfamily
-      }
-    end
-    let(:pre_condition) { 'include fail2ban' }
-    let(:title) { 'fail2ban.conf' }
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts
+      end
 
-    context "on #{osfamily}" do
+      let(:pre_condition) { 'include fail2ban' }
+      let(:title) { 'fail2ban.conf' }
+
       context 'when source file' do
         let(:params) do
           {
