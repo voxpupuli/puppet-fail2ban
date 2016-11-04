@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-  newfunction(:default_content, :type => :rvalue) do |args|
+  newfunction(:default_content, type: :rvalue) do |args|
     Puppet::Parser::Functions.function('template')
 
     content_string   = args[0]

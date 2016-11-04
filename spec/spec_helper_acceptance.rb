@@ -17,8 +17,8 @@ RSpec.configure do |c|
   c.before :suite do
     # Install module and dependencies
     hosts.each do |host|
-      copy_module_to(host, :source => proj_root, :module_name => 'fail2ban')
-      on host, puppet('module install puppetlabs-stdlib'), :acceptable_exit_codes => [0, 1]
+      copy_module_to(host, source: proj_root, module_name: 'fail2ban')
+      on host, puppet('module install puppetlabs-stdlib'), acceptable_exit_codes: [0, 1]
     end
   end
 end

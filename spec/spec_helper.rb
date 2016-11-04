@@ -26,5 +26,4 @@ RSpec.configure do |c|
   c.default_facts = default_facts
 end
 
-
 # vim: syntax=ruby
