@@ -9,6 +9,10 @@
   "issues_url": "https://github.com/dhoppe/puppet-fail2ban/issues",
   "dependencies": [
     {
+      "name": "puppet/extlib",
+      "version_requirement": ">= 1.1.0 < 2.0.0"
+    },
+    {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.5.0 < 5.0.0"
     }
