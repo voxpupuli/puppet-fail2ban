@@ -9,7 +9,6 @@ describe 'fail2ban', type: :class do
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_anchor('fail2ban::begin') }
-      it { is_expected.to contain_class('fail2ban::params') }
       it { is_expected.to contain_class('fail2ban::install') }
       it { is_expected.to contain_class('fail2ban::config') }
       it { is_expected.to contain_class('fail2ban::service') }
