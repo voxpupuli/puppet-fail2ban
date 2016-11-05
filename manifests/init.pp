@@ -199,7 +199,12 @@ class fail2ban (
     }
   }
 
-  anchor { 'fail2ban::begin': } ->
-  class { '::fail2ban::service': } ->
-  anchor { 'fail2ban::end': }
+  if $service_name_real {
+    service { 'fail2ban':
+      ensure     => $_service_ensure,
+      name       => $service_name_real,
+      enable     => $_service_enable,
+      hasrestart => true,
+    }
+  }
 }
