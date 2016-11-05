@@ -8,6 +8,7 @@ describe 'fail2ban', type: :class do
       end
 
       it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('fail2ban') }
 
       describe 'fail2ban::install' do
         context 'defaults' do
