@@ -1,3 +1,14 @@
+## 2016-11-05 Release 1.2.0
+
+### Summary
+
+- [General] Update based on dhoppe/modulesync_config
+- [Rubocop] Fix several Rubocop issues
+- [RSpec] Migrate to rspec-puppet-facts
+- [Puppet] Use module puppet/extlib instead of local function default_content
+- [Markdown] Fix several Markdown issues
+- [Readme] Add missing badges
+
 ## 2016-02-07 Release 1.1.1
 
 ### Summary
