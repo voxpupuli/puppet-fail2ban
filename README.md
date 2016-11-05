@@ -1,10 +1,11 @@
 # fail2ban
 
 [![Build Status](https://travis-ci.org/dhoppe/puppet-fail2ban.png?branch=master)](https://travis-ci.org/dhoppe/puppet-fail2ban)
+[![Code Coverage](https://coveralls.io/repos/github/dhoppe/puppet-fail2ban/badge.svg?branch=master)](https://coveralls.io/github/dhoppe/puppet-fail2ban)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
-[![Puppet Forge](https://img.shields.io/puppetforge/dt/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
-[![Puppet Forge](https://img.shields.io/puppetforge/mc/dhoppe.svg)](https://forge.puppetlabs.com/dhoppe)
-[![Puppet Forge](https://img.shields.io/puppetforge/rc/dhoppe.svg)](https://forge.puppetlabs.com/dhoppe)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/dhoppe/fail2ban.svg)](https://forge.puppetlabs.com/dhoppe/fail2ban)
 
 #### Table of Contents
 
