@@ -25,14 +25,14 @@ define fail2ban::define (
   if $config_file_notify { validate_string($config_file_notify) }
   if $config_file_require { validate_string($config_file_require) }
 
-  $_config_file_path  = pick($config_file_path, "${::fail2ban::config_dir_path}/${name}")
-  $_config_file_owner = pick($config_file_owner, $::fail2ban::config_file_owner)
-  $_config_file_group = pick($config_file_group, $::fail2ban::config_file_group)
-  $_config_file_mode = pick($config_file_mode, $::fail2ban::config_file_mode)
+  $_config_file_path  = pick($config_file_path, "${::fail2ban::config_dir_path_real}/${name}")
+  $_config_file_owner = pick($config_file_owner, $::fail2ban::config_file_owner_real)
+  $_config_file_group = pick($config_file_group, $::fail2ban::config_file_group_real)
+  $_config_file_mode = pick($config_file_mode, $::fail2ban::config_file_mode_real)
   $config_file_content = default_content($config_file_string, $config_file_template)
 
-  $_config_file_notify = pick($config_file_notify, $::fail2ban::config_file_notify)
-  $_config_file_require = pick($config_file_require, $::fail2ban::config_file_require)
+  $_config_file_notify = pick($config_file_notify, $::fail2ban::config_file_notify_real)
+  $_config_file_require = pick($config_file_require, $::fail2ban::config_file_require_real)
 
   file { "define_${name}":
     ensure  => $::fail2ban::config_file_ensure,
