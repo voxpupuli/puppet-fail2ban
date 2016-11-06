@@ -1,3 +1,10 @@
+## 2016-11-06 Release 1.2.2
+
+### Summary
+
+- [Rubocop] Fix several Rubocop issues
+- [Puppet] Fix version of module puppet/extlib
+
 ## 2016-11-06 Release 1.2.1
 
 ### Summary
