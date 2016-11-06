@@ -1,3 +1,9 @@
+## 2016-11-06 Release 1.2.1
+
+### Summary
+
+- [General] Update based on dhoppe/modulesync_config
+
 ## 2016-11-05 Release 1.2.0
 
 ### Summary
