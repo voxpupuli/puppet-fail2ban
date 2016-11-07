@@ -27,4 +27,12 @@ class fail2ban::config {
       require => $::fail2ban::config_file_require,
     }
   }
+
+  if getvar('::lsbdistcodename') == 'xenial' {
+    file { 'defaults-debian.conf':
+      ensure  => absent,
+      path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
+      require => $::fail2ban::config_file_require,
+    }
+  }
 }

@@ -1,3 +1,10 @@
+## 2016-11-07 Release 1.3.2
+
+### Summary
+
+- [Puppet] Fix jails for Ubuntu 16.04.x (Xenial Xerus)
+- [Puppet] Remove default jails at Ubuntu 16.04.x (Xenial Xerus)
+
 ## 2016-11-07 Release 1.3.1
 
 ### Summary
