@@ -1,3 +1,10 @@
+## 2016-11-07 Release 1.3.0
+
+### Summary
+
+- [Puppet] Add support for RedHat 5 (Tikanga), 6 (Santiago) and 7 (Maipo)
+- [Puppet] Add support for Ubuntu 16.04.x (Xenial Xerus)
+
 ## 2016-11-06 Release 1.2.2
 
 ### Summary
