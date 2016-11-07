@@ -1,3 +1,9 @@
+## 2016-11-07 Release 1.3.1
+
+### Summary
+
+- [Puppet] Fix typo at action_mb
+
 ## 2016-11-07 Release 1.3.0
 
 ### Summary
