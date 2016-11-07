@@ -317,9 +317,9 @@ Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 
 This module has been tested on:
 
-* RedHat 5/6/7
 * Debian 6/7/8
-* Ubuntu 12.04/14.04
+* Ubuntu 12.04/14.04/16.04
+* RedHat 5/6/7
 
 ## Development
 
