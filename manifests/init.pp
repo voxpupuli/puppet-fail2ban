@@ -2,30 +2,30 @@
 #
 class fail2ban (
   $package_ensure           = 'present',
-  $package_name             = $::fail2ban::params::package_name,
-  $package_list             = $::fail2ban::params::package_list,
+  $package_name             = undef,
+  $package_list             = undef,
 
-  $config_dir_path          = $::fail2ban::params::config_dir_path,
+  $config_dir_path          = undef,
   $config_dir_purge         = false,
   $config_dir_recurse       = true,
   $config_dir_source        = undef,
 
-  $config_file_path         = $::fail2ban::params::config_file_path,
-  $config_file_owner        = $::fail2ban::params::config_file_owner,
-  $config_file_group        = $::fail2ban::params::config_file_group,
-  $config_file_mode         = $::fail2ban::params::config_file_mode,
+  $config_file_path         = undef,
+  $config_file_owner        = undef,
+  $config_file_group        = undef,
+  $config_file_mode         = undef,
   $config_file_source       = undef,
   $config_file_string       = undef,
   $config_file_template     = undef,
 
-  $config_file_notify       = $::fail2ban::params::config_file_notify,
-  $config_file_require      = $::fail2ban::params::config_file_require,
+  $config_file_notify       = undef,
+  $config_file_require      = undef,
 
   $config_file_hash         = {},
   $config_file_options_hash = {},
 
   $service_ensure           = 'running',
-  $service_name             = $::fail2ban::params::service_name,
+  $service_name             = undef,
   $service_enable           = true,
 
   $action                   = 'action_mb',
@@ -34,32 +34,115 @@ class fail2ban (
   $jails                    = ['ssh', 'ssh-ddos'],
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
-) inherits ::fail2ban::params {
-  validate_re($package_ensure, '^(absent|latest|present|purged)$')
-  validate_string($package_name)
-  if $package_list { validate_array($package_list) }
+) {
 
-  validate_absolute_path($config_dir_path)
+  # variable preparations
+  case $::osfamily {
+    'Debian': {
+      $package_name_default        = 'fail2ban'
+      $package_list_default        = undef
+      $config_dir_path_default     = '/etc/fail2ban'
+      $config_file_path_default    = '/etc/fail2ban/jail.conf'
+      $config_file_owner_default   = 'root'
+      $config_file_group_default   = 'root'
+      $config_file_mode_default    = '0644'
+      $config_file_notify_default  = 'Service[fail2ban]'
+      $config_file_require_default = 'Package[fail2ban]'
+      $service_name_default        = 'fail2ban'
+    }
+    'RedHat': {
+      $package_name_default        = 'fail2ban'
+      $package_list_default        = undef
+      $config_dir_path_default     = '/etc/fail2ban'
+      $config_file_path_default    = '/etc/fail2ban/jail.conf'
+      $config_file_owner_default   = 'root'
+      $config_file_group_default   = 'root'
+      $config_file_mode_default    = '0644'
+      $config_file_notify_default  = 'Service[fail2ban]'
+      $config_file_require_default = 'Package[fail2ban]'
+      $service_name_default        = 'fail2ban'
+    }
+    default: {
+      fail("${::operatingsystem} not supported.")
+    }
+  }
+
+  $package_name_real = $package_name ? {
+    undef   => $package_name_default,
+    default => $package_name,
+  }
+
+  $package_list_real = $package_list ? {
+    undef   => $package_list_default,
+    default => $package_list,
+  }
+
+  $config_dir_path_real = $config_dir_path ? {
+    undef   => $config_dir_path_default,
+    default => $config_dir_path,
+  }
+
+  $config_file_path_real = $config_file_path ? {
+    undef   => $config_file_path_default,
+    default => $config_file_path,
+  }
+
+  $config_file_owner_real = $config_file_owner ? {
+    undef   => $config_file_owner_default,
+    default => $config_file_owner,
+  }
+
+  $config_file_group_real = $config_file_group ? {
+    undef   => $config_file_group_default,
+    default => $config_file_group,
+  }
+
+  $config_file_mode_real = $config_file_mode ? {
+    undef   => $config_file_mode_default,
+    default => $config_file_mode,
+  }
+
+  $config_file_notify_real = $config_file_notify ? {
+    undef   => $config_file_notify_default,
+    default => $config_file_notify,
+  }
+
+  $config_file_require_real = $config_file_require ? {
+    undef   => $config_file_require_default,
+    default => $config_file_require,
+  }
+
+  $service_name_real = $service_name ? {
+    undef   => $service_name_default,
+    default => $service_name,
+  }
+
+  # variable validations
+  validate_re($package_ensure, '^(absent|latest|present|purged)$')
+  validate_string($package_name_real)
+  if $package_list_real { validate_array($package_list_real) }
+
+  validate_absolute_path($config_dir_path_real)
   validate_bool($config_dir_purge)
   validate_bool($config_dir_recurse)
   if $config_dir_source { validate_string($config_dir_source) }
 
-  validate_absolute_path($config_file_path)
-  validate_string($config_file_owner)
-  validate_string($config_file_group)
-  validate_string($config_file_mode)
+  validate_absolute_path($config_file_path_real)
+  validate_string($config_file_owner_real)
+  validate_string($config_file_group_real)
+  validate_string($config_file_mode_real)
   if $config_file_source { validate_string($config_file_source) }
   if $config_file_string { validate_string($config_file_string) }
   if $config_file_template { validate_string($config_file_template) }
 
-  validate_string($config_file_notify)
-  validate_string($config_file_require)
+  validate_string($config_file_notify_real)
+  validate_string($config_file_require_real)
 
   validate_hash($config_file_hash)
   validate_hash($config_file_options_hash)
 
   validate_re($service_ensure, '^(running|stopped)$')
-  validate_string($service_name)
+  validate_string($service_name_real)
   validate_bool($service_enable)
 
   $config_file_content = default_content($config_file_string, $config_file_template)
