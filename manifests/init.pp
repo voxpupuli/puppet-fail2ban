@@ -172,8 +172,18 @@ class fail2ban (
     create_resources('fail2ban::define', $config_file_hash)
   }
 
+  if $package_name_real {
+    package { 'fail2ban':
+      ensure => $package_ensure,
+      name   => $package_name_real,
+    }
+  }
+
+  if $package_list_real {
+    ensure_resource('package', $package_list_real, { 'ensure' => $package_ensure })
+  }
+
   anchor { 'fail2ban::begin': } ->
-  class { '::fail2ban::install': } ->
   class { '::fail2ban::config': } ~>
   class { '::fail2ban::service': } ->
   anchor { 'fail2ban::end': }
