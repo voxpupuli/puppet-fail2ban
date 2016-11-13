@@ -183,8 +183,42 @@ class fail2ban (
     ensure_resource('package', $package_list_real, { 'ensure' => $package_ensure })
   }
 
+  if $config_dir_source {
+    file { 'fail2ban.dir':
+      ensure  => $config_dir_ensure,
+      path    => $config_dir_path_real,
+      force   => $config_dir_purge,
+      purge   => $config_dir_purge,
+      recurse => $config_dir_recurse,
+      source  => $config_dir_source,
+      notify  => $config_file_notify_real,
+      require => $config_file_require_real,
+    }
+  }
+
+  if $config_file_path_real {
+    file { 'fail2ban.conf':
+      ensure  => $config_file_ensure,
+      path    => $config_file_path_real,
+      owner   => $config_file_owner_real,
+      group   => $config_file_group_real,
+      mode    => $config_file_mode_real,
+      source  => $config_file_source,
+      content => $config_file_content,
+      notify  => $config_file_notify_real,
+      require => $config_file_require_real,
+    }
+  }
+
+  if getvar('::lsbdistcodename') == 'xenial' {
+    file { 'defaults-debian.conf':
+      ensure  => absent,
+      path    => "${config_dir_path_real}/jail.d/defaults-debian.conf",
+      require => $config_file_require_real,
+    }
+  }
+
   anchor { 'fail2ban::begin': } ->
-  class { '::fail2ban::config': } ~>
   class { '::fail2ban::service': } ->
   anchor { 'fail2ban::end': }
 }
