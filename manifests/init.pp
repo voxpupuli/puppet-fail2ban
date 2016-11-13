@@ -117,6 +117,25 @@ class fail2ban (
     default => $service_name,
   }
 
+  if $package_ensure == 'absent' {
+    $config_dir_ensure  = 'directory'
+    $config_file_ensure = 'present'
+    $_service_ensure    = 'stopped'
+    $_service_enable    = false
+  } elsif $package_ensure == 'purged' {
+    $config_dir_ensure  = 'absent'
+    $config_file_ensure = 'absent'
+    $_service_ensure    = 'stopped'
+    $_service_enable    = false
+  } else {
+    $config_dir_ensure  = 'directory'
+    $config_file_ensure = 'present'
+    $_service_ensure    = $service_ensure
+    $_service_enable    = $service_enable
+  }
+
+  $config_file_content = default_content($config_file_string, $config_file_template)
+
   # variable validations
   validate_re($package_ensure, '^(absent|latest|present|purged)$')
   validate_string($package_name_real)
@@ -145,31 +164,13 @@ class fail2ban (
   validate_string($service_name_real)
   validate_bool($service_enable)
 
-  $config_file_content = default_content($config_file_string, $config_file_template)
+  validate_re($config_dir_ensure, '^(absent|directory)$')
+  validate_re($config_file_ensure, '^(absent|present)$')
 
+  # functionality
   if $config_file_hash {
     create_resources('fail2ban::define', $config_file_hash)
   }
-
-  if $package_ensure == 'absent' {
-    $config_dir_ensure  = 'directory'
-    $config_file_ensure = 'present'
-    $_service_ensure    = 'stopped'
-    $_service_enable    = false
-  } elsif $package_ensure == 'purged' {
-    $config_dir_ensure  = 'absent'
-    $config_file_ensure = 'absent'
-    $_service_ensure    = 'stopped'
-    $_service_enable    = false
-  } else {
-    $config_dir_ensure  = 'directory'
-    $config_file_ensure = 'present'
-    $_service_ensure    = $service_ensure
-    $_service_enable    = $service_enable
-  }
-
-  validate_re($config_dir_ensure, '^(absent|directory)$')
-  validate_re($config_file_ensure, '^(absent|present)$')
 
   anchor { 'fail2ban::begin': } ->
   class { '::fail2ban::install': } ->
