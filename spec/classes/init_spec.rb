@@ -8,6 +8,7 @@ describe 'fail2ban', type: :class do
       end
 
       it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_class('fail2ban') }
 
       describe 'fail2ban::install' do
         context 'defaults' do
@@ -99,6 +100,18 @@ describe 'fail2ban', type: :class do
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
+          end
+
+          if os == 'ubuntu-16.04-x86_64'
+            it do
+              is_expected.to contain_file('defaults-debian.conf').with(
+                'ensure'  => 'absent',
+                'path'    => '/etc/fail2ban/jail.d/defaults-debian.conf',
+                'require' => 'Package[fail2ban]'
+              )
+            end
+          else
+            it { is_expected.not_to contain_file('defaults-debian.conf') }
           end
         end
 
