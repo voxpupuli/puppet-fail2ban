@@ -1,16 +1,11 @@
-require 'metadata-json-lint/rake_task'
-require 'puppet-lint/tasks/puppet-lint'
-require 'puppet-syntax/tasks/puppet-syntax'
+require 'puppet-strings/tasks'
 require 'puppet_blacksmith/rake_tasks'
 require 'puppetlabs_spec_helper/rake_tasks'
-require 'rubocop/rake_task'
 
-RuboCop::RakeTask.new
-
-PuppetLint.configuration.log_format = '%{path}:%{linenumber}:%{check}:%{KIND}:%{message}'
+PuppetLint.configuration.log_format = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
-PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_single_quote_string_with_variables')
@@ -29,10 +24,10 @@ RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-desc 'Run metadata_lint, lint, syntax, and spec tests.'
+desc 'Run tests metadata_lint, release_checks'
 task test: [
   :metadata_lint,
-  :lint,
-  :syntax,
-  :spec,
+  :release_checks,
 ]
+
+# vim: syntax=ruby

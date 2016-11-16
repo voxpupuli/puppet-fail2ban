@@ -11,14 +11,14 @@ when 'RedHat'
   service_name     = 'fail2ban'
 end
 
-describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   it 'is_expected.to work with no errors' do
     pp = <<-EOS
       class { 'fail2ban': }
     EOS
 
-    apply_manifest(pp, :catch_failures => true)
-    apply_manifest(pp, :catch_changes => true)
+    apply_manifest(pp, catch_failures: true)
+    apply_manifest(pp, catch_changes: true)
   end
 
   describe 'fail2ban::install' do
@@ -28,7 +28,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           class { 'fail2ban': }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe package(package_name) do
@@ -44,7 +44,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe package(package_name) do
@@ -62,7 +62,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe package(package_name) do
@@ -87,7 +87,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, :expect_failures => true)
+        apply_manifest(pp, expect_failures: true)
       end
 
       describe package(package_name) do
@@ -110,7 +110,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           class { 'fail2ban': }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe file(config_file_path) do
@@ -126,7 +126,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe file(config_file_path) do
@@ -143,7 +143,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           class { 'fail2ban': }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe service(service_name) do
@@ -160,7 +160,7 @@ describe 'fail2ban', :if => SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, catch_failures: true)
       end
 
       describe service(service_name) do

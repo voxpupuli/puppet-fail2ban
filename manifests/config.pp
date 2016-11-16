@@ -31,6 +31,14 @@ class fail2ban::config {
     }
   }
 
+  if getvar('::lsbdistcodename') == 'xenial' {
+    file { 'defaults-debian.conf':
+      ensure  => absent,
+      path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
+      require => $::fail2ban::config_file_require,
+    }
+  }
+
   if $config_custom_jails {
     create_resources('fail2ban::jail', $config_custom_jails)
   }
@@ -51,5 +59,4 @@ class fail2ban::config {
       fail("${::operatingsystem} not supported.")
     }
   }
-
 }
