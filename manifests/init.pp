@@ -6,6 +6,7 @@ class fail2ban (
   $package_list             = $::fail2ban::params::package_list,
 
   $config_dir_path          = $::fail2ban::params::config_dir_path,
+  $config_dir_filter_path   = $::fail2ban::params::config_dir_filter_path,
   $config_dir_purge         = false,
   $config_dir_recurse       = true,
   $config_dir_source        = undef,
@@ -34,6 +35,7 @@ class fail2ban (
   $jails                    = ['ssh', 'ssh-ddos'],
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
+  $custom_jails             = undef,
 ) inherits ::fail2ban::params {
   validate_re($package_ensure, '^(absent|latest|present|purged)$')
   validate_string($package_name)

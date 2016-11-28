@@ -5,6 +5,10 @@ when 'Debian'
   package_name     = 'fail2ban'
   config_file_path = '/etc/fail2ban/jail.conf'
   service_name     = 'fail2ban'
+when 'RedHat'
+  package_name     = 'fail2ban'
+  config_file_path = '/etc/fail2ban/jail.conf'
+  service_name     = 'fail2ban'
 end
 
 describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
@@ -118,7 +122,7 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
+            config_file_template => "fail2ban/#{fact('osfamily')}/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
           }
         EOS
 

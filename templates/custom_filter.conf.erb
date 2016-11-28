@@ -1,0 +1,14 @@
+# Fail2ban custom filter
+# Managed by Puppet
+
+<% if @findtime -%>
+[INCLUDES]
+<%= @filter_includes %>
+<% end -%>
+
+[Definition]
+<%= @filter_additional_config %>
+
+failregex = <%= @filter_failregex %>
+
+ignoreregex = <%= @filter_ignoreregex %>

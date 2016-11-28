@@ -13,6 +13,10 @@ class fail2ban::params {
     default => '/etc/fail2ban',
   }
 
+  $config_dir_filter_path = $::osfamily ? {
+    default => '/etc/fail2ban/filter.d',
+  }
+
   $config_file_path = $::osfamily ? {
     default => '/etc/fail2ban/jail.conf',
   }

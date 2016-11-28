@@ -18,6 +18,9 @@
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations - OS compatibility, etc.](#limitations)
+1. [Jails available](#jails-available)
+    * [Pre-defined jails](#pre-defined-jails)
+    * [Custom jails](#custom-jails)
 1. [Development - Guide for contributing to the module](#development)
 
 ## Overview
@@ -56,8 +59,30 @@ Install fail2ban with the recommended parameters.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
     }
+```
+
+### Config file template
+
+You'll find an example on examples folder for each operating system. Previous
+example show how to enable config for every supported operating system, using
+${::osfamily}/${::lsbdistcodename} fact.
+
+You can also manually specify a different configuration template. To do it,
+instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use your
+desired configuration template:
+
+```puppet
+  class { 'fail2ban':
+    config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+  }
+```
+
+Or using Hiera:
+
+```hiera
+fail2ban::config_file_template: "fail2ban/%{::osfamily}/%{::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
 ```
 
 ## Usage
@@ -90,7 +115,7 @@ Deploy the configuration files from source directory.
 
 ```puppet
     class { 'fail2ban':
-      config_dir_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban",
+      config_dir_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban",
     }
 ```
 
@@ -100,7 +125,7 @@ files will be removed)***.
 ```puppet
     class { 'fail2ban':
       config_dir_purge  => true,
-      config_dir_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban",
+      config_dir_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban",
     }
 ```
 
@@ -108,7 +133,7 @@ Deploy the configuration file from source.
 
 ```puppet
     class { 'fail2ban':
-      config_file_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf",
+      config_file_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf",
     }
 ```
 
@@ -124,7 +149,7 @@ Deploy the configuration file from template.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
     }
 ```
 
@@ -133,7 +158,7 @@ be defined)***.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template     => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template     => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
       config_file_options_hash => {
         'key' => 'value',
       },
@@ -147,7 +172,7 @@ Deploy additional configuration files from source, string or template.
       config_file_hash => {
         'jail.2nd.conf' => {
           config_file_path   => '/etc/fail2ban/jail.2nd.conf',
-          config_file_source => "puppet:///modules/fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.2nd.conf",
+          config_file_source => "puppet:///modules/fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.2nd.conf",
         },
         'jail.3rd.conf' => {
           config_file_path   => '/etc/fail2ban/jail.3rd.conf',
@@ -155,7 +180,7 @@ Deploy additional configuration files from source, string or template.
         },
         'jail.4th.conf' => {
           config_file_path     => '/etc/fail2ban/jail.4th.conf',
-          config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.erb",
+          config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.erb",
         },
       },
     }
@@ -313,6 +338,151 @@ Defaults to '3'.
 Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 '192.168.56.0/24']'.
 
+#### `custom_jails`
+
+Determines which custom jails should be included (see [Custom jails](#custom-jails).
+
+## Jails available
+
+### Pre-defined jails
+
+#### RedHat osfamily
+
+* 3proxy
+* apache-auth
+* apache-badbots
+* apache-botsearch
+* apache-fakegooglebot
+* apache-modsecurity
+* apache-nohome
+* apache-noscript
+* apache-overflows
+* apache-shellshock
+* assp
+* asterisk
+* counter-strike
+* courier-auth
+* courier-smtp
+* cyrus-imap
+* directadmin
+* dovecot
+* dropbear
+* drupal-auth
+* ejabberd-auth
+* exim
+* exim-spam
+* freeswitch
+* froxlor-auth
+* groupoffice
+* gssftpd
+* guacamole
+* horde
+* kerio
+* lighttpd-auth
+* monit
+* mysqld-auth
+* nagios
+* named-refused
+* nginx-botsearch
+* nginx-http-auth
+* nsd
+* openwebmail
+* oracleims
+* pam-generic
+* pass2allow-ftp
+* perdition
+* php-url-fopen
+* portsentry
+* postfix
+* postfix-rbl
+* postfix-sasl
+* proftpd
+* pure-ftpd
+* qmail-rbl
+* recidive
+* roundcube-auth
+* selinux-ssh
+* sendmail-auth
+* sendmail-reject
+* sieve
+* sogo-auth
+* solid-pop3d
+* squid
+* squirrelmail
+* sshd
+* sshd-ddos
+* stunnel
+* suhosin
+* tine20
+* uwimap-auth
+* vsftpd
+* webmin-auth
+* wuftpd
+* xinetd-fail
+
+#### Debian osfamily
+
+* apache
+* apache-modsecurity
+* apache-multiport
+* apache-nohome
+* apache-noscript
+* apache-overflows
+* asterisk-tcp
+* asterisk-udp
+* courierauth
+* couriersmtp
+* dovecot
+* dropbear
+* ejabberd-auth
+* freeswitch
+* lighttpd-auth
+* lighttpd-fastcgi
+* mysqld-auth
+* nagios
+* named-refused-tcp
+* nginx-http-auth
+* pam-generic
+* php-url-fopen
+* postfix
+* proftpd
+* pure-ftpd
+* recidive
+* roundcube-auth
+* sasl
+* sogo-auth
+* ssh
+* ssh-blocklist
+* ssh-ddos
+* ssh-iptables-ipset4
+* ssh-iptables-ipset6
+* ssh-route
+* vsftpd
+* wuftpd
+* xinetd-fail
+
+### Custom jails
+
+Users can add their own jails by using this YAML definition:
+
+```yaml
+---
+  fail2ban::custom_jails:
+    'nginx-wp-login':
+      filter_failregex: '<HOST>.*] "POST /wp-login.php'
+      port: 'http,https'
+      logpath: '/var/log/nginx/access.log'
+      maxretry: 3
+      findtime: 120
+      bantime: 1200
+    'nginx-login':
+      filter_failregex: '^<HOST> -.*POST /sessions HTTP/1\.." 200'
+      action: 'iptables-multiport[name=NoLoginFailures, port="http,https"]'
+      logpath: '/var/log/nginx*/*access*.log'
+      maxretry: 6
+      bantime: 600
+```
+
 ## Limitations
 
 This module has been tested on:
@@ -320,6 +490,7 @@ This module has been tested on:
 * Debian 6/7/8
 * Ubuntu 12.04/14.04/16.04
 * RedHat 5/6/7
+* CentOS 5/6/7
 
 ## Development
 

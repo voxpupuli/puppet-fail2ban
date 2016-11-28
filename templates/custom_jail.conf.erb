@@ -1,0 +1,20 @@
+#
+# Custom jail <%= @name %>
+# Managed by Puppet
+#
+
+[<%= @name %>]
+enabled  = <%= @enabled %>
+<% if @action -%>
+action   = <%= @action %>
+<% end -%>
+filter   = <%= @_filter %>
+logpath  = <%= @logpath %>
+maxretry = <%= @maxretry %>
+<% if @findtime -%>
+findtime     = <%= @findtime %>
+<% end -%>
+bantime  = <%= @bantime %>
+<% if @port -%>
+port     = <%= @port %>
+<% end -%>

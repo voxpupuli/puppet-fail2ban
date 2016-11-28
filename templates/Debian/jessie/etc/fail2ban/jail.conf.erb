@@ -312,10 +312,9 @@ logpath = /var/log/lighttpd/error.log
 enabled = <%= scope['::fail2ban::jails'].include? "nginx-http-auth" %>
 filter  = nginx-http-auth
 port    = http,https
-logpath = /var/log/nginx/error.log
+logpath = /var/log/nginx/*error*.log
 
 # Monitor roundcube server
-
 [roundcube-auth]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "roundcube-auth" %>
@@ -559,3 +558,56 @@ action   = iptables[name=Nagios, port=5666, protocol=tcp]
            sendmail-whois[name=Nagios, dest="%(destemail)s", sender="%(sender)s", sendername="%(sendername)s"]
 logpath  = /var/log/messages     ; nrpe.cfg may define a different log_facility
 maxretry = 1
+
+
+<% if @additional_jails -%>
+#
+# Additional jails
+#
+
+# wordpress login failures using nginx
+[nginx-wp-login]
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-wp-login" %>
+port = http,https
+filter = nginx-wp-login
+logpath = /var/log/nginx/access.log
+maxretry = 3
+findtime = 120
+bantime = 1200
+
+# nginx login failures
+[nginx-login]
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-login" %>
+filter = nginx-login
+action = iptables-multiport[name=NoLoginFailures, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 600 # 10 minutes
+maxretry = 6
+
+# nginx badbots
+[nginx-badbots]
+enabled  = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-badbots" %>
+filter = apache-badbots
+action = iptables-multiport[name=BadBots, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 86400 # 1 day
+maxretry = 1
+
+# IPs trying to execute scripts
+[nginx-noscript]
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-noscript" %>
+action = iptables-multiport[name=NoScript, port="http,https"]
+filter = nginx-noscript
+logpath = /var/log/nginx*/*access*.log
+maxretry = 6
+bantime  = 86400 # 1 day
+
+# IPs trying to use server as proxy.
+[nginx-proxy]
+enabled = <%= scope.lookupvar('::fail2ban::jails').include? "nginx-proxy" %>
+action = iptables-multiport[name=NoProxy, port="http,https"]
+filter = nginx-proxy
+logpath = /var/log/nginx*/*access*.log
+maxretry = 0
+bantime  = 86400 # 1 day
+<% end -%>
