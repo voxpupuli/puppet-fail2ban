@@ -64,21 +64,14 @@ Install fail2ban with the recommended parameters.
 ```
 
 ### Config file template
-You'll find an example on examples folder for each operating system.
-Previous example show how to enable config for every supported operating system, using ${::osfamily}/${::lsbdistcodename} fact.
 
-You can also manually specify a different configuration template. To do it, instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use your desired configuration template:
+You'll find some configuration examples in examples folder.
+Configuration for different operating systems is generated from the templates located under ${::osfamily}/${::lsbdistcodename} templates folder.
 
-```puppet
-  class { 'fail2ban':
-    config_file_template => "fail2ban/RedHat/Carbon/etc/fail2ban/jail.conf.erb"
-  }
-```
-
-Or using Hiera:
+You can also manually specify a configuration template using Hiera:
 
 ```hiera
-fail2ban::config_file_template: "fail2ban/RedHat/Carbon/etc/fail2ban/jail.conf.erb"
+fail2ban::config_file_template: "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
 ```
 
 ## Usage
@@ -339,8 +332,11 @@ Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 Determines which custom jails should be included (see [Custom jails](#custom-jails).
 
 ## Jails available
+
 ### Pre-defined jails
+
 #### RedHat osfamily:
+
 * 3proxy
 * apache-auth
 * apache-badbots
@@ -413,7 +409,8 @@ Determines which custom jails should be included (see [Custom jails](#custom-jai
 * wuftpd
 * xinetd-fail
 
-#### Debian osfamily:
+#### Debian osfamily
+
 * apache
 * apache-modsecurity
 * apache-multiport
@@ -455,6 +452,7 @@ Determines which custom jails should be included (see [Custom jails](#custom-jai
 
 
 ### Custom jails
+
 Users can add their own jails by using this YAML definition:
 
 ```yaml
@@ -482,7 +480,7 @@ This module has been tested on:
 * Debian 6/7/8
 * Ubuntu 12.04/14.04/16.04
 * RedHat 5/6/7
-* CentOS 6/7
+* CentOS 5/6/7
 
 ## Development
 

@@ -1,3 +1,9 @@
+## 2016-11-28 Release 1.3.3
+
+### Summary
+
+- [Puppet] Fixed support for CentOS & RedHat releases
+
 ## 2016-11-07 Release 1.3.2
 
 ### Summary
