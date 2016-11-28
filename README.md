@@ -78,7 +78,7 @@ You can also manually specify a different configuration template. To do it, inst
 Or using Hiera:
 
 ```hiera
-fail2ban::config_file_template: "fail2ban/%{::osfamily}/etc/fail2ban/jail.conf.erb"
+fail2ban::config_file_template: "fail2ban/RedHat/Carbon/etc/fail2ban/jail.conf.erb"
 ```
 
 ## Usage
