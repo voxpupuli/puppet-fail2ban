@@ -65,13 +65,13 @@ Install fail2ban with the recommended parameters.
 
 ### Config file template
 You'll find an example on examples folder for each operating system.
-Previous example show how to enable config for Debian operating system, using ${::osfamily}/${::lsbdistcodename} fact.
+Previous example show how to enable config for every supported operating system, using ${::osfamily}/${::lsbdistcodename} fact.
 
-RedHat/CentOS requires a totally different configuration file. To add it, instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use the following one:
+You can also manually specify a different configuration template. To do it, instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use your desired configuration template:
 
 ```puppet
   class { 'fail2ban':
-    config_file_template => "fail2ban/%{::osfamily}/etc/fail2ban/jail.conf.erb"
+    config_file_template => "fail2ban/RedHat/Carbon/etc/fail2ban/jail.conf.erb"
   }
 ```
 
