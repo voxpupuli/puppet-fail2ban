@@ -18,7 +18,7 @@
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations - OS compatibility, etc.](#limitations)
-7. [Jails available](#jails-available)
+1. [Jails available](#jails-available)
     * [Pre-defined jails](#pre-defined-jails)
     * [Custom jails](#custom-jails)
 1. [Development - Guide for contributing to the module](#development)
@@ -65,13 +65,24 @@ Install fail2ban with the recommended parameters.
 
 ### Config file template
 
-You'll find some configuration examples in examples folder.
-Configuration for different operating systems is generated from the templates located under ${::osfamily}/${::lsbdistcodename} templates folder.
+You'll find an example on examples folder for each operating system. Previous
+example show how to enable config for every supported operating system, using
+${::osfamily}/${::lsbdistcodename} fact.
 
-You can also manually specify a configuration template using Hiera:
+You can also manually specify a different configuration template. To do it,
+instead of the one using ${::osfamily}/${::lsbdistcodename} fact, use your
+desired configuration template:
+
+```puppet
+  class { 'fail2ban':
+    config_file_template => "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+  }
+```
+
+Or using Hiera:
 
 ```hiera
-fail2ban::config_file_template: "fail2ban/${::osfamily}/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+fail2ban::config_file_template: "fail2ban/%{::osfamily}/%{::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
 ```
 
 ## Usage
@@ -335,7 +346,7 @@ Determines which custom jails should be included (see [Custom jails](#custom-jai
 
 ### Pre-defined jails
 
-#### RedHat osfamily:
+#### RedHat osfamily
 
 * 3proxy
 * apache-auth
@@ -449,7 +460,6 @@ Determines which custom jails should be included (see [Custom jails](#custom-jai
 * vsftpd
 * wuftpd
 * xinetd-fail
-
 
 ### Custom jails
 
