@@ -13,14 +13,14 @@ describe 'fail2ban::define', type: :define do
       context 'when source file' do
         let(:params) do
           {
-            config_file_source: 'puppet:///modules/fail2ban/Debian/wheezy/etc/fail2ban/jail.conf'
+            config_file_source: 'puppet:///modules/fail2ban/wheezy/etc/fail2ban/jail.conf'
           }
         end
 
         it do
           is_expected.to contain_file('define_fail2ban.conf').with(
             'ensure'  => 'present',
-            'source'  => 'puppet:///modules/fail2ban/Debian/wheezy/etc/fail2ban/jail.conf',
+            'source'  => 'puppet:///modules/fail2ban/wheezy/etc/fail2ban/jail.conf',
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
           )
@@ -47,7 +47,7 @@ describe 'fail2ban::define', type: :define do
       context 'when content template' do
         let(:params) do
           {
-            config_file_template: 'fail2ban/Debian/wheezy/etc/fail2ban/jail.conf.erb'
+            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb'
           }
         end
 
@@ -64,7 +64,7 @@ describe 'fail2ban::define', type: :define do
       context 'when content template (custom)' do
         let(:params) do
           {
-            config_file_template: 'fail2ban/Debian/wheezy/etc/fail2ban/jail.conf.erb',
+            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb',
             config_file_options_hash: {
               'key' => 'value'
             }
