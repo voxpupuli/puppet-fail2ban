@@ -9,7 +9,7 @@ define fail2ban::jail (
   $action                      = undef,
   $filter                      = undef,
   $logpath                     = undef,
-  $maxretry                    = $fail2ban::maxtretry,
+  $maxretry                    = $fail2ban::maxretry,
   $findtime                    = undef,
   $bantime                     = $fail2ban::bantime,
   $port                        = undef,
