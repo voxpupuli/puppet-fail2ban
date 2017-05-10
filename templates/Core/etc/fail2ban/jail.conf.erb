@@ -187,7 +187,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 
 [sshd]
 enabled = <%= scope['::fail2ban::jails'].include? "sshd" %>
-port    = ssh
+port    = <%= scope['::fail2ban::jail_ports'].key?('sshd') ? scope['::fail2ban::jail_ports']['sshd'] : 'ssh' %>
 logpath = %(sshd_log)s
 
 
@@ -196,19 +196,19 @@ logpath = %(sshd_log)s
 # The mail-whois action send a notification e-mail with a whois request
 # in the body.
 enabled = <%= scope['::fail2ban::jails'].include? "sshd-ddos" %>
-port    = ssh
+port    = <%= scope['::fail2ban::jail_ports'].key?('sshd-ddos') ? scope['::fail2ban::jail_ports']['sshd-ddos'] : 'ssh' %>
 logpath = %(sshd_log)s
 
 
 [dropbear]
 enabled = <%= scope['::fail2ban::jails'].include? "dropbear" %>
-port     = ssh
+port    = <%= scope['::fail2ban::jail_ports'].key?('dropbear') ? scope['::fail2ban::jail_ports']['dropbear'] : 'ssh' %>
 logpath  = %(dropbear_log)s
 
 
 [selinux-ssh]
 enabled = <%= scope['::fail2ban::jails'].include? "selinux-ssh" %>
-port     = ssh
+port    = <%= scope['::fail2ban::jail_ports'].key?('selinux-ssh') ? scope['::fail2ban::jail_ports']['selinux-ssh'] : 'ssh' %>
 logpath  = %(auditd_log)s
 maxretry = 5
 
