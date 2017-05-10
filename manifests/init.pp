@@ -33,6 +33,7 @@ class fail2ban (
   $bantime                  = 432000,
   $email                    = "fail2ban@${::domain}",
   $jails                    = ['ssh', 'ssh-ddos'],
+  $jail_ports               = {},
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
   $custom_jails             = undef,
@@ -59,6 +60,7 @@ class fail2ban (
 
   validate_hash($config_file_hash)
   validate_hash($config_file_options_hash)
+  validate_hash($jail_ports)
 
   validate_re($service_ensure, '^(running|stopped)$')
   validate_string($service_name)
