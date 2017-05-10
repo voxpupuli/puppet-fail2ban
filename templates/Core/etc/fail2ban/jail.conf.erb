@@ -227,7 +227,7 @@ logpath  = %(apache_error_log)s
 # Ban hosts which agent identifies spammer robots crawling the web
 # for email addresses. The mail outputs are buffered.
 enabled = <%= scope['::fail2ban::jails'].include? "apache-badbots" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-badbots') ? scope['::fail2ban::jail_ports']['apache-badbots'] : 'http,https' %>
 logpath  = %(apache_access_log)s
 bantime  = 172800
 maxretry = 1
@@ -235,35 +235,35 @@ maxretry = 1
 
 [apache-noscript]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-noscript" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-noscript') ? scope['::fail2ban::jail_ports']['apache-noscript'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 maxretry = 6
 
 
 [apache-overflows]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-overflows" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-overflows') ? scope['::fail2ban::jail_ports']['apache-overflows'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
 
 [apache-nohome]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-nohome" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-nohome') ? scope['::fail2ban::jail_ports']['apache-nohome'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
 
 [apache-botsearch]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-botsearch" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-botsearch') ? scope['::fail2ban::jail_ports']['apache-botsearch'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
 
 [apache-fakegooglebot]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-fakegooglebot" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-fakegooglebot') ? scope['::fail2ban::jail_ports']['apache-fakegooglebot'] : 'http,https' %>
 logpath  = %(apache_access_log)s
 maxretry = 1
 ignorecommand = %(ignorecommands_dir)s/apache-fakegooglebot <ip>
@@ -271,24 +271,24 @@ ignorecommand = %(ignorecommands_dir)s/apache-fakegooglebot <ip>
 
 [apache-modsecurity]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-modsecurity" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-modsecurity') ? scope['::fail2ban::jail_ports']['apache-modsecurity'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
 [apache-shellshock]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-shellshock" %>
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('apache-shellshock') ? scope['::fail2ban::jail_ports']['apache-shellshock'] : 'http,https' %>
 logpath = %(apache_error_log)s
 maxretry = 1
 
 [nginx-http-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "nginx-http-auth" %>
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('nginx-http-auth') ? scope['::fail2ban::jail_ports']['nginx-http-auth'] : 'http,https' %>
 logpath = %(nginx_error_log)s
 
 [nginx-botsearch]
 enabled = <%= scope['::fail2ban::jails'].include? "nginx-botsearch" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('nginx-botsearch') ? scope['::fail2ban::jail_ports']['nginx-botsearch'] : 'http,https' %>
 logpath  = %(nginx_error_log)s
 maxretry = 2
 
@@ -298,14 +298,14 @@ maxretry = 2
 
 [php-url-fopen]
 enabled = <%= scope['::fail2ban::jails'].include? "php-url-fopen" %>
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('php-url-fopen') ? scope['::fail2ban::jail_ports']['php-url-fopen'] : 'http,https' %>
 logpath = %(nginx_access_log)s
           %(apache_access_log)s
 
 
 [suhosin]
 enabled = <%= scope['::fail2ban::jails'].include? "suhosin" %>
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('suhosin') ? scope['::fail2ban::jail_ports']['suhosin'] : 'http,https' %>
 logpath = %(suhosin_log)s
 
 
@@ -313,7 +313,7 @@ logpath = %(suhosin_log)s
 enabled = <%= scope['::fail2ban::jails'].include? "lighttpd-auth" %>
 # Same as above for Apache's mod_auth
 # It catches wrong authentifications
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('lighttpd-auth') ? scope['::fail2ban::jail_ports']['lighttpd-auth'] : 'http,https' %>
 logpath = %(lighttpd_error_log)s
 
 
@@ -323,25 +323,25 @@ logpath = %(lighttpd_error_log)s
 
 [roundcube-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "roundcube-auth" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('roundcube-auth') ? scope['::fail2ban::jail_ports']['roundcube-auth'] : 'http,https' %>
 logpath  = logpath = %(roundcube_errors_log)s
 
 
 [openwebmail]
 enabled = <%= scope['::fail2ban::jails'].include? "openwebmail" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('openwebmail') ? scope['::fail2ban::jail_ports']['openwebmail'] : 'http,https' %>
 logpath  = /var/log/openwebmail.log
 
 
 [horde]
 enabled = <%= scope['::fail2ban::jails'].include? "horde" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('horde') ? scope['::fail2ban::jail_ports']['horde'] : 'http,https' %>
 logpath  = /var/log/horde/horde.log
 
 
 [groupoffice]
 enabled = <%= scope['::fail2ban::jails'].include? "groupoffice" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('groupoffice') ? scope['::fail2ban::jail_ports']['groupoffice'] : 'http,https' %>
 logpath  = /home/groupoffice/log/info.log
 
 
@@ -350,14 +350,14 @@ enabled = <%= scope['::fail2ban::jails'].include? "sogo-auth" %>
 # Monitor SOGo groupware server
 # without proxy this would be:
 # port    = 20000
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('sogo-auth') ? scope['::fail2ban::jail_ports']['sogo-auth'] : 'http,https' %>
 logpath  = /var/log/sogo/sogo.log
 
 
 [tine20]
 enabled = <%= scope['::fail2ban::jails'].include? "tine20" %>
 logpath  = /var/log/tine20/tine20.log
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('tine20') ? scope['::fail2ban::jail_ports']['tine20'] : 'http,https' %>
 maxretry = 5
 
 
@@ -368,12 +368,12 @@ maxretry = 5
 
 [drupal-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "drupal-auth" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('drupal-auth') ? scope['::fail2ban::jail_ports']['drupal-auth'] : 'http,https' %>
 logpath  = %(syslog_daemon)s
 
 [guacamole]
 enabled = <%= scope['::fail2ban::jails'].include? "guacamole" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('guacamole') ? scope['::fail2ban::jail_ports']['guacamole'] : 'http,https' %>
 logpath  = /var/log/tomcat*/catalina.out
 
 [monit]
@@ -392,7 +392,7 @@ logpath = %(syslog_authpriv)s
 
 [froxlor-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "froxlor-auth" %>
-port    = http,https
+port    = <%= scope['::fail2ban::jail_ports'].key?('froxlor-auth') ? scope['::fail2ban::jail_ports']['froxlor-auth'] : 'http,https' %>
 logpath  = %(syslog_authpriv)s
 
 
