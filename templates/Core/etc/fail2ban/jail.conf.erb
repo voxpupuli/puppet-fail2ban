@@ -219,7 +219,7 @@ maxretry = 5
 
 [apache-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "apache-auth" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-auth') ? scope['::fail2ban::jail_ports']['apache-auth'] : 'http,https' %>
 logpath  = %(apache_error_log)s
 
 
@@ -380,13 +380,13 @@ logpath  = /var/log/tomcat*/catalina.out
 #Ban clients brute-forcing the monit gui login
 enabled = <%= scope['::fail2ban::jails'].include? "monit" %>
 filter   = monit
-port = 2812
+port = <%= scope['::fail2ban::jail_ports'].key?('monit') ? scope['::fail2ban::jail_ports']['monit'] : '2812' %>
 logpath  = /var/log/monit
 
 
 [webmin-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "webmin-auth" %>
-port    = 10000
+port    = <%= scope['::fail2ban::jail_ports'].key?('webmin-auth') ? scope['::fail2ban::jail_ports']['webmin-auth'] : '10000' %>
 logpath = %(syslog_authpriv)s
 
 
@@ -403,13 +403,13 @@ logpath  = %(syslog_authpriv)s
 
 [squid]
 enabled = <%= scope['::fail2ban::jails'].include? "squid" %>
-port     =  80,443,3128,8080
+port     = <%= scope['::fail2ban::jail_ports'].key?('squid') ? scope['::fail2ban::jail_ports']['squid'] : '80,443,3128,8080' %>
 logpath = /var/log/squid/access.log
 
 
 [3proxy]
 enabled = <%= scope['::fail2ban::jails'].include? "3proxy" %>
-port    = 3128
+port    = <%= scope['::fail2ban::jail_ports'].key?('3proxy') ? scope['::fail2ban::jail_ports']['3proxy'] : '3128' %>
 logpath = /var/log/3proxy.log
 
 
@@ -420,27 +420,27 @@ logpath = /var/log/3proxy.log
 
 [proftpd]
 enabled = <%= scope['::fail2ban::jails'].include? "proftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('proftpd') ? scope['::fail2ban::jail_ports']['proftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 logpath  = %(proftpd_log)s
 
 
 [pure-ftpd]
 enabled = <%= scope['::fail2ban::jails'].include? "pure-ftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('pure-ftpd') ? scope['::fail2ban::jail_ports']['pure-ftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 logpath  = %(pureftpd_log)s
 maxretry = 6
 
 
 [gssftpd]
 enabled = <%= scope['::fail2ban::jails'].include? "gssftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('gssftpd') ? scope['::fail2ban::jail_ports']['gssftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 logpath  = %(syslog_daemon)s
 maxretry = 6
 
 
 [wuftpd]
 enabled = <%= scope['::fail2ban::jails'].include? "wuftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('wuftpd') ? scope['::fail2ban::jail_ports']['wuftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 logpath  = %(wuftpd_log)s
 maxretry = 6
 
@@ -451,7 +451,7 @@ maxretry = 6
 # if you want to rely on PAM failed login attempts
 # vsftpd's failregex should match both of those formats
 enabled = <%= scope['::fail2ban::jails'].include? "vsftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('vsftpd') ? scope['::fail2ban::jail_ports']['vsftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 logpath  = %(vsftpd_log)s
 
 
@@ -462,45 +462,45 @@ logpath  = %(vsftpd_log)s
 # ASSP SMTP Proxy Jail
 [assp]
 enabled = <%= scope['::fail2ban::jails'].include? "assp" %>
-port     = smtp,465,submission
+port     = <%= scope['::fail2ban::jail_ports'].key?('assp') ? scope['::fail2ban::jail_ports']['assp'] : 'smtp,465,submission' %>
 logpath  = /root/path/to/assp/logs/maillog.txt
 
 
 [courier-smtp]
 enabled = <%= scope['::fail2ban::jails'].include? "courier-smtp" %>
-port     = smtp,465,submission
+port     = <%= scope['::fail2ban::jail_ports'].key?('courier-smtp') ? scope['::fail2ban::jail_ports']['courier-smtp'] : 'smtp,465,submission' %>
 logpath  = %(syslog_mail)s
 
 
 [postfix]
 enabled = <%= scope['::fail2ban::jails'].include? "postfix" %>
-port     = smtp,465,submission
+port     = <%= scope['::fail2ban::jail_ports'].key?('postfix') ? scope['::fail2ban::jail_ports']['postfix'] : 'smtp,465,submission' %>
 logpath  = %(postfix_log)s
 
 
 [postfix-rbl]
 enabled  = <%= scope['::fail2ban::jails'].include? "postfix-rbl" %>
-port     = smtp,465,submission
+port     = <%= scope['::fail2ban::jail_ports'].key?('postfix-rbl') ? scope['::fail2ban::jail_ports']['postfix-rbl'] : 'smtp,465,submission' %>
 logpath  = %(syslog_mail)s
 maxretry = 1
 
 
 [sendmail-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "sendmail-auth" %>
-port    = submission,465,smtp
+port    = <%= scope['::fail2ban::jail_ports'].key?('sendmail-auth') ? scope['::fail2ban::jail_ports']['sendmail-auth'] : 'smtp,465,submission' %>
 logpath = %(syslog_mail)s
 
 
 [sendmail-reject]
 enabled = <%= scope['::fail2ban::jails'].include? "sendmail-reject" %>
-port     = smtp,465,submission
+port    = <%= scope['::fail2ban::jail_ports'].key?('sendmail-reject') ? scope['::fail2ban::jail_ports']['sendmail-reject'] : 'smtp,465,submission' %>
 logpath  = %(syslog_mail)s
 
 
 [qmail-rbl]
 enabled = <%= scope['::fail2ban::jails'].include? "qmail-rbl" %>
 filter  = qmail
-port    = smtp,465,submission
+port    = <%= scope['::fail2ban::jail_ports'].key?('qmail-rbl') ? scope['::fail2ban::jail_ports']['qmail-rbl'] : 'smtp,465,submission' %>
 logpath = /service/qmail/log/main/current
 
 
@@ -508,37 +508,37 @@ logpath = /service/qmail/log/main/current
 # but can be set by syslog_facility in the dovecot configuration.
 [dovecot]
 enabled = <%= scope['::fail2ban::jails'].include? "dovecot" %>
-port    = pop3,pop3s,imap,imaps,submission,465,sieve
+port    = <%= scope['::fail2ban::jail_ports'].key?('dovecot') ? scope['::fail2ban::jail_ports']['dovecot'] : 'pop3,pop3s,imap,imaps,submission,465,sieve' %>
 logpath = %(dovecot_log)s
 
 
 [sieve]
 enabled = <%= scope['::fail2ban::jails'].include? "sieve" %>
-port   = smtp,465,submission
+port   = <%= scope['::fail2ban::jail_ports'].key?('sieve') ? scope['::fail2ban::jail_ports']['sieve'] : 'smtp,465,submission' %>
 logpath = %(dovecot_log)s
 
 
 [solid-pop3d]
 enabled = <%= scope['::fail2ban::jails'].include? "solid-pop3d" %>
-port    = pop3,pop3s
+port    = <%= scope['::fail2ban::jail_ports'].key?('solid-pop3d') ? scope['::fail2ban::jail_ports']['solid-pop3d'] : 'pop3,pop3s' %>
 logpath = %(solidpop3d_log)s
 
 
 [exim]
 enabled = <%= scope['::fail2ban::jails'].include? "exim" %>
-port   = smtp,465,submission
+port   = <%= scope['::fail2ban::jail_ports'].key?('exim') ? scope['::fail2ban::jail_ports']['exim'] : 'smtp,465,submission' %>
 logpath = %(exim_main_log)s
 
 
 [exim-spam]
 enabled = <%= scope['::fail2ban::jails'].include? "exim-spam" %>
-port   = smtp,465,submission
+port   = <%= scope['::fail2ban::jail_ports'].key?('exim-spam') ? scope['::fail2ban::jail_ports']['exim-spam'] : 'smtp,465,submission' %>
 logpath = %(exim_main_log)s
 
 
 [kerio]
 enabled = <%= scope['::fail2ban::jails'].include? "kerio" %>
-port    = imap,smtp,imaps,465
+port    = <%= scope['::fail2ban::jail_ports'].key?('kerio') ? scope['::fail2ban::jail_ports']['kerio'] : 'imap,smtp,imaps,465' %>
 logpath = /opt/kerio/mailserver/store/logs/security.log
 
 
@@ -549,13 +549,13 @@ logpath = /opt/kerio/mailserver/store/logs/security.log
 
 [courier-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "courier-auth" %>
-port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+port     = <%= scope['::fail2ban::jail_ports'].key?('courier-auth') ? scope['::fail2ban::jail_ports']['courier-auth'] : 'smtp,465,submission,imap3,imaps,pop3,pop3s' %>
 logpath  = %(syslog_mail)s
 
 
 [postfix-sasl]
 enabled = <%= scope['::fail2ban::jails'].include? "postfix-sasl" %>
-port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+port     = <%= scope['::fail2ban::jail_ports'].key?('postfix-sasl') ? scope['::fail2ban::jail_ports']['postfix-sasl'] : 'smtp,465,submission,imap3,imaps,pop3,pop3s' %>
 # You might consider monitoring /var/log/mail.warn instead if you are
 # running postfix since it would provide the same log lines at the
 # "warn" level but overall at the smaller filesize.
@@ -564,25 +564,25 @@ logpath  = %(postfix_log)s
 
 [perdition]
 enabled = <%= scope['::fail2ban::jails'].include? "perdition" %>
-port   = imap3,imaps,pop3,pop3s
+port   = <%= scope['::fail2ban::jail_ports'].key?('perdition') ? scope['::fail2ban::jail_ports']['perdition'] : 'imap3,imaps,pop3,pop3s' %>
 logpath = %(syslog_mail)s
 
 
 [squirrelmail]
 enabled = <%= scope['::fail2ban::jails'].include? "squierrelmail" %>
-port = smtp,465,submission,imap2,imap3,imaps,pop3,pop3s,http,https,socks
+port = <%= scope['::fail2ban::jail_ports'].key?('squirrelmail') ? scope['::fail2ban::jail_ports']['squirrelmail'] : 'smtp,465,submission,imap2,imap3,imaps,pop3,pop3s,http,https,socks' %>
 logpath = /var/lib/squirrelmail/prefs/squirrelmail_access_log
 
 
 [cyrus-imap]
 enabled = <%= scope['::fail2ban::jails'].include? "cyrus-imap" %>
-port   = imap3,imaps
+port   = <%= scope['::fail2ban::jail_ports'].key?('cyrus-imap') ? scope['::fail2ban::jail_ports']['cyrus-imap'] : 'imap3,imaps' %>
 logpath = %(syslog_mail)s
 
 
 [uwimap-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "uwimap-auth" %>
-port   = imap3,imaps
+port   = <%= scope['::fail2ban::jail_ports'].key?('uwimap-auth') ? scope['::fail2ban::jail_ports']['uwimap-auth'] : 'imap3,imaps' %>
 logpath = %(syslog_mail)s
 
 
@@ -614,13 +614,13 @@ logpath = %(syslog_mail)s
 
 [named-refused]
 enabled = <%= scope['::fail2ban::jails'].include? "named-refused" %>
-port     = domain,953
+port     = <%= scope['::fail2ban::jail_ports'].key?('named-refused') ? scope['::fail2ban::jail_ports']['named-refused'] : 'domain,953' %>
 logpath  = /var/log/named/security.log
 
 
 [nsd]
 enabled = <%= scope['::fail2ban::jails'].include? "nsd" %>
-port     = 53
+port     = <%= scope['::fail2ban::jail_ports'].key?('nsd') ? scope['::fail2ban::jail_ports']['nsd'] : '53' %>
 action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
            %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
 logpath = /var/log/nsd.log
@@ -632,7 +632,7 @@ logpath = /var/log/nsd.log
 
 [asterisk]
 enabled = <%= scope['::fail2ban::jails'].include? "asterisk" %>
-port     = 5060,5061
+port     = <%= scope['::fail2ban::jail_ports'].key?('asterisk') ? scope['::fail2ban::jail_ports']['asterisk'] : '5060,5061' %>
 action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
            %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
            %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s"]
@@ -642,7 +642,7 @@ maxretry = 10
 
 [freeswitch]
 enabled = <%= scope['::fail2ban::jails'].include? "freeswitch" %>
-port     = 5060,5061
+port     = <%= scope['::fail2ban::jail_ports'].key?('freeswitch') ? scope['::fail2ban::jail_ports']['freeswitch'] : '5060,5061' %>
 action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
            %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
            %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s"]
@@ -663,7 +663,7 @@ maxretry = 10
 # log-error=/var/log/mysqld.log
 [mysqld-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "mysqld-auth" %>
-port     = 3306
+port     = <%= scope['::fail2ban::jail_ports'].key?('mysqld-auth') ? scope['::fail2ban::jail_ports']['mysqld-auth'] : '3306' %>
 logpath  = %(mysql_log)s
 maxretry = 5
 
@@ -709,7 +709,7 @@ logpath = /var/log/stunnel4/stunnel.log
 
 [ejabberd-auth]
 enabled = <%= scope['::fail2ban::jails'].include? "ejabberd-auth" %>
-port    = 5222
+port    = <%= scope['::fail2ban::jail_ports'].key?('ejabberd-auth') ? scope['::fail2ban::jail_ports']['ejabberd-auth'] : '5222' %>
 logpath = /var/log/ejabberd/ejabberd.log
 
 
@@ -717,7 +717,8 @@ logpath = /var/log/ejabberd/ejabberd.log
 enabled = <%= scope['::fail2ban::jails'].include? "counter-strike" %>
 logpath = /opt/cstrike/logs/L[0-9]*.log
 # Firewall: http://www.cstrike-planet.com/faq/6
-tcpport = 27030,27031,27032,27033,27034,27035,27036,27037,27038,27039
+# CAUTION: variable jail_ports would only ban TCP ports
+tcpport = <%= scope['::fail2ban::jail_ports'].key?('counter-strike') ? scope['::fail2ban::jail_ports']['counter-strike'] : '27030,27031,27032,27033,27034,27035,27036,27037,27038,27039' %>
 udpport = 1200,27000,27001,27002,27003,27004,27005,27006,27007,27008,27009,27010,27011,27012,27013,27014,27015
 action  = %(banaction)s[name=%(__name__)s-tcp, port="%(tcpport)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
            %(banaction)s[name=%(__name__)s-udp, port="%(udpport)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
@@ -740,7 +741,7 @@ banaction = iptables-allports
 [directadmin]
 enabled = <%= scope['::fail2ban::jails'].include? "directadmin" %>
 logpath = /var/log/directadmin/login.log
-port = 2222
+port = <%= scope['::fail2ban::jail_ports'].key?('directadmin') ? scope['::fail2ban::jail_ports']['directadmin'] : '2222' %>
 
 [portsentry]
 enabled  = <%= scope['::fail2ban::jails'].include? "portsentry" %>
@@ -750,7 +751,7 @@ maxretry = 1
 [pass2allow-ftp]
 # this pass2allow example allows FTP traffic after successful HTTP authentication
 enabled      = <%= scope['::fail2ban::jails'].include? "pass2allow-ftp" %>
-port         = ftp,ftp-data,ftps,ftps-data
+port         = <%= scope['::fail2ban::jail_ports'].key?('pass2allow-ftp') ? scope['::fail2ban::jail_ports']['pass2allow-ftp'] : 'ftp,ftp-data,ftps,ftps-data' %>
 # knocking_url variable must be overridden to some secret value in filter.d/apache-pass.local
 filter       = apache-pass
 # access log of the website with HTTP auth
