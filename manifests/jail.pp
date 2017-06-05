@@ -6,6 +6,7 @@ define fail2ban::jail (
   $filter_ignoreregex          = undef,
   $filter_additional_config    = undef,
   $enabled                     = true,
+  $banaction                   = undef,
   $action                      = undef,
   $filter                      = undef,
   $logpath                     = undef,
@@ -29,6 +30,7 @@ define fail2ban::jail (
   if $filter_failregex { validate_string($filter_failregex) }
   if $filter_ignoreregex { validate_string($filter_ignoreregex) }
   if $enabled { validate_bool($enabled) }
+  if $banaction { validate_string($banaction) }
   if $action { validate_string($action) }
   if $filter { validate_string($filter) }
   if $logpath { validate_string($logpath) }

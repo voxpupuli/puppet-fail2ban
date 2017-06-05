@@ -30,6 +30,7 @@ class fail2ban (
   $service_enable           = true,
 
   $action                   = 'action_mb',
+  $banaction                = 'iptables-multiport',
   $bantime                  = 432000,
   $email                    = "fail2ban@${::domain}",
   $jails                    = ['ssh', 'ssh-ddos'],

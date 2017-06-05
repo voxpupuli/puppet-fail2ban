@@ -315,6 +315,10 @@ Determines if the service should be enabled at boot. Valid values are 'true' and
 
 Determines how banned ip addresses should be reported. Defaults to 'action_mb'.
 
+#### `banaction`
+
+Determines how to ban an ip. Defaults to 'iptables-multiport'.
+
 #### `bantime`
 
 Determines how many seconds ip addresses will be banned. Defaults to '432000'.

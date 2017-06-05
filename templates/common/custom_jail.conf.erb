@@ -4,17 +4,20 @@
 #
 
 [<%= @name %>]
-enabled  = <%= @enabled %>
+enabled   = <%= @enabled %>
+<% if @banaction -%>
+banaction = <%= @banaction %>
+<% end -%>
 <% if @action -%>
-action   = <%= @action %>
+action    = <%= @action %>
 <% end -%>
-filter   = <%= @_filter %>
-logpath  = <%= @logpath %>
-maxretry = <%= @maxretry %>
+filter    = <%= @_filter %>
+logpath   = <%= @logpath %>
+maxretry  = <%= @maxretry %>
 <% if @findtime -%>
-findtime     = <%= @findtime %>
+findtime  = <%= @findtime %>
 <% end -%>
-bantime  = <%= @bantime %>
+bantime   = <%= @bantime %>
 <% if @port -%>
-port     = <%= @port %>
+port      = <%= @port %>
 <% end -%>
