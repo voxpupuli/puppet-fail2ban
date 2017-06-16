@@ -36,6 +36,11 @@ class fail2ban (
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
   $custom_jails             = undef,
+
+  $findtime                 = 600,
+  $ssh_retry                = 3,
+  $sshdos_retry             = 3,
+  $dropbear_retry           = 3,
 ) inherits ::fail2ban::params {
   validate_re($package_ensure, '^(absent|latest|present|purged)$')
   validate_string($package_name)

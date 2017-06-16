@@ -31,7 +31,7 @@ bantime  = <%= scope['::fail2ban::bantime'] %>
 
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
-findtime = 600
+findtime = <%= scope['::fail2ban::findtime'] %>
 maxretry = <%= scope['::fail2ban::maxretry'] %>
 
 # "backend" specifies the backend used to get files modification.
@@ -133,7 +133,7 @@ enabled  = <%= scope['::fail2ban::jails'].include? "ssh" %>
 port     = ssh
 filter   = sshd
 logpath  = /var/log/auth.log
-maxretry = 6
+maxretry = <%= scope['::fail2ban::ssh_retry'] %>
 
 [dropbear]
 
@@ -141,7 +141,7 @@ enabled  = <%= scope['::fail2ban::jails'].include? "dropbear" %>
 port     = ssh
 filter   = dropbear
 logpath  = /var/log/auth.log
-maxretry = 6
+maxretry = <%= scope['::fail2ban::dropbear_retry'] %>
 
 # Generic filter for pam. Has to be used with action which bans all ports
 # such as iptables-allports, shorewall
@@ -173,7 +173,7 @@ enabled  = <%= scope['::fail2ban::jails'].include? "ssh-ddos" %>
 port     = ssh
 filter   = sshd-ddos
 logpath  = /var/log/auth.log
-maxretry = 6
+maxretry = <%= scope['::fail2ban::sshdos_retry'] %>
 
 
 # Here we use blackhole routes for not requiring any additional kernel support
