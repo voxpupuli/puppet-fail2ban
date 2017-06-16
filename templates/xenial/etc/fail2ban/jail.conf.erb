@@ -65,7 +65,7 @@ bantime  = <%= scope['::fail2ban::bantime'] %>
 
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
-findtime  = 600
+findtime  = <%= scope['::fail2ban::findtime'] %>
 
 # "maxretry" is the number of failures before a host get banned.
 maxretry = <%= scope['::fail2ban::maxretry'] %>
@@ -226,7 +226,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 enabled = <%= scope['::fail2ban::jails'].include? "ssh" %>
 port    = ssh
 logpath = %(sshd_log)s
-maxretry = 6
+maxretry = <%= scope['::fail2ban::ssh_retry'] %>
 
 
 [sshd-ddos]
@@ -236,7 +236,7 @@ maxretry = 6
 enabled = <%= scope['::fail2ban::jails'].include? "ssh-ddos" %>
 port    = ssh
 logpath = %(sshd_log)s
-maxretry = 6
+maxretry = <%= scope['::fail2ban::sshdos_retry'] %>
 
 
 [dropbear]
@@ -244,7 +244,7 @@ maxretry = 6
 enabled  = <%= scope['::fail2ban::jails'].include? "dropbear" %>
 port     = ssh
 logpath  = %(dropbear_log)s
-maxretry = 6
+maxretry = <%= scope['::fail2ban::dropbear_retry'] %>
 
 
 [selinux-ssh]
