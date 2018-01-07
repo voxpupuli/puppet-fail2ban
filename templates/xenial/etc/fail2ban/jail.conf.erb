@@ -145,7 +145,7 @@ mta = sendmail
 protocol = tcp
 
 # Specify chain where jumps would need to be added in iptables-* actions
-chain = INPUT
+chain = <%= scope['::fail2ban::iptables_chain'] %>
 
 # Ports to be banned
 # Usually should be overridden in a particular jail

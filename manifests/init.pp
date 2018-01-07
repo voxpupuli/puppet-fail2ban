@@ -33,6 +33,7 @@ class fail2ban (
   Integer[0] $bantime = 432000,
   String $email = "fail2ban@${::domain}",
   String $sender = "fail2ban@${::fqdn}",
+  String $iptables_chain = 'INPUT',
   Array[String] $jails = ['ssh', 'ssh-ddos'],
   Integer[0] $maxretry = 3,
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
