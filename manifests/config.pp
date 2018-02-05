@@ -37,8 +37,8 @@ class fail2ban::config {
   }
 
   # Operating system specific configuration
-  case $::operatingsystem {
-    /^(RedHat|CentOS|Scientific)$/: {
+  case $facts['os']['family'] {
+    'RedHat': {
       # Not using firewalld by now
       file { '00-firewalld.conf':
         ensure  => 'absent',
@@ -47,22 +47,18 @@ class fail2ban::config {
         require => $::fail2ban::config_file_require,
       }
     }
-    'Debian': {}
-    'Ubuntu': {
-      case $::lsbdistcodename {
-        # Remove debian defaults conf
-        'xenial': {
-          file { 'defaults-debian.conf':
-            ensure  => absent,
-            path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
-            require => $::fail2ban::config_file_require,
-          }
+    'Debian': {
+      # Remove debian defaults conf
+      if $facts['os']['release']['major'] == '16.04' {
+        file { 'defaults-debian.conf':
+          ensure  => absent,
+          path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
+          require => $::fail2ban::config_file_require,
         }
-        default: {}
       }
     }
     default: {
-      fail("${::operatingsystem} not supported.")
+      fail("${facts['os']['family']} not supported.")
     }
   }
 }
