@@ -13,7 +13,7 @@ define fail2ban::jail (
   $findtime                    = undef,
   $bantime                     = $fail2ban::bantime,
   $port                        = undef,
-  $backend                     = undef,
+  Optional[String] $backend    = undef,
 
 
   $config_dir_filter_path   = $fail2ban::config_dir_filter_path,
@@ -38,7 +38,6 @@ define fail2ban::jail (
   if $findtime { validate_integer($findtime) }
   if $bantime { validate_integer($bantime) }
   if $port { validate_string($port) }
-  if $backend { validate_string($action) }
 
   if $config_dir_filter_path { validate_absolute_path($config_dir_filter_path) }
   if $config_file_owner { validate_string($config_file_owner) }
