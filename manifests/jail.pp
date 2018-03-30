@@ -1,18 +1,18 @@
 # == Define: fail2ban::jail
 #
 define fail2ban::jail (
-  $filter_includes             = undef,
-  $filter_failregex            = undef,
-  $filter_ignoreregex          = undef,
-  $filter_additional_config    = undef,
-  $enabled                     = true,
-  $action                      = undef,
-  $filter                      = undef,
-  $logpath                     = undef,
-  $maxretry                    = $fail2ban::maxtretry,
-  $findtime                    = undef,
-  $bantime                     = $fail2ban::bantime,
-  $port                        = undef,
+  $filter_includes          = undef,
+  $filter_failregex         = undef,
+  $filter_ignoreregex       = undef,
+  $filter_additional_config = undef,
+  $enabled                  = true,
+  $action                   = undef,
+  $filter                   = undef,
+  $logpath                  = undef,
+  $maxretry                 = $fail2ban::maxtretry,
+  $findtime                 = undef,
+  $bantime                  = $fail2ban::bantime,
+  $port                     = undef,
 
 
   $config_dir_filter_path   = $fail2ban::config_dir_filter_path,
