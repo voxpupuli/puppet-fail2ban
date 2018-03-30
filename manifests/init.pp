@@ -90,9 +90,9 @@ class fail2ban (
   validate_re($config_dir_ensure, '^(absent|directory)$')
   validate_re($config_file_ensure, '^(absent|present)$')
 
-  anchor { 'fail2ban::begin': } ->
-  class { '::fail2ban::install': } ->
-  class { '::fail2ban::config': } ~>
-  class { '::fail2ban::service': } ->
-  anchor { 'fail2ban::end': }
+  anchor { 'fail2ban::begin': }
+  -> class { '::fail2ban::install': }
+  -> class { '::fail2ban::config': }
+  ~> class { '::fail2ban::service': }
+  -> anchor { 'fail2ban::end': }
 }
