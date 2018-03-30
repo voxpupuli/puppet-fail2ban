@@ -53,15 +53,14 @@
   ],
   "requirements": [
     {
-      "name": "pe",
-      "version_requirement": ">= 3.2.0"
-    },
-    {
       "name": "puppet",
-      "version_requirement": ">= 3.2.0"
+      "version_requirement": ">= 4.10.0"
     }
   ],
   "tags": [
-    "fail2ban"
+    "fail2ban",
+    "firewall",
+    "firewalling",
+    "iptables"
   ]
 }
