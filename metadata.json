@@ -1,7 +1,7 @@
 {
-  "name": "dhoppe-fail2ban",
+  "name": "puppet-fail2ban",
   "version": "1.3.4",
-  "author": "Dennis Hoppe",
+  "author": "Vox Pupuli",
   "summary": "This module installs, configures and manages the Fail2ban service.",
   "license": "Apache-2.0",
   "source": "git://github.com/dhoppe/puppet-fail2ban.git",
