@@ -57,7 +57,7 @@ describe 'fail2ban::define', type: :define do
             'content' => %r{THIS FILE IS MANAGED BY PUPPET},
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
-          )
+          ).with_content(%r{^chain = INPUT$})
         end
       end
 
@@ -77,7 +77,7 @@ describe 'fail2ban::define', type: :define do
             'content' => %r{THIS FILE IS MANAGED BY PUPPET},
             'notify'  => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
-          )
+          ).with_content(%r{^chain = INPUT$})
         end
       end
     end

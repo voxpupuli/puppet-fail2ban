@@ -145,6 +145,26 @@ describe 'fail2ban' do
       describe file(config_file_path) do
         it { is_expected.to be_file }
         it { is_expected.to contain 'THIS FILE IS MANAGED BY PUPPET' }
+        it { is_expected.to contain %r{^chain = INPUT$} }
+      end
+    end
+
+    context 'when content template and custom chain' do
+      it 'is_expected.to work with no errors' do
+        pp = <<-EOS
+          class { 'fail2ban':
+            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
+	    iptables_chain => 'TEST',
+          }
+        EOS
+
+        apply_manifest(pp, catch_failures: true)
+      end
+
+      describe file(config_file_path) do
+        it { is_expected.to be_file }
+        it { is_expected.to contain 'THIS FILE IS MANAGED BY PUPPET' }
+        it { is_expected.to contain %r{^chain = TEST$} }
       end
     end
   end
