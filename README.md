@@ -324,6 +324,11 @@ Determines how many seconds ip addresses will be banned. Defaults to '432000'.
 Determines which email address should be notified about restricted hosts and
 suspicious logins. Defaults to "fail2ban@${::domain}".
 
+#### `sender`
+
+Determines which email address should notify about restricted hosts and
+suspicious logins. Defaults to 'fail2ban@${::fqdn}'.
+
 #### `jails`
 
 Determines which services should be protected by Fail2ban. Defaults to '['ssh', 'ssh-ddos']'.

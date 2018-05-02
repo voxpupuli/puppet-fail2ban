@@ -32,6 +32,7 @@ class fail2ban (
   $action                   = 'action_mb',
   $bantime                  = 432000,
   $email                    = "fail2ban@${::domain}",
+  $sender                   = "fail2ban@${::fqdn}",
   $jails                    = ['ssh', 'ssh-ddos'],
   $maxretry                 = 3,
   $whitelist                = ['127.0.0.1/8', '192.168.56.0/24'],
