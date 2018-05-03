@@ -5,11 +5,16 @@ when 'Debian'
   package_name     = 'fail2ban'
   config_file_path = '/etc/fail2ban/jail.conf'
   service_name     = 'fail2ban'
+  ssh_log_file     = '/var/log/auth.log'
 when 'RedHat'
   package_name     = 'fail2ban'
   config_file_path = '/etc/fail2ban/jail.conf'
   service_name     = 'fail2ban'
+  ssh_log_file     = '/var/log/secure'
 end
+
+# Ensure the ssh log file is created, otherwise the service doesn't start completely
+shell("touch #{ssh_log_file}")
 
 describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   it 'is_expected.to work with no errors' do
@@ -87,7 +92,7 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, expect_failures: true)
+        apply_manifest(pp, expect_failures: false)
       end
 
       describe package(package_name) do
@@ -168,5 +173,22 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
         it { is_expected.to be_enabled }
       end
     end
+
+
+    context 'when checking default running services' do
+      it 'is expected.to have sshd and sshd-ddos enabled by default' do
+        pp = <<-EOS
+          class { 'fail2ban': }
+        EOS
+        
+        apply_manifest(pp, catch_failures: true)
+        fail2ban_status = shell("fail2ban-client status")
+
+        expect(fail2ban_status.output).to contain 'Number of jail:	2'
+        expect(fail2ban_status.output).to contain 'ssh, ssh-ddos'
+      end
+    end 
+  
+
   end
 end
