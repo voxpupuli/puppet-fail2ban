@@ -21,7 +21,6 @@ end
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
 shell("touch #{ssh_log_file}")
 
-
 describe 'fail2ban' do
   it 'is_expected.to work with no errors' do
     pp = <<-EOS
@@ -83,11 +82,11 @@ describe 'fail2ban' do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        if fact("lsbdistcodename") == 'stretch'
+        if fact('lsbdistcodename') == 'stretch'
           it { is_expected.not_to be_running }
-        else 
-          it { is_expected.not_to be_enabled }          
-        end        
+        else
+          it { is_expected.not_to be_enabled }
+        end
       end
     end
 
@@ -183,16 +182,13 @@ describe 'fail2ban' do
       end
     end
 
-
     context 'when checking default running services' do
       it 'is expected.to have sshd and sshd-ddos enabled by default' do
         pp = <<-EOS
           class { 'fail2ban': }
         EOS
-        
         apply_manifest(pp, catch_failures: true)
         fail2ban_status = shell('fail2ban-client status')
-
         expect(fail2ban_status.output).to contain ssh_jail
       end
     end
