@@ -6,14 +6,13 @@ when 'Debian'
   config_file_path      = '/etc/fail2ban/jail.conf'
   service_name          = 'fail2ban'
   ssh_log_file          = '/var/log/auth.log'
-  default_enabled_jails = 'ssh, ssh-ddos'
+  ssh_jail              = 'ssh'
 when 'RedHat'
   package_name          = 'fail2ban'
   config_file_path      = '/etc/fail2ban/jail.conf'
   service_name          = 'fail2ban'
-
   ssh_log_file          = '/var/log/secure'
-  default_enabled_jails = 'sshd, sshd-ddos'
+  ssh_jail              = 'ssh'
   # EPEL needs to be installed, otherwise it won't work
   shell('wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
   shell('rpm -ivh epel-release-latest-7.noarch.rpm && yum -y install redhat-lsb-core')
@@ -22,7 +21,6 @@ end
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
 shell("touch #{ssh_log_file}")
 
-puts(fact('lsbdistcodename'))
 
 describe 'fail2ban' do
   it 'is_expected.to work with no errors' do
@@ -85,8 +83,11 @@ describe 'fail2ban' do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        # it { is_expected.not_to be_running }
-        it { is_expected.not_to be_enabled }
+        if fact("lsbdistcodename") == 'stretch'
+          it { is_expected.not_to be_running }
+        else 
+          it { is_expected.not_to be_enabled }          
+        end        
       end
     end
 
@@ -192,8 +193,7 @@ describe 'fail2ban' do
         apply_manifest(pp, catch_failures: true)
         fail2ban_status = shell("fail2ban-client status")
 
-        expect(fail2ban_status.output).to contain 'Number of jail:	2'
-        expect(fail2ban_status.output).to contain default_enabled_jails
+        expect(fail2ban_status.output).to contain ssh_jail
       end
     end
   end
