@@ -191,7 +191,7 @@ describe 'fail2ban' do
         EOS
         
         apply_manifest(pp, catch_failures: true)
-        fail2ban_status = shell("fail2ban-client status")
+        fail2ban_status = shell('fail2ban-client status')
 
         expect(fail2ban_status.output).to contain ssh_jail
       end
