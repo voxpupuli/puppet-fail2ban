@@ -11,7 +11,7 @@ when 'RedHat'
   service_name     = 'fail2ban'
 end
 
-describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe 'fail2ban' do
   it 'is_expected.to work with no errors' do
     pp = <<-EOS
       class { 'fail2ban': }
