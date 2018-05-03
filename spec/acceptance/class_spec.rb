@@ -2,21 +2,29 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'Debian'
-  package_name     = 'fail2ban'
-  config_file_path = '/etc/fail2ban/jail.conf'
-  service_name     = 'fail2ban'
-  ssh_log_file     = '/var/log/auth.log'
+  package_name          = 'fail2ban'
+  config_file_path      = '/etc/fail2ban/jail.conf'
+  service_name          = 'fail2ban'
+  ssh_log_file          = '/var/log/auth.log'
+  default_enabled_jails = 'ssh, ssh-ddos'
 when 'RedHat'
-  package_name     = 'fail2ban'
-  config_file_path = '/etc/fail2ban/jail.conf'
-  service_name     = 'fail2ban'
-  ssh_log_file     = '/var/log/secure'
+  package_name          = 'fail2ban'
+  config_file_path      = '/etc/fail2ban/jail.conf'
+  service_name          = 'fail2ban'
+
+  ssh_log_file          = '/var/log/secure'
+  default_enabled_jails = 'sshd, sshd-ddos'
+  # EPEL needs to be installed, otherwise it won't work
+  shell('wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
+  shell('rpm -ivh epel-release-latest-7.noarch.rpm && yum -y install redhat-lsb-core')
 end
 
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
 shell("touch #{ssh_log_file}")
 
-describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+puts(fact('lsbdistcodename'))
+
+describe 'fail2ban' do
   it 'is_expected.to work with no errors' do
     pp = <<-EOS
       class { 'fail2ban': }
@@ -185,7 +193,7 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
         fail2ban_status = shell("fail2ban-client status")
 
         expect(fail2ban_status.output).to contain 'Number of jail:	2'
-        expect(fail2ban_status.output).to contain 'ssh, ssh-ddos'
+        expect(fail2ban_status.output).to contain default_enabled_jails
       end
     end 
   
