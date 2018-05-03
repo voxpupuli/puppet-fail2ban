@@ -195,8 +195,6 @@ describe 'fail2ban' do
         expect(fail2ban_status.output).to contain 'Number of jail:	2'
         expect(fail2ban_status.output).to contain default_enabled_jails
       end
-    end 
-  
-
+    end
   end
 end
