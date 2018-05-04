@@ -72,7 +72,7 @@ destemail = <%= scope['::fail2ban::email'] %>
 sendername = Fail2Ban
 
 # Email address of the sender
-sender = fail2ban@localhost
+sender = <%= scope['::fail2ban::sender'] %>
 
 #
 # ACTIONS
