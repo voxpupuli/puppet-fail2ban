@@ -246,11 +246,6 @@ values are 'true' and 'false'. Defaults to 'true'.
 
 Determines the source of a configuration directory. Defaults to 'undef'.
 
-#### `config_file_ensure`
-
-Determines if the configuration file should be present. Valid values are 'absent'
-and 'present'. Defaults to 'present'.
-
 #### `config_file_path`
 
 Determines if the configuration file should be managed. Defaults to '/etc/fail2ban/jail.conf'
