@@ -186,7 +186,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 #
 
 [sshd]
-enabled = <%= scope['::fail2ban::jails'].include? "sshd" %>
+enabled = <%= scope['::fail2ban::jails'].include? "ssh" %>
 port    = ssh
 logpath = %(sshd_log)s
 
@@ -195,7 +195,7 @@ logpath = %(sshd_log)s
 # This jail corresponds to the standard configuration in Fail2ban.
 # The mail-whois action send a notification e-mail with a whois request
 # in the body.
-enabled = <%= scope['::fail2ban::jails'].include? "sshd-ddos" %>
+enabled = <%= scope['::fail2ban::jails'].include? "ssh-ddos" %>
 port    = ssh
 logpath = %(sshd_log)s
 
