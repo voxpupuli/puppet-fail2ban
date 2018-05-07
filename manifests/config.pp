@@ -38,7 +38,7 @@ class fail2ban::config {
 
   # Operating system specific configuration
   case $::operatingsystem {
-    /^(RedHat|CentOS|Scientific)$/: {
+    /^(RedHat|CentOS|Scientific|SLC)$/: {
       # Not using firewalld by now
       file { '00-firewalld.conf':
         ensure  => 'absent',
