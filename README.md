@@ -324,6 +324,10 @@ suspicious logins. Defaults to "fail2ban@${::domain}".
 Determines which email address should notify about restricted hosts and
 suspicious logins. Defaults to 'fail2ban@${::fqdn}'.
 
+#### `iptables_chain`
+
+Determines chain where jumps will to be added in iptables-\* actions. Defaults to 'INPUT'.
+
 #### `jails`
 
 Determines which services should be protected by Fail2ban. Defaults to '['ssh', 'ssh-ddos']'.

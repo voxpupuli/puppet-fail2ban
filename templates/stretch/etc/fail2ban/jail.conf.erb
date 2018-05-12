@@ -93,7 +93,7 @@ mta = sendmail
 protocol = tcp
 
 # Specify chain where jumps would need to be added in iptables-* actions
-chain = INPUT
+chain = <%= scope['::fail2ban::iptables_chain'] %>
 
 #
 # Action shortcuts. To be used to define action parameter

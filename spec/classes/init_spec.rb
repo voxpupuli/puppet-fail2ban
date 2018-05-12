@@ -7,6 +7,24 @@ describe 'fail2ban', type: :class do
         facts
       end
 
+      begin
+        distname = facts[:os]['lsb']['distcodename']
+      rescue
+        distname = case facts[:os]['family']
+                   when 'RedHat'
+                     case facts[:os]['release']['major']
+                     when '6'
+                       'Santiago'
+                     when '7'
+                       'Maipo'
+                     else
+                       'unsupported_RedHat'
+                     end
+                   else
+                     'unsupported'
+                   end
+      end
+
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_anchor('fail2ban::begin') }
       it { is_expected.to contain_class('fail2ban::params') }
@@ -186,7 +204,7 @@ describe 'fail2ban', type: :class do
         context 'when content template' do
           let(:params) do
             {
-              config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb'
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb"
             }
           end
 
@@ -196,14 +214,14 @@ describe 'fail2ban', type: :class do
               'content' => %r{THIS FILE IS MANAGED BY PUPPET},
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
-            )
+            ).with_content(%r{^chain = INPUT$})
           end
         end
 
         context 'when content template (custom)' do
           let(:params) do
             {
-              config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb',
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
               config_file_options_hash: {
                 'key' => 'value'
               }
@@ -216,6 +234,21 @@ describe 'fail2ban', type: :class do
               'content' => %r{THIS FILE IS MANAGED BY PUPPET},
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
+            ).with_content(%r{^chain = INPUT$})
+          end
+        end
+
+        context 'when iptables chain provided' do
+          let(:params) do
+            {
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
+              iptables_chain: 'TEST'
+            }
+          end
+
+          it do
+            is_expected.to contain_file('fail2ban.conf').with_content(
+              %r{^chain = TEST$}
             )
           end
         end
