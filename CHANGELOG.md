@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.1.0) (2018-05-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+-  Use os structured fact instead of flat lsb facts [\#43](https://github.com/voxpupuli/puppet-fail2ban/pull/43) ([traylenator](https://github.com/traylenator))
+- Add configuration option for iptables\_chain [\#42](https://github.com/voxpupuli/puppet-fail2ban/pull/42) ([brwyatt](https://github.com/brwyatt))
+- support a backend parameter for jails [\#37](https://github.com/voxpupuli/puppet-fail2ban/pull/37) ([qs5779](https://github.com/qs5779))
+
+**Closed issues:**
+
+- Can't change sender email in jail.conf [\#51](https://github.com/voxpupuli/puppet-fail2ban/issues/51)
+- config\_file\_ensure is not recognized as parameter [\#40](https://github.com/voxpupuli/puppet-fail2ban/issues/40)
+- CentOS ssh jail template actually needs "sshd" [\#34](https://github.com/voxpupuli/puppet-fail2ban/issues/34)
+
+**Merged pull requests:**
+
+- Remove config\_file\_ensure [\#56](https://github.com/voxpupuli/puppet-fail2ban/pull/56) ([ekohl](https://github.com/ekohl))
+- Use Puppet 4 datatypes [\#55](https://github.com/voxpupuli/puppet-fail2ban/pull/55) ([ekohl](https://github.com/ekohl))
+- sender email variabilized [\#52](https://github.com/voxpupuli/puppet-fail2ban/pull/52) ([ryayon](https://github.com/ryayon))
+- Make 'ssh' and 'ssh-ddos' jail names be consistent across operating systems [\#50](https://github.com/voxpupuli/puppet-fail2ban/pull/50) ([saibot94](https://github.com/saibot94))
+
 ## [v2.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.0.0) (2018-03-30)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/1.3.4...v2.0.0)
@@ -15,7 +38,6 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - Transfer module to Vox Pupuli [\#46](https://github.com/voxpupuli/puppet-fail2ban/pull/46) ([bastelfreak](https://github.com/bastelfreak))
-- Corrected typo in variable name: maxretry [\#25](https://github.com/voxpupuli/puppet-fail2ban/pull/25) ([rigved](https://github.com/rigved))
 
 ## [1.3.4](https://github.com/voxpupuli/puppet-fail2ban/tree/1.3.4) (2016-11-30)
 
