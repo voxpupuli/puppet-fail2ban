@@ -21,3 +21,6 @@ port     = <%= @port %>
 <% if @backend -%>
 backend  = <%= @backend %>
 <% end -%>
+<% if !@ignoreip.empty? -%>
+ignoreip = <% @ignoreip.each do |ip_address| -%><%= ip_address %> <% end -%>
+<% end -%>

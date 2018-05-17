@@ -479,12 +479,14 @@ Users can add their own jails by using this YAML definition:
       maxretry: 3
       findtime: 120
       bantime: 1200
+      ignoreip: ['127.0.0.1', '192.168.1.1/24']
     'nginx-login':
       filter_failregex: '^<HOST> -.*POST /sessions HTTP/1\.." 200'
       action: 'iptables-multiport[name=NoLoginFailures, port="http,https"]'
       logpath: '/var/log/nginx*/*access*.log'
       maxretry: 6
       bantime: 600
+      ignoreip: ['127.0.0.1', '192.168.1.1/24']
 ```
 
 ## Limitations
