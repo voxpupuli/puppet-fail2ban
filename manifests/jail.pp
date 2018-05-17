@@ -14,6 +14,7 @@ define fail2ban::jail (
   Integer $bantime = $fail2ban::bantime,
   Optional[String] $port = undef,
   Optional[String] $backend = undef,
+  Optional[Array] $ignoreip = undef,
 
   Stdlib::Absolutepath $config_dir_filter_path = $fail2ban::config_dir_filter_path,
   Optional[String] $config_file_owner = $fail2ban::config_file_owner,
