@@ -13,9 +13,6 @@ when 'RedHat'
   service_name          = 'fail2ban'
   ssh_log_file          = '/var/log/secure'
   ssh_jail              = 'ssh'
-  # EPEL needs to be installed, otherwise it won't work
-  shell('wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm')
-  shell('rpm -ivh epel-release-latest-7.noarch.rpm && yum -y install redhat-lsb-core')
 end
 
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
