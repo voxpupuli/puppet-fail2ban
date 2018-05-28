@@ -164,6 +164,24 @@ describe 'fail2ban' do
         it { is_expected.to contain %r{^chain = TEST$} }
       end
     end
+
+    context 'when content template and custom banaction' do
+      it 'is_expected.to work with no errors' do
+        pp = <<-EOS
+          class { 'fail2ban':
+            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
+            banaction            => 'iptables'
+          }
+        EOS
+
+        apply_manifest(pp, catch_failures: true)
+      end
+
+      describe file(config_file_path) do
+        it { is_expected.to be_file }
+        it { is_expected.to contain %r{^banaction = iptables$} }
+      end
+    end
   end
 
   describe 'fail2ban::service' do

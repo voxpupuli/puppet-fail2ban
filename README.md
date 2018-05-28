@@ -346,6 +346,10 @@ Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 
 Determines which custom jails should be included (see [Custom jails](#custom-jails).
 
+#### `banaction`
+
+Determines which action to perform when performing a global ban (not overridden in a specific jail).
+
 ## Jails available
 
 ### Pre-defined jails
