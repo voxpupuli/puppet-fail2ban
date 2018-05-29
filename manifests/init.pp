@@ -38,6 +38,7 @@ class fail2ban (
   Integer[0] $maxretry = 3,
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   $custom_jails = undef,
+  String $banaction = 'iptables-multiport',
 ) inherits ::fail2ban::params {
   $config_file_content = default_content($config_file_string, $config_file_template)
 

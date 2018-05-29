@@ -252,6 +252,21 @@ describe 'fail2ban', type: :class do
             )
           end
         end
+
+        context 'when custom banaction is provided' do
+          let(:params) do
+            {
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
+              banaction: 'iptables'
+            }
+          end
+
+          it do
+            is_expected.to contain_file('fail2ban.conf').with_content(
+              %r{^banaction = iptables$}
+            )
+          end
+        end
       end
 
       describe 'fail2ban::service' do
