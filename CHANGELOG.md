@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.2.0) (2018-05-30)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.1.0...v2.2.0)
+
+**Implemented enhancements:**
+
+- Allow banaction to be Puppet managed [\#65](https://github.com/voxpupuli/puppet-fail2ban/pull/65) ([saibot94](https://github.com/saibot94))
+- Add ignoreip parameter to jail class and template [\#60](https://github.com/voxpupuli/puppet-fail2ban/pull/60) ([leonkoens](https://github.com/leonkoens))
+
+**Closed issues:**
+
+- Banaction in jail.conf cannot be configured by Puppet [\#64](https://github.com/voxpupuli/puppet-fail2ban/issues/64)
+- Acceptance tests don't work for CentOS 6 [\#57](https://github.com/voxpupuli/puppet-fail2ban/issues/57)
+
+**Merged pull requests:**
+
+- Remove docker nodesets [\#63](https://github.com/voxpupuli/puppet-fail2ban/pull/63) ([bastelfreak](https://github.com/bastelfreak))
+- drop EOL OSs; fix puppet version range [\#62](https://github.com/voxpupuli/puppet-fail2ban/pull/62) ([bastelfreak](https://github.com/bastelfreak))
+- Enable acceptance tests for CentOS 6 [\#54](https://github.com/voxpupuli/puppet-fail2ban/pull/54) ([traylenator](https://github.com/traylenator))
+
 ## [v2.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.1.0) (2018-05-12)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.0.0...v2.1.0)
