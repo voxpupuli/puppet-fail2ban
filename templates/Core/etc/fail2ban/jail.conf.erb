@@ -103,13 +103,13 @@ destemail = <%= scope['::fail2ban::email'] %>
 sendername = Fail2Ban
 
 # Email address of the sender
-sender = fail2ban@localhost
+sender = <%= scope['::fail2ban::sender'] %>
 
 # Default banning action (e.g. iptables, iptables-new,
 # iptables-multiport, shorewall, etc) It is used to define
 # action_* variables. Can be overridden globally or per
 # section within jail.local file
-banaction = iptables-multiport
+banaction = <%= scope['::fail2ban::banaction'] %>
 
 # email action. Since 0.8.1 upstream fail2ban uses sendmail
 # MTA for the mailing. Change mta configuration parameter to mail
@@ -120,7 +120,7 @@ mta = sendmail
 protocol = tcp
 
 # Specify chain where jumps would need to be added in iptables-* actions
-chain = INPUT
+chain = <%= scope['::fail2ban::iptables_chain'] %>
 
 #
 # Action shortcuts. To be used to define action parameter
@@ -186,8 +186,8 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 #
 
 [sshd]
-enabled = <%= scope['::fail2ban::jails'].include? "sshd" %>
-port    = <%= scope['::fail2ban::jail_ports'].key?('sshd') ? scope['::fail2ban::jail_ports']['sshd'] : 'ssh' %>
+enabled = <%= scope['::fail2ban::jails'].include? "ssh" %>
+port    = <%= scope['::fail2ban::jail_ports'].key?('ssh') ? scope['::fail2ban::jail_ports']['ssh'] : 'ssh' %>
 logpath = %(sshd_log)s
 
 
@@ -196,7 +196,7 @@ logpath = %(sshd_log)s
 # The mail-whois action send a notification e-mail with a whois request
 # in the body.
 enabled = <%= scope['::fail2ban::jails'].include? "sshd-ddos" %>
-port    = <%= scope['::fail2ban::jail_ports'].key?('sshd-ddos') ? scope['::fail2ban::jail_ports']['sshd-ddos'] : 'ssh' %>
+port    = <%= scope['::fail2ban::jail_ports'].key?('ssh') ? scope['::fail2ban::jail_ports']['ssh'] : 'ssh' %>
 logpath = %(sshd_log)s
 
 

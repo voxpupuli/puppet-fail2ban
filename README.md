@@ -246,11 +246,6 @@ values are 'true' and 'false'. Defaults to 'true'.
 
 Determines the source of a configuration directory. Defaults to 'undef'.
 
-#### `config_file_ensure`
-
-Determines if the configuration file should be present. Valid values are 'absent'
-and 'present'. Defaults to 'present'.
-
 #### `config_file_path`
 
 Determines if the configuration file should be managed. Defaults to '/etc/fail2ban/jail.conf'
@@ -324,6 +319,15 @@ Determines how many seconds ip addresses will be banned. Defaults to '432000'.
 Determines which email address should be notified about restricted hosts and
 suspicious logins. Defaults to "fail2ban@${::domain}".
 
+#### `sender`
+
+Determines which email address should notify about restricted hosts and
+suspicious logins. Defaults to 'fail2ban@${::fqdn}'.
+
+#### `iptables_chain`
+
+Determines chain where jumps will to be added in iptables-\* actions. Defaults to 'INPUT'.
+
 #### `jails`
 
 Determines which services should be protected by Fail2ban. Defaults to '['ssh', 'ssh-ddos']'.
@@ -353,6 +357,10 @@ Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
 #### `custom_jails`
 
 Determines which custom jails should be included (see [Custom jails](#custom-jails).
+
+#### `banaction`
+
+Determines which action to perform when performing a global ban (not overridden in a specific jail).
 
 ## Jails available
 
@@ -487,12 +495,14 @@ Users can add their own jails by using this YAML definition:
       maxretry: 3
       findtime: 120
       bantime: 1200
+      ignoreip: ['127.0.0.1', '192.168.1.1/24']
     'nginx-login':
       filter_failregex: '^<HOST> -.*POST /sessions HTTP/1\.." 200'
       action: 'iptables-multiport[name=NoLoginFailures, port="http,https"]'
       logpath: '/var/log/nginx*/*access*.log'
       maxretry: 6
       bantime: 600
+      ignoreip: ['127.0.0.1', '192.168.1.1/24']
 ```
 
 ## Limitations

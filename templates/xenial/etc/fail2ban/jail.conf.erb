@@ -134,7 +134,7 @@ filter = %(__name__)s
 destemail = <%= scope['::fail2ban::email'] %>
 
 # Sender email address used solely for some actions
-sender = root@localhost
+sender = <%= scope['::fail2ban::sender'] %>
 
 # E-mail action. Since 0.8.1 Fail2Ban uses sendmail MTA for the
 # mailing. Change mta configuration parameter to mail if you want to
@@ -145,7 +145,7 @@ mta = sendmail
 protocol = tcp
 
 # Specify chain where jumps would need to be added in iptables-* actions
-chain = INPUT
+chain = <%= scope['::fail2ban::iptables_chain'] %>
 
 # Ports to be banned
 # Usually should be overridden in a particular jail
@@ -158,7 +158,7 @@ port = 0:65535
 # iptables-multiport, shorewall, etc) It is used to define
 # action_* variables. Can be overridden globally or per
 # section within jail.local file
-banaction = iptables-multiport
+banaction = <%= scope['::fail2ban::banaction'] %>
 
 # The simplest action to take: ban only
 action_ = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]

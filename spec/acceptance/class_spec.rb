@@ -2,16 +2,23 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'Debian'
-  package_name     = 'fail2ban'
-  config_file_path = '/etc/fail2ban/jail.conf'
-  service_name     = 'fail2ban'
+  package_name          = 'fail2ban'
+  config_file_path      = '/etc/fail2ban/jail.conf'
+  service_name          = 'fail2ban'
+  ssh_log_file          = '/var/log/auth.log'
+  ssh_jail              = 'ssh'
 when 'RedHat'
-  package_name     = 'fail2ban'
-  config_file_path = '/etc/fail2ban/jail.conf'
-  service_name     = 'fail2ban'
+  package_name          = 'fail2ban'
+  config_file_path      = '/etc/fail2ban/jail.conf'
+  service_name          = 'fail2ban'
+  ssh_log_file          = '/var/log/secure'
+  ssh_jail              = 'ssh'
 end
 
-describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+# Ensure the ssh log file is created, otherwise the service doesn't start completely
+shell("touch #{ssh_log_file}")
+
+describe 'fail2ban' do
   it 'is_expected.to work with no errors' do
     pp = <<-EOS
       class { 'fail2ban': }
@@ -72,8 +79,11 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        # it { is_expected.not_to be_running }
-        it { is_expected.not_to be_enabled }
+        if fact('lsbdistcodename') == 'stretch'
+          it { is_expected.not_to be_running }
+        else
+          it { is_expected.not_to be_enabled }
+        end
       end
     end
 
@@ -87,7 +97,7 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
           }
         EOS
 
-        apply_manifest(pp, expect_failures: true)
+        apply_manifest(pp, expect_failures: false)
       end
 
       describe package(package_name) do
@@ -132,6 +142,44 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
       describe file(config_file_path) do
         it { is_expected.to be_file }
         it { is_expected.to contain 'THIS FILE IS MANAGED BY PUPPET' }
+        it { is_expected.to contain %r{^chain = INPUT$} }
+      end
+    end
+
+    context 'when content template and custom chain' do
+      it 'is_expected.to work with no errors' do
+        pp = <<-EOS
+          class { 'fail2ban':
+            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
+	    iptables_chain => 'TEST',
+          }
+        EOS
+
+        apply_manifest(pp, catch_failures: true)
+      end
+
+      describe file(config_file_path) do
+        it { is_expected.to be_file }
+        it { is_expected.to contain 'THIS FILE IS MANAGED BY PUPPET' }
+        it { is_expected.to contain %r{^chain = TEST$} }
+      end
+    end
+
+    context 'when content template and custom banaction' do
+      it 'is_expected.to work with no errors' do
+        pp = <<-EOS
+          class { 'fail2ban':
+            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.erb",
+            banaction            => 'iptables'
+          }
+        EOS
+
+        apply_manifest(pp, catch_failures: true)
+      end
+
+      describe file(config_file_path) do
+        it { is_expected.to be_file }
+        it { is_expected.to contain %r{^banaction = iptables$} }
       end
     end
   end
@@ -166,6 +214,17 @@ describe 'fail2ban', if: SUPPORTED_PLATFORMS.include?(fact('osfamily')) do
       describe service(service_name) do
         it { is_expected.not_to be_running }
         it { is_expected.to be_enabled }
+      end
+    end
+
+    context 'when checking default running services' do
+      it 'is expected.to have sshd and sshd-ddos enabled by default' do
+        pp = <<-EOS
+          class { 'fail2ban': }
+        EOS
+        apply_manifest(pp, catch_failures: true)
+        fail2ban_status = shell('fail2ban-client status')
+        expect(fail2ban_status.output).to contain ssh_jail
       end
     end
   end

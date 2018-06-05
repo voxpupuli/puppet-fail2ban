@@ -4,17 +4,15 @@ class fail2ban::config {
   # Load custom jails definition
   $config_custom_jails = hiera_hash('fail2ban::custom_jails', undef)
 
-  if $::fail2ban::config_dir_source {
-    file { 'fail2ban.dir':
-      ensure  => $::fail2ban::config_dir_ensure,
-      path    => $::fail2ban::config_dir_path,
-      force   => $::fail2ban::config_dir_purge,
-      purge   => $::fail2ban::config_dir_purge,
-      recurse => $::fail2ban::config_dir_recurse,
-      source  => $::fail2ban::config_dir_source,
-      notify  => $::fail2ban::config_file_notify,
-      require => $::fail2ban::config_file_require,
-    }
+  file { 'fail2ban.dir':
+    ensure  => $::fail2ban::config_dir_ensure,
+    path    => $::fail2ban::config_dir_path,
+    force   => $::fail2ban::config_dir_purge,
+    purge   => $::fail2ban::config_dir_purge,
+    recurse => $::fail2ban::config_dir_recurse,
+    source  => $::fail2ban::config_dir_source,
+    notify  => $::fail2ban::config_file_notify,
+    require => $::fail2ban::config_file_require,
   }
 
   if $::fail2ban::config_file_path {
@@ -37,8 +35,8 @@ class fail2ban::config {
   }
 
   # Operating system specific configuration
-  case $::operatingsystem {
-    /^(RedHat|CentOS|Scientific)$/: {
+  case $facts['os']['family'] {
+    'RedHat': {
       # Not using firewalld by now
       file { '00-firewalld.conf':
         ensure  => 'absent',
@@ -47,22 +45,18 @@ class fail2ban::config {
         require => $::fail2ban::config_file_require,
       }
     }
-    'Debian': {}
-    'Ubuntu': {
-      case $::lsbdistcodename {
-        # Remove debian defaults conf
-        'xenial': {
-          file { 'defaults-debian.conf':
-            ensure  => absent,
-            path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
-            require => $::fail2ban::config_file_require,
-          }
+    'Debian': {
+      # Remove debian defaults conf
+      if $facts['os']['release']['major'] == '16.04' {
+        file { 'defaults-debian.conf':
+          ensure  => absent,
+          path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
+          require => $::fail2ban::config_file_require,
         }
-        default: {}
       }
     }
     default: {
-      fail("${::operatingsystem} not supported.")
+      fail("${facts['os']['family']} not supported.")
     }
   }
 }
