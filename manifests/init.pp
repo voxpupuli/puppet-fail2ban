@@ -35,6 +35,7 @@ class fail2ban (
   String $sender = "fail2ban@${::fqdn}",
   String $iptables_chain = 'INPUT',
   Array[String] $jails = ['ssh', 'ssh-ddos'],
+  Hash[String, Any] $jail_ports = {},
   Integer[0] $maxretry = 3,
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   $custom_jails = undef,

@@ -332,6 +332,18 @@ Determines chain where jumps will to be added in iptables-\* actions. Defaults t
 
 Determines which services should be protected by Fail2ban. Defaults to '['ssh', 'ssh-ddos']'.
 
+#### `jail_ports`
+
+Hash overwriting the port for the default jails, i.e., if ssh is running in port 1234 
+this would update the jail accordingly without need to modify ssh entry on /etc/services
+
+```puppet
+    class { 'fail2ban':
+      ...
+      jail_ports => {'ssh' => '1234'}
+    }
+```
+
 #### `maxretry`
 
 Determines the number of failed login attempts needed to block a host.

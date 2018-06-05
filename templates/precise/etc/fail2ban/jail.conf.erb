@@ -102,7 +102,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 [ssh]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "ssh" %>
-port     = ssh
+port     = port    = <%= scope['::fail2ban::jail_ports'].key?('ssh') ? scope['::fail2ban::jail_ports']['ssh'] : 'ssh' %>
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -110,7 +110,7 @@ maxretry = 6
 [dropbear]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "dropbear" %>
-port     = ssh
+port    = <%= scope['::fail2ban::jail_ports'].key?('dropbear') ? scope['::fail2ban::jail_ports']['dropbear'] : 'ssh' %>
 filter   = sshd
 logpath  = /var/log/dropbear
 maxretry = 6
@@ -142,7 +142,7 @@ maxretry  = 2
 [ssh-ddos]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "ssh-ddos" %>
-port     = ssh
+port     = <%= scope['::fail2ban::jail_ports'].key?('sshd-ddos') ? scope['::fail2ban::jail_ports']['sshd-ddos'] : 'ssh' %>
 filter   = sshd-ddos
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -154,7 +154,7 @@ maxretry = 6
 [apache]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "apache" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache') ? scope['::fail2ban::jail_ports']['apache'] : 'http,https' %>
 filter   = apache-auth
 logpath  = /var/log/apache*/*error.log
 maxretry = 6
@@ -164,7 +164,7 @@ maxretry = 6
 [apache-multiport]
 
 enabled   = <%= scope['::fail2ban::jails'].include? "apache-multiport" %>
-port      = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-multiport') ? scope['::fail2ban::jail_ports']['apache-multiport'] : 'http,https' %>
 filter    = apache-auth
 logpath   = /var/log/apache*/*error.log
 maxretry  = 6
@@ -172,7 +172,7 @@ maxretry  = 6
 [apache-noscript]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "apache-noscript" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-noscript') ? scope['::fail2ban::jail_ports']['apache-noscript'] : 'http,https' %>
 filter   = apache-noscript
 logpath  = /var/log/apache*/*error.log
 maxretry = 6
@@ -180,7 +180,7 @@ maxretry = 6
 [apache-overflows]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "apache-overflows" %>
-port     = http,https
+port     = <%= scope['::fail2ban::jail_ports'].key?('apache-overflows') ? scope['::fail2ban::jail_ports']['apache-overflows'] : 'http,https' %>
 filter   = apache-overflows
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
@@ -192,7 +192,7 @@ maxretry = 2
 [vsftpd]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "vsftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('vsftpd') ? scope['::fail2ban::jail_ports']['vsftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 filter   = vsftpd
 logpath  = /var/log/vsftpd.log
 # or overwrite it in jails.local to be
@@ -205,7 +205,7 @@ maxretry = 6
 [proftpd]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "proftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('proftpd') ? scope['::fail2ban::jail_ports']['proftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 filter   = proftpd
 logpath  = /var/log/proftpd/proftpd.log
 maxretry = 6
@@ -214,7 +214,7 @@ maxretry = 6
 [pure-ftpd]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "pure-ftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('pure-ftpd') ? scope['::fail2ban::jail_ports']['pure-ftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 filter   = pure-ftpd
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -223,7 +223,7 @@ maxretry = 6
 [wuftpd]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "wuftpd" %>
-port     = ftp,ftp-data,ftps,ftps-data
+port     = <%= scope['::fail2ban::jail_ports'].key?('wuftpd') ? scope['::fail2ban::jail_ports']['wuftpd'] : 'ftp,ftp-data,ftps,ftps-data' %>
 filter   = wuftpd
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -236,7 +236,7 @@ maxretry = 6
 [postfix]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "postfix" %>
-port     = smtp,ssmtp
+port     = <%= scope['::fail2ban::jail_ports'].key?('postfix') ? scope['::fail2ban::jail_ports']['postfix'] : 'smtp,ssmtp,submission' %>
 filter   = postfix
 logpath  = /var/log/mail.log
 
@@ -244,7 +244,7 @@ logpath  = /var/log/mail.log
 [couriersmtp]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "couriersmtp" %>
-port     = smtp,ssmtp
+port     = <%= scope['::fail2ban::jail_ports'].key?('couriersmtp') ? scope['::fail2ban::jail_ports']['couriersmtp'] : 'smtp,ssmtp,submission' %>
 filter   = couriersmtp
 logpath  = /var/log/mail.log
 
@@ -257,7 +257,7 @@ logpath  = /var/log/mail.log
 [courierauth]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "courierauth" %>
-port     = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
+port     = <%= scope['::fail2ban::jail_ports'].key?('courierauth') ? scope['::fail2ban::jail_ports']['courierauth'] : 'smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s' %>
 filter   = courierlogin
 logpath  = /var/log/mail.log
 
@@ -265,7 +265,8 @@ logpath  = /var/log/mail.log
 [sasl]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "sasl" %>
-port     = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
+port     = <%= scope['::fail2ban::jail_ports'].key?('sasl') ? scope['::fail2ban::jail_ports']['sasl'] : 'smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s' %>
+
 filter   = sasl
 # You might consider monitoring /var/log/mail.warn instead if you are
 # running postfix since it would provide the same log lines at the
@@ -275,7 +276,8 @@ logpath  = /var/log/mail.log
 [dovecot]
 
 enabled = <%= scope['::fail2ban::jails'].include? "dovecot" %>
-port    = smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s
+port    = <%= scope['::fail2ban::jail_ports'].key?('dovecot') ? scope['::fail2ban::jail_ports']['dovecot'] : 'smtp,ssmtp,imap2,imap3,imaps,pop3,pop3s' %>
+
 filter  = dovecot
 logpath = /var/log/mail.log
 
@@ -316,7 +318,7 @@ logpath = /var/log/mail.log
 [named-refused-tcp]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "named-refused-tcp" %>
-port     = domain,953
+port     = <%= scope['::fail2ban::jail_ports'].key?('named-refused-tcp') ? scope['::fail2ban::jail_ports']['named-refused-tcp'] : 'domain,953' %>
 protocol = tcp
 filter   = named-refused
 logpath  = /var/log/named/security.log
