@@ -15,9 +15,10 @@ class fail2ban (
   String $config_file_owner = $::fail2ban::params::config_file_owner,
   String $config_file_group = $::fail2ban::params::config_file_group,
   String $config_file_mode = $::fail2ban::params::config_file_mode,
-  Optional[String] $config_file_source = undef,
-  Optional[String] $config_file_string = undef,
-  Optional[String] $config_file_template = undef,
+  String $config_file_before = $::fail2ban::params::before_file,
+  Optional[String]] $config_file_source = undef,
+  Optional[String]] $config_file_string = undef,
+  Optional[String]] $config_file_template = undef,
 
   String $config_file_notify = $::fail2ban::params::config_file_notify,
   String $config_file_require = $::fail2ban::params::config_file_require,

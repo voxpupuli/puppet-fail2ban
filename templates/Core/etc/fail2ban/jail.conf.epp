@@ -19,7 +19,7 @@
 
 [INCLUDES]
 
-before = paths-fedora.conf
+before = <%= $fail2ban::before_file %>
 
 # The DEFAULT allows a global definition of the options. They can be overridden
 # in each jail afterwards.

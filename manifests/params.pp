@@ -41,6 +41,12 @@ class fail2ban::params {
     default => 'Package[fail2ban]',
   }
 
+  $before_file = $::osfamily ? {
+    'Debian' => 'paths-debian.conf',
+    'RedHat' => 'paths-fedora.conf',
+    default  => 'paths-fedora.conf',
+  }
+
   $service_name = $::osfamily ? {
     default => 'fail2ban',
   }
