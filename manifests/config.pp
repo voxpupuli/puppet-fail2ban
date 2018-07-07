@@ -47,12 +47,10 @@ class fail2ban::config {
     }
     'Debian': {
       # Remove debian defaults conf
-      if $facts['os']['release']['major'] == '16.04' {
-        file { 'defaults-debian.conf':
-          ensure  => absent,
-          path    => "${::fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
-          require => $::fail2ban::config_file_require,
-        }
+      file { 'defaults-debian.conf':
+        ensure  => absent,
+        path    => "${fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
+        require => $fail2ban::config_file_require,
       }
     }
     default: {
