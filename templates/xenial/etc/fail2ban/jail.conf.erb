@@ -221,7 +221,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 # SSH servers
 #
 
-[sshd]
+[ssh]
 
 enabled = <%= scope['::fail2ban::jails'].include? "ssh" %>
 port    = ssh
