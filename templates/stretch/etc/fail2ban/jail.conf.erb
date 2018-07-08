@@ -117,7 +117,7 @@ action_mwl = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(proto
 # Choose default action.  To change, just override value of 'action' with the
 # interpolation to the chosen action shortcut (e.g.  action_mw, action_mwl, etc) in jail.local
 # globally (section [DEFAULT]) or per specific section
-#action = %(<%= scope['::fail2ban::action'] %>)s
+action = %(<%= scope['::fail2ban::action'] %>)s
 
 #
 # JAILS
@@ -135,7 +135,7 @@ action_mwl = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(proto
 # Optionally you may override any other parameter (e.g. banaction,
 # action, port, logpath, etc) in that section within jail.local
 
-[ssh]
+[sshd]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "ssh" %>
 port     = ssh
