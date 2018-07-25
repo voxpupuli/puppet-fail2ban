@@ -668,7 +668,7 @@ logpath = /opt/kerio/mailserver/store/logs/security.log
 [courier-auth]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "courier-auth" %>
-port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+port     = smtp,465,submission,imap,imaps,pop3,pop3s
 logpath  = %(syslog_mail)s
 backend  = %(syslog_backend)s
 
@@ -676,7 +676,7 @@ backend  = %(syslog_backend)s
 [postfix-sasl]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "postfix-sasl" %>
-port     = smtp,465,submission,imap3,imaps,pop3,pop3s
+port     = smtp,465,submission,imap,imaps,pop3,pop3s
 # You might consider monitoring /var/log/mail.warn instead if you are
 # running postfix since it would provide the same log lines at the
 # "warn" level but overall at the smaller filesize.
@@ -687,7 +687,7 @@ backend  = %(postfix_backend)s
 [perdition]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "perdition" %>
-port   = imap3,imaps,pop3,pop3s
+port   = imap,imaps,pop3,pop3s
 logpath = %(syslog_mail)s
 backend = %(syslog_backend)s
 
@@ -695,14 +695,14 @@ backend = %(syslog_backend)s
 [squirrelmail]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "squirrelmail" %>
-port = smtp,465,submission,imap2,imap3,imaps,pop3,pop3s,http,https,socks
+port = smtp,465,submission,imap2,imap,imaps,pop3,pop3s,http,https,socks
 logpath = /var/lib/squirrelmail/prefs/squirrelmail_access_log
 
 
 [cyrus-imap]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "cyrus-imap" %>
-port   = imap3,imaps
+port   = imap,imaps
 logpath = %(syslog_mail)s
 backend = %(syslog_backend)s
 
@@ -710,7 +710,7 @@ backend = %(syslog_backend)s
 [uwimap-auth]
 
 enabled  = <%= scope['::fail2ban::jails'].include? "uwimap-auth" %>
-port   = imap3,imaps
+port   = imap,imaps
 logpath = %(syslog_mail)s
 backend = %(syslog_backend)s
 
