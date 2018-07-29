@@ -560,7 +560,6 @@ logpath  = /var/log/messages     ; nrpe.cfg may define a different log_facility
 maxretry = 1
 
 
-<% if $additional_jails { -%>
 #
 # Additional jails
 #
@@ -610,4 +609,3 @@ filter = nginx-proxy
 logpath = /var/log/nginx*/*access*.log
 maxretry = 0
 bantime  = 86400 # 1 day
-<% } -%>
