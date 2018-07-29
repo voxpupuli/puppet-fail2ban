@@ -204,7 +204,7 @@ describe 'fail2ban', type: :class do
         context 'when content template' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb"
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp"
             }
           end
 
@@ -221,7 +221,7 @@ describe 'fail2ban', type: :class do
         context 'when content template (custom)' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
               config_file_options_hash: {
                 'key' => 'value'
               }
@@ -241,7 +241,7 @@ describe 'fail2ban', type: :class do
         context 'when iptables chain provided' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
               iptables_chain: 'TEST'
             }
           end
@@ -256,7 +256,7 @@ describe 'fail2ban', type: :class do
         context 'when custom banaction is provided' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.erb",
+              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
               banaction: 'iptables'
             }
           end

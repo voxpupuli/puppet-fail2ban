@@ -47,7 +47,7 @@ describe 'fail2ban::define', type: :define do
       context 'when content template' do
         let(:params) do
           {
-            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb'
+            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.epp'
           }
         end
 
@@ -64,7 +64,7 @@ describe 'fail2ban::define', type: :define do
       context 'when content template (custom)' do
         let(:params) do
           {
-            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.erb',
+            config_file_template: 'fail2ban/wheezy/etc/fail2ban/jail.conf.epp',
             config_file_options_hash: {
               'key' => 'value'
             }
