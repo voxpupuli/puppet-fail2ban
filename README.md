@@ -59,7 +59,7 @@ Install fail2ban with the recommended parameters.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.epp",
     }
 ```
 
@@ -75,14 +75,14 @@ configuration template:
 
 ```puppet
   class { 'fail2ban':
-    config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+    config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.epp"
   }
 ```
 
 Or using Hiera:
 
 ```hiera
-fail2ban::config_file_template: "fail2ban/%{::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+fail2ban::config_file_template: "fail2ban/%{::lsbdistcodename}/etc/fail2ban/jail.conf.epp"
 ```
 
 ## Usage
@@ -149,7 +149,7 @@ Deploy the configuration file from template.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.epp",
     }
 ```
 
@@ -158,7 +158,7 @@ be defined)***.
 
 ```puppet
     class { 'fail2ban':
-      config_file_template     => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.erb",
+      config_file_template     => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.conf.epp",
       config_file_options_hash => {
         'key' => 'value',
       },
@@ -180,7 +180,7 @@ Deploy additional configuration files from source, string or template.
         },
         'jail.4th.conf' => {
           config_file_path     => '/etc/fail2ban/jail.4th.conf',
-          config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.erb",
+          config_file_template => "fail2ban/${::lsbdistcodename}/etc/fail2ban/jail.4th.conf.epp",
         },
       },
     }

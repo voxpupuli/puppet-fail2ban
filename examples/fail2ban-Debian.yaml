@@ -1,5 +1,5 @@
 ---
-fail2ban::config_file_template: "fail2ban/%{::lsbdistcodename}/etc/fail2ban/jail.conf.erb"
+fail2ban::config_file_template: "fail2ban/%{::lsbdistcodename}/etc/fail2ban/jail.conf.epp"
 fail2ban::action: 'action_mb'
 fail2ban::bantime: 600
 fail2ban::email: "admin@%{::domain}"

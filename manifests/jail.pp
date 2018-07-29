@@ -29,7 +29,7 @@ define fail2ban::jail (
   file { "custom_filter_${name}":
     ensure  => file,
     path    => "${config_dir_filter_path}/${name}.conf",
-    content => template('fail2ban/common/custom_filter.conf.erb'),
+    content => epp('fail2ban/common/custom_filter.conf.epp'),
     owner   => $config_file_owner,
     group   => $config_file_group,
     mode    => $config_file_mode,
@@ -41,7 +41,7 @@ define fail2ban::jail (
   file { "custom_jail_${name}":
     ensure  => file,
     path    => "${::fail2ban::params::config_dir_path}/jail.d/${name}.conf",
-    content => template('fail2ban/common/custom_jail.conf.erb'),
+    content => epp('fail2ban/common/custom_jail.conf.epp'),
     owner   => $config_file_owner,
     group   => $config_file_group,
     mode    => $config_file_mode,

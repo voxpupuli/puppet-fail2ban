@@ -23,16 +23,16 @@
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
 # ban a host which matches an address in this list. Several addresses can be
 # defined using space separator.
-ignoreip = <%= scope['::fail2ban::whitelist'].join(" ") %>
+ignoreip = <%= $fail2ban::whitelist.join(" ") %>
 
 
 # "bantime" is the number of seconds that a host is banned.
-bantime  = <%= scope['::fail2ban::bantime'] %>
+bantime  = <%= $fail2ban::bantime %>
 
 # A host is banned if it has generated "maxretry" during the last "findtime"
 # seconds.
 findtime = 600
-maxretry = <%= scope['::fail2ban::maxretry'] %>
+maxretry = <%= $fail2ban::maxretry %>
 
 # "backend" specifies the backend used to get files modification.
 # Available options are "pyinotify", "gamin", "polling" and "auto".
@@ -60,7 +60,7 @@ usedns = warn
 #
 # Destination email address used solely for the interpolations in
 # jail.{conf,local} configuration files.
-destemail = <%= scope['::fail2ban::email'] %>
+destemail = <%= $fail2ban::email %>
 
 #
 # Name of the sender for mta actions
@@ -74,7 +74,7 @@ sendername = Fail2Ban
 # iptables-multiport, shorewall, etc) It is used to define
 # action_* variables. Can be overridden globally or per
 # section within jail.local file
-banaction = <%= scope['::fail2ban::banaction'] %>
+banaction = <%= $fail2ban::banaction %>
 
 # email action. Since 0.8.1 upstream fail2ban uses sendmail
 # MTA for the mailing. Change mta configuration parameter to mail
@@ -85,7 +85,7 @@ mta = sendmail
 protocol = tcp
 
 # Specify chain where jumps would need to be added in iptables-* actions
-chain = <%= scope['::fail2ban::iptables_chain'] %>
+chain = <%= $fail2ban::iptables_chain %>
 
 #
 # Action shortcuts. To be used to define action parameter
@@ -109,7 +109,7 @@ action_mwl = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(proto
 # Choose default action.  To change, just override value of 'action' with the
 # interpolation to the chosen action shortcut (e.g.  action_mw, action_mwl, etc) in jail.local
 # globally (section [DEFAULT]) or per specific section
-action = %(<%= scope['::fail2ban::action'] %>)s
+action = %(<%= $fail2ban::action %>)s
 
 #
 # JAILS
@@ -129,7 +129,7 @@ action = %(<%= scope['::fail2ban::action'] %>)s
 
 [ssh]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "ssh" %>
+enabled  = <%= "ssh" in $fail2ban::jails %>
 port     = ssh
 filter   = sshd
 logpath  = /var/log/auth.log
@@ -137,7 +137,7 @@ maxretry = 6
 
 [dropbear]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "dropbear" %>
+enabled  = <%= "dropbear" in $fail2ban::jails %>
 port     = ssh
 filter   = dropbear
 logpath  = /var/log/auth.log
@@ -147,7 +147,7 @@ maxretry = 6
 # such as iptables-allports, shorewall
 [pam-generic]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "pam-generic" %>
+enabled  = <%= "pam-generic" in $fail2ban::jails %>
 # pam-generic filter can be customized to monitor specific subset of 'tty's
 filter   = pam-generic
 # port actually must be irrelevant but lets leave it all for some possible uses
@@ -159,7 +159,7 @@ maxretry = 6
 
 [xinetd-fail]
 
-enabled   = <%= scope['::fail2ban::jails'].include? "xinetd-fail" %>
+enabled   = <%= "xinetd-fail" in $fail2ban::jails %>
 filter    = xinetd-fail
 port      = all
 banaction = iptables-multiport-log
@@ -169,7 +169,7 @@ maxretry  = 2
 
 [ssh-ddos]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "ssh-ddos" %>
+enabled  = <%= "ssh-ddos" in $fail2ban::jails %>
 port     = ssh
 filter   = sshd-ddos
 logpath  = /var/log/auth.log
@@ -181,7 +181,7 @@ maxretry = 6
 
 [ssh-route]
 
-enabled = <%= scope['::fail2ban::jails'].include? "ssh-route" %>
+enabled = <%= "ssh-route" in $fail2ban::jails %>
 filter = sshd
 action = route
 logpath = /var/log/sshd.log
@@ -194,7 +194,7 @@ maxretry = 6
 # requires the ipset package and kernel support.
 [ssh-iptables-ipset4]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "ssh-iptables-ipset4" %>
+enabled  = <%= "ssh-iptables-ipset4" in $fail2ban::jails %>
 port     = ssh
 filter   = sshd
 banaction = iptables-ipset-proto4
@@ -203,7 +203,7 @@ maxretry = 6
 
 [ssh-iptables-ipset6]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "ssh-iptables-ipset6" %>
+enabled  = <%= "ssh-iptables-ipset6" in $fail2ban::jails %>
 port     = ssh
 filter   = sshd
 banaction = iptables-ipset-proto6
@@ -217,7 +217,7 @@ maxretry = 6
 
 [apache]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "apache" %>
+enabled  = <%= "apache" in $fail2ban::jails %>
 port     = http,https
 filter   = apache-auth
 logpath  = /var/log/apache*/*error.log
@@ -227,7 +227,7 @@ maxretry = 6
 # for compatibility with previous (<0.7.6-2) releases
 [apache-multiport]
 
-enabled   = <%= scope['::fail2ban::jails'].include? "apache-multiport" %>
+enabled   = <%= "apache-multiport" in $fail2ban::jails %>
 port      = http,https
 filter    = apache-auth
 logpath   = /var/log/apache*/*error.log
@@ -235,7 +235,7 @@ maxretry  = 6
 
 [apache-noscript]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "apache-noscript" %>
+enabled  = <%= "apache-noscript" in $fail2ban::jails %>
 port     = http,https
 filter   = apache-noscript
 logpath  = /var/log/apache*/*error.log
@@ -243,7 +243,7 @@ maxretry = 6
 
 [apache-overflows]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "apache-overflows" %>
+enabled  = <%= "apache-overflows" in $fail2ban::jails %>
 port     = http,https
 filter   = apache-overflows
 logpath  = /var/log/apache*/*error.log
@@ -255,7 +255,7 @@ maxretry = 2
 
 [php-url-fopen]
 
-enabled = <%= scope['::fail2ban::jails'].include? "php-url-fopen" %>
+enabled = <%= "php-url-fopen" in $fail2ban::jails %>
 port    = http,https
 filter  = php-url-fopen
 logpath = /var/www/*/logs/access_log
@@ -268,7 +268,7 @@ logpath = /var/www/*/logs/access_log
 
 [lighttpd-fastcgi]
 
-enabled = <%= scope['::fail2ban::jails'].include? "lighttpd-fastcgi" %>
+enabled = <%= "lighttpd-fastcgi" in $fail2ban::jails %>
 port    = http,https
 filter  = lighttpd-fastcgi
 logpath = /var/log/lighttpd/error.log
@@ -278,14 +278,14 @@ logpath = /var/log/lighttpd/error.log
 
 [lighttpd-auth]
 
-enabled = <%= scope['::fail2ban::jails'].include? "lighttpd-auth" %>
+enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
 port    = http,https
 filter  = suhosin
 logpath = /var/log/lighttpd/error.log
 
 [nginx-http-auth]
 
-enabled = <%= scope['::fail2ban::jails'].include? "nginx-http-auth" %>
+enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
 filter  = nginx-http-auth
 port    = http,https
 logpath = /var/log/nginx/error.log
@@ -294,7 +294,7 @@ logpath = /var/log/nginx/error.log
 
 [roundcube-auth]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "roundcube-auth" %>
+enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
 filter   = roundcube-auth
 port     = http,https
 logpath  = /var/log/roundcube/userlogins
@@ -302,7 +302,7 @@ logpath  = /var/log/roundcube/userlogins
 
 [sogo-auth]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "sogo-auth" %>
+enabled  = <%= "sogo-auth" in $fail2ban::jails %>
 filter   = sogo-auth
 port     = http, https
 # without proxy this would be:
@@ -316,7 +316,7 @@ logpath  = /var/log/sogo/sogo.log
 
 [vsftpd]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "vsftpd" %>
+enabled  = <%= "vsftpd" in $fail2ban::jails %>
 port     = ftp,ftp-data,ftps,ftps-data
 filter   = vsftpd
 logpath  = /var/log/vsftpd.log
@@ -329,7 +329,7 @@ maxretry = 6
 
 [proftpd]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "proftpd" %>
+enabled  = <%= "proftpd" in $fail2ban::jails %>
 port     = ftp,ftp-data,ftps,ftps-data
 filter   = proftpd
 logpath  = /var/log/proftpd/proftpd.log
@@ -338,7 +338,7 @@ maxretry = 6
 
 [pure-ftpd]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "pure-ftpd" %>
+enabled  = <%= "pure-ftpd" in $fail2ban::jails %>
 port     = ftp,ftp-data,ftps,ftps-data
 filter   = pure-ftpd
 logpath  = /var/log/syslog
@@ -347,7 +347,7 @@ maxretry = 6
 
 [wuftpd]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "wuftpd" %>
+enabled  = <%= "wuftpd" in $fail2ban::jails %>
 port     = ftp,ftp-data,ftps,ftps-data
 filter   = wuftpd
 logpath  = /var/log/syslog
@@ -360,7 +360,7 @@ maxretry = 6
 
 [postfix]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "postfix" %>
+enabled  = <%= "postfix" in $fail2ban::jails %>
 port     = smtp,ssmtp,submission
 filter   = postfix
 logpath  = /var/log/mail.log
@@ -368,7 +368,7 @@ logpath  = /var/log/mail.log
 
 [couriersmtp]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "couriersmtp" %>
+enabled  = <%= "couriersmtp" in $fail2ban::jails %>
 port     = smtp,ssmtp,submission
 filter   = couriersmtp
 logpath  = /var/log/mail.log
@@ -381,7 +381,7 @@ logpath  = /var/log/mail.log
 
 [courierauth]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "courierauth" %>
+enabled  = <%= "courierauth" in $fail2ban::jails %>
 port     = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter   = courierlogin
 logpath  = /var/log/mail.log
@@ -389,7 +389,7 @@ logpath  = /var/log/mail.log
 
 [sasl]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "sasl" %>
+enabled  = <%= "sasl" in $fail2ban::jails %>
 port     = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter   = postfix-sasl
 # You might consider monitoring /var/log/mail.warn instead if you are
@@ -399,7 +399,7 @@ logpath  = /var/log/mail.log
 
 [dovecot]
 
-enabled = <%= scope['::fail2ban::jails'].include? "dovecot" %>
+enabled = <%= "dovecot" in $fail2ban::jails %>
 port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
 filter  = dovecot
 logpath = /var/log/mail.log
@@ -409,7 +409,7 @@ logpath = /var/log/mail.log
 # log-warning = 2
 [mysqld-auth]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "mysqld-auth" %>
+enabled  = <%= "mysqld-auth" in $fail2ban::jails %>
 filter   = mysqld-auth
 port     = 3306
 logpath  = /var/log/mysqld.log
@@ -451,7 +451,7 @@ logpath  = /var/log/mysqld.log
 
 [named-refused-tcp]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "named-refused-tcp" %>
+enabled  = <%= "named-refused-tcp" in $fail2ban::jails %>
 port     = domain,953
 protocol = tcp
 filter   = named-refused
@@ -461,7 +461,7 @@ logpath  = /var/log/named/security.log
 # see https://github.com/fail2ban/fail2ban/issues/37
 [asterisk-tcp]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "asterisk-tcp" %>
+enabled  = <%= "asterisk-tcp" in $fail2ban::jails %>
 filter   = asterisk
 port     = 5060,5061
 protocol = tcp
@@ -469,7 +469,7 @@ logpath  = /var/log/asterisk/messages
 
 [asterisk-udp]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "asterisk-udp" %>
+enabled  = <%= "asterisk-udp" in $fail2ban::jails %>
 filter	 = asterisk
 port     = 5060,5061
 protocol = udp
@@ -483,7 +483,7 @@ logpath  = /var/log/asterisk/messages
 #   an infinite loop constantly feeding itself with non-informative lines
 [recidive]
 
-enabled  = <%= scope['::fail2ban::jails'].include? "recidive" %>
+enabled  = <%= "recidive" in $fail2ban::jails %>
 filter   = recidive
 logpath  = /var/log/fail2ban.log
 action   = iptables-allports[name=recidive]
