@@ -9,7 +9,7 @@ define fail2ban::jail (
   Optional[String] $action = undef,
   String $filter = $title,
   String $logpath = undef,
-  Integer $maxretry = $fail2ban::maxtretry,
+  Integer $maxretry = $fail2ban::maxretry,
   Optional[Integer] $findtime = undef,
   Integer $bantime = $fail2ban::bantime,
   Optional[String] $port = undef,
