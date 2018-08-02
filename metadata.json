@@ -1,6 +1,6 @@
 {
   "name": "puppet-fail2ban",
-  "version": "2.3.0",
+  "version": "2.3.1-rc0",
   "author": "Vox Pupuli",
   "summary": "This module installs, configures and manages the Fail2ban service.",
   "license": "Apache-2.0",
