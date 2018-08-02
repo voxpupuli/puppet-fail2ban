@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.3.0) (2018-07-29)
+## [v2.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.3.0) (2018-08-01)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.2.0...v2.3.0)
 
@@ -14,12 +14,19 @@ These should not affect the functionality of the module.
 
 **Fixed bugs:**
 
+- Fix typo in parameter default [\#80](https://github.com/voxpupuli/puppet-fail2ban/pull/80) ([ekohl](https://github.com/ekohl))
 - Fix action for strech template [\#72](https://github.com/voxpupuli/puppet-fail2ban/pull/72) ([sileht](https://github.com/sileht))
 
 **Closed issues:**
 
 - Error: Unknown function: 'default\_content' [\#70](https://github.com/voxpupuli/puppet-fail2ban/issues/70)
 - Unknown function: 'default\_content [\#69](https://github.com/voxpupuli/puppet-fail2ban/issues/69)
+- Typo in variable name [\#24](https://github.com/voxpupuli/puppet-fail2ban/issues/24)
+
+**Merged pull requests:**
+
+- Switch to epp templates [\#79](https://github.com/voxpupuli/puppet-fail2ban/pull/79) ([smortex](https://github.com/smortex))
+- Add unit test for checking sender address [\#75](https://github.com/voxpupuli/puppet-fail2ban/pull/75) ([smortex](https://github.com/smortex))
 
 ## [v2.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.2.0) (2018-05-30)
 
