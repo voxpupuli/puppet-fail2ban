@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.3.0) (2018-08-01)
+## [v2.4.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.4.0) (2018-08-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.3.0...v2.4.0)
+
+**Implemented enhancements:**
+
+- Make `before` setting in jail.conf configurable [\#68](https://github.com/voxpupuli/puppet-fail2ban/pull/68) ([arjenz](https://github.com/arjenz))
+
+**Closed issues:**
+
+- Debian Stretch [\#36](https://github.com/voxpupuli/puppet-fail2ban/issues/36)
+
+## [v2.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.3.0) (2018-08-02)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.2.0...v2.3.0)
 
