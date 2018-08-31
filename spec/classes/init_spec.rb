@@ -294,6 +294,12 @@ describe 'fail2ban', type: :class do
           end
         end
       end
+
+      describe 'fail2ban::jail' do
+        it do
+          is_expected.to compile
+        end
+      end
     end
   end
 end
