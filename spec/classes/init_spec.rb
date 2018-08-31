@@ -297,7 +297,7 @@ describe 'fail2ban', type: :class do
 
       describe 'fail2ban::jail' do
         it do
-          is_expected.to compile
+          is_expected.to compile.with_all_deps
         end
       end
     end
