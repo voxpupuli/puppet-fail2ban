@@ -29,7 +29,15 @@ define fail2ban::jail (
   file { "custom_filter_${name}":
     ensure  => file,
     path    => "${config_dir_filter_path}/${name}.conf",
-    content => epp('fail2ban/common/custom_filter.conf.epp'),
+    content => epp('fail2ban/common/custom_filter.conf.epp',
+      {
+        findtime                 => $findtime,
+        filter_includes          => $filter_includes,
+        filter_additional_config => $filter_additional_config,
+        filter_failregex         => $filter_failregex,
+        filter_ignoreregex       => $filter_ignoreregex,
+      }
+    ),
     owner   => $config_file_owner,
     group   => $config_file_group,
     mode    => $config_file_mode,
@@ -41,7 +49,21 @@ define fail2ban::jail (
   file { "custom_jail_${name}":
     ensure  => file,
     path    => "${::fail2ban::params::config_dir_path}/jail.d/${name}.conf",
-    content => epp('fail2ban/common/custom_jail.conf.epp'),
+    content => epp('fail2ban/common/custom_jail.conf.epp',
+      {
+        name     => $name,
+        enabled  => $enabled,
+        action   => $action,
+        filter   => $filter,
+        logpath  => $logpath,
+        maxretry => $maxretry,
+        findtime => $findtime,
+        bantime  => $bantime,
+        port     => $port,
+        backend  => $backend,
+        ignoreip => $ignoreip,
+      }
+    ),
     owner   => $config_file_owner,
     group   => $config_file_group,
     mode    => $config_file_mode,
