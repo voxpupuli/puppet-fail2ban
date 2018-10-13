@@ -2,5 +2,3 @@ fixtures:
   repositories:
     extlib: "git://github.com/voxpupuli/puppet-extlib.git"
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
-  symlinks:
-    fail2ban: "#{source_dir}"
