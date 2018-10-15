@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.4.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.4.0) (2018-08-18)
+## [v2.4.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.4.0) (2018-10-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.3.0...v2.4.0)
 
@@ -12,9 +12,22 @@ These should not affect the functionality of the module.
 
 - Make `before` setting in jail.conf configurable [\#68](https://github.com/voxpupuli/puppet-fail2ban/pull/68) ([arjenz](https://github.com/arjenz))
 
+**Fixed bugs:**
+
+- Bugfix for broken epp templates [\#86](https://github.com/voxpupuli/puppet-fail2ban/pull/86) ([cFire](https://github.com/cFire))
+
 **Closed issues:**
 
+- SyntaxError on debian stretch epp template [\#84](https://github.com/voxpupuli/puppet-fail2ban/issues/84)
+- help for load custom jails on debian [\#74](https://github.com/voxpupuli/puppet-fail2ban/issues/74)
 - Debian Stretch [\#36](https://github.com/voxpupuli/puppet-fail2ban/issues/36)
+- Custom jail doesn't work on Debian Wheezy [\#27](https://github.com/voxpupuli/puppet-fail2ban/issues/27)
+
+**Merged pull requests:**
+
+- modulesync 2.1.0 and allow puppet 6.x [\#91](https://github.com/voxpupuli/puppet-fail2ban/pull/91) ([bastelfreak](https://github.com/bastelfreak))
+- allow puppet/extlib 3.x [\#90](https://github.com/voxpupuli/puppet-fail2ban/pull/90) ([bastelfreak](https://github.com/bastelfreak))
+- allow puppetlabs/stdlib 5.x [\#85](https://github.com/voxpupuli/puppet-fail2ban/pull/85) ([bastelfreak](https://github.com/bastelfreak))
 
 ## [v2.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.3.0) (2018-08-02)
 
