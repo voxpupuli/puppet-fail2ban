@@ -21,6 +21,9 @@ port     = <%= $port %>
 <% if $backend { -%>
 backend  = <%= $backend %>
 <% } -%>
+<% if $journalmatch { -%>
+journalmatch = <%= $journalmatch %>
+<% } -%>
 <% unless $ignoreip.empty { -%>
 ignoreip = <% $ignoreip.join(' ') -%>
 <% } -%>
