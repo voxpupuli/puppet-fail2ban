@@ -37,6 +37,7 @@ define fail2ban::jail (
         filter_additional_config => $filter_additional_config,
         filter_failregex         => $filter_failregex,
         filter_ignoreregex       => $filter_ignoreregex,
+        journalmatch             => $journalmatch
       }
     ),
     owner   => $config_file_owner,
