@@ -1,6 +1,11 @@
 # Fail2ban custom filter
 # Managed by Puppet
 
+[Init]
+<% if $journalmatch { -%>
+journalmatch = <%= $journalmatch %>
+<% } -%>
+
 <% if $findtime { -%>
 [INCLUDES]
 <%= $filter_includes %>
