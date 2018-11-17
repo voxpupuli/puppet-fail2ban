@@ -1,8 +1,9 @@
 # == Class: fail2ban::config
 #
 class fail2ban::config {
-  # Load custom jails definition
+  # Load custom jails/actions definition
   $config_custom_jails = hiera_hash('fail2ban::custom_jails', undef)
+  $config_custom_actions = hiera_hash('fail2ban::custom_actions', undef)
 
   file { 'fail2ban.dir':
     ensure  => $::fail2ban::config_dir_ensure,
@@ -32,6 +33,11 @@ class fail2ban::config {
   # Custom jails definition
   if $config_custom_jails {
     create_resources('fail2ban::jail', $config_custom_jails)
+  }
+
+  # Custom actions definition
+  if $config_custom_actions {
+    create_resources('fail2ban::action', $config_custom_actions)
   }
 
   # Operating system specific configuration
