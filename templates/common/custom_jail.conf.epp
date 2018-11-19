@@ -12,7 +12,7 @@ filter   = <%= $filter %>
 logpath  = <%= $logpath %>
 maxretry = <%= $maxretry %>
 <% if $findtime { -%>
-findtime     = <%= $findtime %>
+findtime = <%= $findtime %>
 <% } -%>
 bantime  = <%= $bantime %>
 <% if $port { -%>
