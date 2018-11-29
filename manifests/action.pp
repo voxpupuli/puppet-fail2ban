@@ -26,6 +26,6 @@ define fail2ban::action (
     group   => $config_file_group,
     mode    => $config_file_mode,
     notify  => $config_file_notify,
-    require => $config_file_require
+    require => $config_file_require,
   }
 }
