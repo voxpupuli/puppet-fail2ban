@@ -38,7 +38,7 @@ class fail2ban (
   Array[String[1]] $jails = ['ssh', 'ssh-ddos'],
   Integer[0] $maxretry = 3,
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
-  Hash $custom_jails = lookup('fail2ban::custom_jails', Hash, 'deep', {}),
+  Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',
 ) inherits ::fail2ban::params {
   $config_file_content = default_content($config_file_string, $config_file_template)

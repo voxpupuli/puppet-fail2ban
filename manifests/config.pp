@@ -28,9 +28,7 @@ class fail2ban::config {
   }
 
   # Custom jails definition
-  unless $::fail2ban::custom_jails.empty {
-    create_resources('fail2ban::jail', $::fail2ban::custom_jails)
-  }
+  create_resources('fail2ban::jail', $::fail2ban::custom_jails)
 
   # Operating system specific configuration
   case $facts['os']['family'] {
