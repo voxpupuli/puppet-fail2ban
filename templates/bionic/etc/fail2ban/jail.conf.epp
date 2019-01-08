@@ -1,4 +1,8 @@
 #
+# THIS FILE IS MANAGED BY PUPPET
+#
+
+#
 # WARNING: heavily refactored in 0.9.0 release.  Please review and
 #          customize settings for your setup.
 #
