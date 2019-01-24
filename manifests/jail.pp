@@ -4,6 +4,8 @@ define fail2ban::jail (
   Optional[String] $filter_includes = undef,
   Optional[String] $filter_failregex = undef,
   Optional[String] $filter_ignoreregex = undef,
+  Optional[Integer] $filter_maxlines = undef,
+  Optional[String] $filter_datepattern = undef,
   $filter_additional_config = undef,
   Boolean $enabled = true,
   Optional[String] $action = undef,
@@ -37,7 +39,9 @@ define fail2ban::jail (
         filter_additional_config => $filter_additional_config,
         filter_failregex         => $filter_failregex,
         filter_ignoreregex       => $filter_ignoreregex,
-        journalmatch             => $journalmatch
+        filter_maxlines          => $filter_maxlines,
+        filter_datepattern       => $filter_datepattern,
+        journalmatch             => $journalmatch,
       }
     ),
     owner   => $config_file_owner,
