@@ -22,5 +22,5 @@ port     = <%= $port %>
 backend  = <%= $backend %>
 <% } -%>
 <% unless $ignoreip.empty { -%>
-ignoreip = <% $ignoreip.join(' ') -%>
+ignoreip = <%= $ignoreip.join(' ') -%>
 <% } -%>
