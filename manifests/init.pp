@@ -65,8 +65,8 @@ class fail2ban (
   }
 
   anchor { 'fail2ban::begin': }
-  -> class { '::fail2ban::install': }
-  -> class { '::fail2ban::config': }
-  ~> class { '::fail2ban::service': }
+  -> class { 'fail2ban::install': }
+  -> class { 'fail2ban::config': }
+  ~> class { 'fail2ban::service': }
   -> anchor { 'fail2ban::end': }
 }
