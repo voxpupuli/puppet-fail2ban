@@ -54,7 +54,7 @@ define fail2ban::jail (
   # Jail creation
   file { "custom_jail_${name}":
     ensure  => file,
-    path    => "${::fail2ban::params::config_dir_path}/jail.d/${name}.conf",
+    path    => "${fail2ban::params::config_dir_path}/jail.d/${name}.conf",
     content => epp('fail2ban/common/custom_jail.conf.epp',
       {
         name         => $name,

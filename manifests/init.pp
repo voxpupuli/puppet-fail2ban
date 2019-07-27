@@ -2,32 +2,32 @@
 #
 class fail2ban (
   Enum['absent', 'latest', 'present', 'purged'] $package_ensure = 'present',
-  String[1] $package_name = $::fail2ban::params::package_name,
-  Optional[Array[String]] $package_list = $::fail2ban::params::package_list,
+  String[1] $package_name = $fail2ban::params::package_name,
+  Optional[Array[String]] $package_list = $fail2ban::params::package_list,
 
-  Stdlib::Absolutepath $config_dir_path = $::fail2ban::params::config_dir_path,
-  Stdlib::Absolutepath $config_dir_filter_path = $::fail2ban::params::config_dir_filter_path,
+  Stdlib::Absolutepath $config_dir_path = $fail2ban::params::config_dir_path,
+  Stdlib::Absolutepath $config_dir_filter_path = $fail2ban::params::config_dir_filter_path,
   Boolean $config_dir_purge = false,
   Boolean $config_dir_recurse = true,
   Optional[String] $config_dir_source = undef,
 
-  Stdlib::Absolutepath $config_file_path = $::fail2ban::params::config_file_path,
-  String[1] $config_file_owner = $::fail2ban::params::config_file_owner,
-  String[1] $config_file_group = $::fail2ban::params::config_file_group,
-  String[1] $config_file_mode = $::fail2ban::params::config_file_mode,
-  String[1] $config_file_before = $::fail2ban::params::before_file,
+  Stdlib::Absolutepath $config_file_path = $fail2ban::params::config_file_path,
+  String[1] $config_file_owner = $fail2ban::params::config_file_owner,
+  String[1] $config_file_group = $fail2ban::params::config_file_group,
+  String[1] $config_file_mode = $fail2ban::params::config_file_mode,
+  String[1] $config_file_before = $fail2ban::params::before_file,
   Optional[String[1]] $config_file_source = undef,
   Optional[String[1]] $config_file_string = undef,
   Optional[String[1]] $config_file_template = undef,
 
-  String[1] $config_file_notify = $::fail2ban::params::config_file_notify,
-  String[1] $config_file_require = $::fail2ban::params::config_file_require,
+  String[1] $config_file_notify = $fail2ban::params::config_file_notify,
+  String[1] $config_file_require = $fail2ban::params::config_file_require,
 
   Hash[String[1], Any] $config_file_hash = {},
   Hash $config_file_options_hash = {},
 
   Enum['running', 'stopped'] $service_ensure = 'running',
-  String[1] $service_name = $::fail2ban::params::service_name,
+  String[1] $service_name = $fail2ban::params::service_name,
   Boolean $service_enable = true,
 
   String[1] $action = 'action_mb',

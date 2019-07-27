@@ -3,32 +3,32 @@
 class fail2ban::config {
 
   file { 'fail2ban.dir':
-    ensure  => $::fail2ban::config_dir_ensure,
-    path    => $::fail2ban::config_dir_path,
-    force   => $::fail2ban::config_dir_purge,
-    purge   => $::fail2ban::config_dir_purge,
-    recurse => $::fail2ban::config_dir_recurse,
-    source  => $::fail2ban::config_dir_source,
-    notify  => $::fail2ban::config_file_notify,
-    require => $::fail2ban::config_file_require,
+    ensure  => $fail2ban::config_dir_ensure,
+    path    => $fail2ban::config_dir_path,
+    force   => $fail2ban::config_dir_purge,
+    purge   => $fail2ban::config_dir_purge,
+    recurse => $fail2ban::config_dir_recurse,
+    source  => $fail2ban::config_dir_source,
+    notify  => $fail2ban::config_file_notify,
+    require => $fail2ban::config_file_require,
   }
 
-  if $::fail2ban::config_file_path {
+  if $fail2ban::config_file_path {
     file { 'fail2ban.conf':
-      ensure  => $::fail2ban::config_file_ensure,
-      path    => $::fail2ban::config_file_path,
-      owner   => $::fail2ban::config_file_owner,
-      group   => $::fail2ban::config_file_group,
-      mode    => $::fail2ban::config_file_mode,
-      source  => $::fail2ban::config_file_source,
-      content => $::fail2ban::config_file_content,
-      notify  => $::fail2ban::config_file_notify,
-      require => $::fail2ban::config_file_require,
+      ensure  => $fail2ban::config_file_ensure,
+      path    => $fail2ban::config_file_path,
+      owner   => $fail2ban::config_file_owner,
+      group   => $fail2ban::config_file_group,
+      mode    => $fail2ban::config_file_mode,
+      source  => $fail2ban::config_file_source,
+      content => $fail2ban::config_file_content,
+      notify  => $fail2ban::config_file_notify,
+      require => $fail2ban::config_file_require,
     }
   }
 
   # Custom jails definition
-  create_resources('fail2ban::jail', $::fail2ban::custom_jails)
+  create_resources('fail2ban::jail', $fail2ban::custom_jails)
 
   # Operating system specific configuration
   case $facts['os']['family'] {
@@ -36,9 +36,9 @@ class fail2ban::config {
       # Not using firewalld by now
       file { '00-firewalld.conf':
         ensure  => 'absent',
-        path    => "${::fail2ban::config_dir_path}/jail.d/00-firewalld.conf",
-        notify  => $::fail2ban::config_file_notify,
-        require => $::fail2ban::config_file_require,
+        path    => "${fail2ban::config_dir_path}/jail.d/00-firewalld.conf",
+        notify  => $fail2ban::config_file_notify,
+        require => $fail2ban::config_file_require,
       }
     }
     'Debian': {

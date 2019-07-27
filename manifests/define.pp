@@ -12,12 +12,12 @@ define fail2ban::define (
   String $config_file_notify = $fail2ban::config_file_notify,
   String $config_file_require = $fail2ban::config_file_require,
 
-  Hash $config_file_options_hash = $::fail2ban::config_file_options_hash,
+  Hash $config_file_options_hash = $fail2ban::config_file_options_hash,
 ) {
   $config_file_content = default_content($config_file_string, $config_file_template)
 
   file { "define_${name}":
-    ensure  => $::fail2ban::config_file_ensure,
+    ensure  => $fail2ban::config_file_ensure,
     path    => $config_file_path,
     owner   => $config_file_owner,
     group   => $config_file_group,
