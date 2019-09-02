@@ -41,7 +41,7 @@ class fail2ban (
   Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',
 ) inherits ::fail2ban::params {
-  $config_file_content = default_content($config_file_string, $config_file_template)
+  $config_file_content = extlib::default_content($config_file_string, $config_file_template)
 
   if $config_file_hash {
     create_resources('fail2ban::define', $config_file_hash)
