@@ -4,20 +4,21 @@ require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 
 run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
 
 RSpec.configure do |c|
   # Readable test descriptions
   c.formatter = :documentation
-  hosts.each do |host|
-    if host[:platform] =~ %r{el-7-x86_64} && host[:hypervisor] =~ %r{docker}
-      on(host, "sed -i '/nodocs/d' /etc/yum.conf")
-    end
-    if fact_on(host, 'osfamily') == 'RedHat'
-      on host, puppet('resource', 'package', 'epel-release', 'ensure=installed')
-      on host, puppet('resource', 'package', 'redhat-lsb-core', 'ensure=installed')
+
+  # Configure all nodes in nodeset
+  c.before :suite do
+    install_module
+    install_module_dependencies
+
+    hosts.each do |host|
+      if fact_on(host, 'osfamily') == 'RedHat'
+        host.install_package('epel-release')
+        host.install_package('redhat-lsb-core')
+      end
     end
   end
 end
