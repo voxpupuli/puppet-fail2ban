@@ -56,4 +56,12 @@ describe 'fail2ban::jail' do
       end
     end
   end
+
+  context 'custom jail template' do 
+    let(:params) do
+      {
+        'config_file_template' => 
+      }
+    end
+  end
 end
