@@ -151,7 +151,7 @@ describe 'fail2ban' do
         pp = <<-EOS
           class { 'fail2ban':
             config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
-	    iptables_chain => 'TEST',
+            iptables_chain => 'TEST',
           }
         EOS
 
