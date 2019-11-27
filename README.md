@@ -497,10 +497,10 @@ Users can add their own jails by using this YAML definition:
 
 This module has been tested on:
 
-* Debian 6/7/8
-* Ubuntu 12.04/14.04/16.04/18.04
-* RedHat 5/6/7
-* CentOS 5/6/7
+* Debian 8/9/10
+* Ubuntu 14.04/16.04/18.04
+* RedHat 6/7
+* CentOS 6/7
 
 ## Development
 

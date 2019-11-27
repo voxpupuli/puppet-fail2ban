@@ -79,7 +79,7 @@ describe 'fail2ban' do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        if fact('lsbdistcodename') == 'stretch'
+        if %w[stretch buster].include? fact('lsbdistcodename')
           it { is_expected.not_to be_running }
         else
           it { is_expected.not_to be_enabled }
@@ -151,7 +151,7 @@ describe 'fail2ban' do
         pp = <<-EOS
           class { 'fail2ban':
             config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
-	    iptables_chain => 'TEST',
+            iptables_chain => 'TEST',
           }
         EOS
 
