@@ -6,7 +6,8 @@ class fail2ban::params {
   }
 
   $package_list = $facts['os']['family'] ? {
-    default => undef,
+    'RedHat' => ['redhat-lsb-core'],
+    default  => undef,
   }
 
   $config_dir_path = $facts['os']['family'] ? {
