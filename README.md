@@ -498,7 +498,7 @@ Users can add their own jails by using this YAML definition:
 This module has been tested on:
 
 * Debian 8/9/10
-* Ubuntu 14.04/16.04/18.04
+* Ubuntu 16.04/18.04
 * RedHat 6/7
 * CentOS 6/7
 
