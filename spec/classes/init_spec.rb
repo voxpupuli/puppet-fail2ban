@@ -8,7 +8,7 @@ describe 'fail2ban', type: :class do
       end
 
       begin
-        distname = facts[:os]['lsb']['distcodename']
+        distname = facts[:os]['distro']['codename']
       rescue
         distname = case facts[:os]['family']
                    when 'RedHat'
