@@ -57,7 +57,7 @@ class fail2ban::params {
     'RedHat': {
     }
     default: {
-      fail("${::operatingsystem} not supported.")
+      fail("${facts['os']['name']} not supported.")
     }
   }
 }
