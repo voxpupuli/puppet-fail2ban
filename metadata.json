@@ -4,7 +4,7 @@
   "author": "Vox Pupuli",
   "summary": "This module installs, configures and manages the Fail2ban service.",
   "license": "Apache-2.0",
-  "source": "git://github.com/voxpupuli/puppet-fail2ban.git",
+  "source": "https://github.com/voxpupuli/puppet-fail2ban.git",
   "project_page": "https://github.com/voxpupuli/puppet-fail2ban",
   "issues_url": "https://github.com/voxpupuli/puppet-fail2ban/issues",
   "dependencies": [
