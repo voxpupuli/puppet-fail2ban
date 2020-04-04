@@ -14,7 +14,7 @@ define fail2ban::define (
 
   Hash $config_file_options_hash = $fail2ban::config_file_options_hash,
 ) {
-  $config_file_content = default_content($config_file_string, $config_file_template)
+  $config_file_content = extlib::default_content($config_file_string, $config_file_template)
 
   file { "define_${name}":
     ensure  => $fail2ban::config_file_ensure,
