@@ -79,6 +79,7 @@ describe 'fail2ban' do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
+        # FIXME: Remove lsb fact
         if %w[stretch buster].include? fact('lsbdistcodename')
           it { is_expected.not_to be_running }
         else
