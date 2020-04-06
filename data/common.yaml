@@ -1,0 +1,12 @@
+---
+fail2ban::package_name: 'fail2ban'
+fail2ban::package_list: null
+fail2ban::config_file_path: '/etc/fail2ban/jail.conf'
+fail2ban::config_file_owner: 'root'
+fail2ban::config_file_group: 'root'
+fail2ban::config_file_mode: '0644'
+fail2ban::config_dir_path: '/etc/fail2ban'
+fail2ban::config_dir_filter_path: '/etc/fail2ban/filter.d'
+fail2ban::config_file_notify: 'Service[fail2ban]'
+fail2ban::config_file_require: 'Package[fail2ban]'
+fail2ban::service_name: 'fail2ban'

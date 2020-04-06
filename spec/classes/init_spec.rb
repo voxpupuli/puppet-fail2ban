@@ -26,7 +26,6 @@ describe 'fail2ban', type: :class do
       end
 
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_class('fail2ban::params') }
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
