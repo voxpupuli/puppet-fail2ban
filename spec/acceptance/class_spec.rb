@@ -132,7 +132,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
+            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
           }
         EOS
 
@@ -150,7 +150,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
+            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
             iptables_chain => 'TEST',
           }
         EOS
@@ -169,7 +169,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
+            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
             banaction            => 'iptables'
           }
         EOS
@@ -187,7 +187,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('lsbdistcodename')}/#{config_file_path}.epp",
+            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
             sender => 'custom-sender@example.com',
           }
         EOS
