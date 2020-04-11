@@ -79,10 +79,10 @@ describe 'fail2ban' do
         it { is_expected.to be_file }
       end
       describe service(service_name) do
-        # FIXME: Remove lsb fact
-        if %w[stretch buster].include? fact('lsbdistcodename')
-          it { is_expected.not_to be_running }
-        else
+        it { is_expected.not_to be_running }
+        # The docker images of Debian do not use systemd, the following test
+        # cannot be performed on these images.
+        unless %w[stretch buster].include? fact('lsbdistcodename')
           it { is_expected.not_to be_enabled }
         end
       end
