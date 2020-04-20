@@ -82,9 +82,7 @@ describe 'fail2ban' do
         it { is_expected.not_to be_running }
         # The docker images of Debian do not use systemd, the following test
         # cannot be performed on these images.
-        unless %w[stretch buster].include? fact('lsbdistcodename')
-          it { is_expected.not_to be_enabled }
-        end
+        it { is_expected.not_to be_enabled } if fact('osfamily') != 'Debian'
       end
     end
 
