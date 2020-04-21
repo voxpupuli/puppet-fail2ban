@@ -112,7 +112,7 @@ describe 'fail2ban', type: :class do
         context 'when source dir' do
           let(:params) do
             {
-              config_dir_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban'
+              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
             }
           end
 
@@ -122,7 +122,7 @@ describe 'fail2ban', type: :class do
               'force'   => false,
               'purge'   => false,
               'recurse' => true,
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
@@ -133,7 +133,7 @@ describe 'fail2ban', type: :class do
           let(:params) do
             {
               config_dir_purge: true,
-              config_dir_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban'
+              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
             }
           end
 
@@ -143,7 +143,7 @@ describe 'fail2ban', type: :class do
               'force'   => true,
               'purge'   => true,
               'recurse' => true,
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
@@ -153,14 +153,14 @@ describe 'fail2ban', type: :class do
         context 'when source file' do
           let(:params) do
             {
-              config_file_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban/jail.conf'
+              config_file_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf'
             }
           end
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban/jail.conf',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
