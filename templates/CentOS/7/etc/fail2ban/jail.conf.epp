@@ -56,7 +56,7 @@ maxretry = <%= $fail2ban::maxretry %>
 # polling:   uses a polling algorithm which does not require external libraries.
 # auto:      will try to use the following backends, in order:
 #            pyinotify, gamin, polling.
-backend = auto
+backend = <%= $fail2ban::default_backend %>
 
 # "usedns" specifies if jails should trust hostnames in logs,
 #   warn when reverse DNS lookups are performed, or ignore all hostnames in logs

@@ -38,6 +38,7 @@ class fail2ban (
   String[1] $iptables_chain = 'INPUT',
   Array[String[1]] $jails = ['ssh', 'ssh-ddos'],
   Integer[0] $maxretry = 3,
+  Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto'] $default_backend = 'auto',
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',

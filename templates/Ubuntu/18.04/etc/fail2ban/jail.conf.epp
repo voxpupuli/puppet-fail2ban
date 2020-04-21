@@ -92,7 +92,7 @@ maxretry = <%= $fail2ban::maxretry %>
 #       for which logs are present only in its own log files, specify some other
 #       backend for that jail (e.g. polling) and provide empty value for
 #       journalmatch. See https://github.com/fail2ban/fail2ban/issues/959#issuecomment-74901200
-backend = auto
+backend = <%= $fail2ban::default_backend %>
 
 # "usedns" specifies if jails should trust hostnames in logs,
 #   warn when DNS lookups are performed, or ignore all hostnames in logs
