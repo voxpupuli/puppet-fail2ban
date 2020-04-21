@@ -486,8 +486,8 @@ This module has been tested on:
 
 * Debian 8/9/10
 * Ubuntu 16.04/18.04
-* RedHat 6/7
-* CentOS 6/7
+* RedHat 6/7/8
+* CentOS 6/7/8
 
 ## Development
 
