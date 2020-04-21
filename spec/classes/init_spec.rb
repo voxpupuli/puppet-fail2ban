@@ -7,26 +7,11 @@ describe 'fail2ban', type: :class do
         facts
       end
 
-      begin
-        distname = facts[:os]['distro']['codename']
-      rescue
-        distname = case facts[:os]['family']
-                   when 'RedHat'
-                     case facts[:os]['release']['major']
-                     when '6'
-                       'Santiago'
-                     when '7'
-                       'Maipo'
-                     else
-                       'unsupported_RedHat'
-                     end
-                   else
-                     'unsupported'
-                   end
+      let(:config_file_template) do
+        "fail2ban/#{facts[:os]['name']}/#{facts[:os]['release']['major']}/etc/fail2ban/jail.conf.epp"
       end
 
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_class('fail2ban::params') }
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
@@ -127,7 +112,7 @@ describe 'fail2ban', type: :class do
         context 'when source dir' do
           let(:params) do
             {
-              config_dir_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban'
+              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
             }
           end
 
@@ -137,7 +122,7 @@ describe 'fail2ban', type: :class do
               'force'   => false,
               'purge'   => false,
               'recurse' => true,
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
@@ -148,7 +133,7 @@ describe 'fail2ban', type: :class do
           let(:params) do
             {
               config_dir_purge: true,
-              config_dir_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban'
+              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
             }
           end
 
@@ -158,7 +143,7 @@ describe 'fail2ban', type: :class do
               'force'   => true,
               'purge'   => true,
               'recurse' => true,
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
@@ -168,14 +153,14 @@ describe 'fail2ban', type: :class do
         context 'when source file' do
           let(:params) do
             {
-              config_file_source: 'puppet:///modules/fail2ban/buster/etc/fail2ban/jail.conf'
+              config_file_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf'
             }
           end
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
               'ensure'  => 'present',
-              'source'  => 'puppet:///modules/fail2ban/buster/etc/fail2ban/jail.conf',
+              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf',
               'notify'  => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
@@ -202,7 +187,7 @@ describe 'fail2ban', type: :class do
         context 'when content template' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp"
+              config_file_template: config_file_template
             }
           end
 
@@ -219,7 +204,7 @@ describe 'fail2ban', type: :class do
         context 'when content template (custom)' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
+              config_file_template: config_file_template,
               config_file_options_hash: {
                 'key' => 'value'
               }
@@ -239,7 +224,7 @@ describe 'fail2ban', type: :class do
         context 'when iptables chain provided' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
+              config_file_template: config_file_template,
               iptables_chain: 'TEST'
             }
           end
@@ -254,7 +239,7 @@ describe 'fail2ban', type: :class do
         context 'when custom banaction is provided' do
           let(:params) do
             {
-              config_file_template: "fail2ban/#{distname}/etc/fail2ban/jail.conf.epp",
+              config_file_template: config_file_template,
               banaction: 'iptables'
             }
           end

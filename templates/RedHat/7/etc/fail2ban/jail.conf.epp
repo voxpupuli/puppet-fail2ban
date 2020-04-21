@@ -35,7 +35,7 @@
 [INCLUDES]
 
 #before = paths-distro.conf
-before = <%= $fail2ban::before_file %>
+before = <%= $fail2ban::config_file_before %>
 
 # The DEFAULT allows a global definition of the options. They can be overridden
 # in each jail afterwards.
