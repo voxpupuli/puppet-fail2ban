@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.0.0) (2020-04-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.4.1...v3.0.0)
+
+**Breaking changes:**
+
+- Remove any lsb facts usage [\#135](https://github.com/voxpupuli/puppet-fail2ban/pull/135) ([neomilium](https://github.com/neomilium))
+- drop Ubuntu 14.04 support [\#121](https://github.com/voxpupuli/puppet-fail2ban/pull/121) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 2.7.0 and drop puppet 4 [\#110](https://github.com/voxpupuli/puppet-fail2ban/pull/110) ([bastelfreak](https://github.com/bastelfreak))
+- Use custom\_jails parameter [\#100](https://github.com/voxpupuli/puppet-fail2ban/pull/100) ([kobybr](https://github.com/kobybr))
+
+**Implemented enhancements:**
+
+- Add support for CentOS / RedHat 8 [\#137](https://github.com/voxpupuli/puppet-fail2ban/pull/137) ([dhoppe](https://github.com/dhoppe))
+- allow extlib 5.x [\#128](https://github.com/voxpupuli/puppet-fail2ban/pull/128) ([bastelfreak](https://github.com/bastelfreak))
+- Add Debian10 support [\#114](https://github.com/voxpupuli/puppet-fail2ban/pull/114) ([bastelfreak](https://github.com/bastelfreak))
+- Allow puppet/extlib 4.x and puppetlabs/stdlib 6.x [\#111](https://github.com/voxpupuli/puppet-fail2ban/pull/111) ([alexjfisher](https://github.com/alexjfisher))
+- Add filter options [\#107](https://github.com/voxpupuli/puppet-fail2ban/pull/107) ([coreone](https://github.com/coreone))
+- Add support for journalmatch [\#95](https://github.com/voxpupuli/puppet-fail2ban/pull/95) ([cwells](https://github.com/cwells))
+- Add jail.conf.epp template for bionic [\#89](https://github.com/voxpupuli/puppet-fail2ban/pull/89) ([mnencia](https://github.com/mnencia))
+
+**Fixed bugs:**
+
+- Template header causes service restart [\#29](https://github.com/voxpupuli/puppet-fail2ban/issues/29)
+- Fix non namespaced extlib function [\#131](https://github.com/voxpupuli/puppet-fail2ban/pull/131) ([neomilium](https://github.com/neomilium))
+- Fixes a template bug with 'ignoreip' so that it 'Inserts the value of… [\#109](https://github.com/voxpupuli/puppet-fail2ban/pull/109) ([dwest-galois](https://github.com/dwest-galois))
+- Replace UTF8 dash and quotes in templates [\#106](https://github.com/voxpupuli/puppet-fail2ban/pull/106) ([linuxdaemon](https://github.com/linuxdaemon))
+
+**Closed issues:**
+
+- Move templates [\#132](https://github.com/voxpupuli/puppet-fail2ban/issues/132)
+- Support for RHEL/CentOS 8 [\#126](https://github.com/voxpupuli/puppet-fail2ban/issues/126)
+- ignoreip in custom jails  not populating [\#120](https://github.com/voxpupuli/puppet-fail2ban/issues/120)
+- Missing directories when using custom jails [\#117](https://github.com/voxpupuli/puppet-fail2ban/issues/117)
+- custom\_jails are not populating the 'ignoreip" values in the custom\_jail.conf.epp template [\#108](https://github.com/voxpupuli/puppet-fail2ban/issues/108)
+- Use of U+2013 \(EN DASH\) in trusty template causes puppetdb errors [\#105](https://github.com/voxpupuli/puppet-fail2ban/issues/105)
+- Could not find template 'fail2ban//etc/fail2ban/jail.conf.erb' - CentOS Linux release 7.6.1810 \(Core\) [\#102](https://github.com/voxpupuli/puppet-fail2ban/issues/102)
+- Allow use of custom\_jails param passed to in main class [\#99](https://github.com/voxpupuli/puppet-fail2ban/issues/99)
+- Could not find template 'fail2ban/stretch/etc/fail2ban/jail.conf.erb' [\#88](https://github.com/voxpupuli/puppet-fail2ban/issues/88)
+- Deprecation warnings [\#28](https://github.com/voxpupuli/puppet-fail2ban/issues/28)
+
+**Merged pull requests:**
+
+- Use voxpupuli-acceptance [\#136](https://github.com/voxpupuli/puppet-fail2ban/pull/136) ([ekohl](https://github.com/ekohl))
+- update repo links to https [\#129](https://github.com/voxpupuli/puppet-fail2ban/pull/129) ([bastelfreak](https://github.com/bastelfreak))
+- Remove unsupported releases [\#123](https://github.com/voxpupuli/puppet-fail2ban/pull/123) ([dhoppe](https://github.com/dhoppe))
+- Clean up acceptance spec helper [\#119](https://github.com/voxpupuli/puppet-fail2ban/pull/119) ([ekohl](https://github.com/ekohl))
+- depend on extlib 3 & prefix extlib function call [\#115](https://github.com/voxpupuli/puppet-fail2ban/pull/115) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v2.4.1](https://github.com/voxpupuli/puppet-fail2ban/tree/v2.4.1) (2018-10-17)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.4.0...v2.4.1)
