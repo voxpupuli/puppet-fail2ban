@@ -236,6 +236,21 @@ describe 'fail2ban', type: :class do
           end
         end
 
+        context 'when bantime provided as string' do
+          let(:params) do
+            {
+              config_file_template: config_file_template,
+              bantime: '12h'
+            }
+          end
+
+          it do
+            is_expected.to contain_file('fail2ban.conf').with_content(
+              %r{^bantime  = 12h$}
+            )
+          end
+        end
+
         context 'when custom banaction is provided' do
           let(:params) do
             {
