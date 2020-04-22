@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.1.0) (2020-04-22)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- Add support for multiple data types [\#140](https://github.com/voxpupuli/puppet-fail2ban/pull/140) ([dhoppe](https://github.com/dhoppe))
+- Add default\_backend param defaulting to "auto" [\#130](https://github.com/voxpupuli/puppet-fail2ban/pull/130) ([brunoleon](https://github.com/brunoleon))
+
+**Closed issues:**
+
+- Allow multiple data types [\#139](https://github.com/voxpupuli/puppet-fail2ban/issues/139)
+- Update puppet forge [\#116](https://github.com/voxpupuli/puppet-fail2ban/issues/116)
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.0.0) (2020-04-21)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v2.4.1...v3.0.0)
