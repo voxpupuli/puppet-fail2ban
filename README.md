@@ -7,7 +7,7 @@
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/fail2ban.svg)](https://forge.puppetlabs.com/puppet/fail2ban)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/fail2ban.svg)](https://forge.puppetlabs.com/puppet/fail2ban)
 
-#### Table of Contents
+## Table of Contents
 
 1. [Overview](#overview)
 1. [Module Description - What the module does and why it is useful](#module-description)
@@ -313,7 +313,8 @@ suspicious logins. Defaults to 'fail2ban@${::fqdn}'.
 
 #### `iptables_chain`
 
-Determines chain where jumps will to be added in iptables-\* actions. Defaults to 'INPUT'.
+Determines chain where jumps will to be added in iptables-\* actions. Defaults
+to 'INPUT'.
 
 #### `jails`
 
@@ -335,7 +336,8 @@ Determines which custom jails should be included (see [Custom jails](#custom-jai
 
 #### `banaction`
 
-Determines which action to perform when performing a global ban (not overridden in a specific jail).
+Determines which action to perform when performing a global ban (not overridden
+in a specific jail).
 
 ## Jails available
 
