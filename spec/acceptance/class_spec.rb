@@ -245,7 +245,7 @@ describe 'fail2ban' do
     end
 
     context 'when service start/stop notification are disabled' do
-      it 'is expected.to have emp' do
+      it 'is expected.to have empty sshd actions' do
         pp = <<-EOS
           class { 'fail2ban':
             sendmail_actions => {
@@ -254,11 +254,15 @@ describe 'fail2ban' do
             }
           }
         EOS
-        apply_manifest(pp, catch_failures: true)
-        fail2ban_status = shell('fail2ban-client get sshd actions')
-        expect(fail2ban_status.output).to contain %r{sendmail-buffered}
-        fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
-        expect(fail2ban_status.output).to contain %r{^\n$}
+        # fail2ban-client supports fetching config since version 0.9
+        fail2ban_version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2-')
+        if Gem::Version.new(fail2ban_version.output) >= Gem::Version.new('0.9.0')
+          fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
+          expect(fail2ban_status.output).to contain %r{^\n$}
+        else
+          fail2ban_status = shell('cat /etc/fail2ban/action.d/sendmail-buffered.conf | grep "after ="')
+          expect(fail2ban_status.output).to contain %r{sendmail-common\.local$}
+        end
       end
     end
   end
