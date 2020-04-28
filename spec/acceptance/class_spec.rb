@@ -243,5 +243,23 @@ describe 'fail2ban' do
         expect(fail2ban_status.output).to contain ssh_jail
       end
     end
+
+    context 'when service start/stop notification are disabled' do
+      it 'is expected.to have emp' do
+        pp = <<-EOS
+          class { 'fail2ban':
+            sendmail_actions => {
+              actionstart => '',
+              actionstop => '',
+            }
+          }
+        EOS
+        apply_manifest(pp, catch_failures: true)
+        fail2ban_status = shell('fail2ban-client get sshd actions')
+        expect(fail2ban_status.output).to contain %r{sendmail-buffered}
+        fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
+        expect(fail2ban_status.output).to contain %r{^\n$}
+      end
+    end
   end
 end
