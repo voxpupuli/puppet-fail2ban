@@ -488,7 +488,7 @@ Default e-mail notification are defined in `/etc/fail2ban/action.d/sendmail-comm
 fail2ban::sendmail_actions:
   actionstart: ''
   actionstop: ''
-sendmail_config:
+fail2ban::sendmail_config:
   dest: root@localhost
   sender: fail2ban@localhost
   sendername: Fail2Ban

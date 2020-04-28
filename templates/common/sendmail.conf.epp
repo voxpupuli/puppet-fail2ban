@@ -1,5 +1,5 @@
+# Managed by Puppet
 # Override the Fail2Ban defaults in sendmail-common.conf with these entries
-<% include stdlib %>
 [Definition]
 <% $actions.keys.each |$key| { -%>
 <%= $key %> = <%= $fail2ban::sendmail_actions[$key] %>
