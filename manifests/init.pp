@@ -42,6 +42,8 @@ class fail2ban (
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',
+  Hash $sendmail_config = {},
+  Hash $sendmail_actions = {},
 ) {
   $config_file_content = extlib::default_content($config_file_string, $config_file_template)
 

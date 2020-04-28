@@ -480,6 +480,21 @@ Users can add their own jails by using this YAML definition:
       ignoreip: ['127.0.0.1', '192.168.1.1/24']
 ```
 
+### Sendmail notifications
+
+Default e-mail notification are defined in `/etc/fail2ban/action.d/sendmail-common.conf`. Following configuration will create override config `sendmail-common.local`.
+
+```yaml
+fail2ban::sendmail_actions:
+  actionstart: ''
+  actionstop: ''
+sendmail_config:
+  dest: root@localhost
+  sender: fail2ban@localhost
+  sendername: Fail2Ban
+```
+
+
 ## Limitations
 
 This module has been tested on:

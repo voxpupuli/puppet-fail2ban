@@ -298,6 +298,72 @@ describe 'fail2ban', type: :class do
           is_expected.to compile.with_all_deps
         end
       end
+
+      describe 'sendmail' do
+        let(:params) do
+          {
+            sendmail_config: {
+              dest: 'root',
+              sender: 'fail2ban@localhost'
+            },
+            sendmail_actions: {
+              actionstart: '',
+              actionstop: ''
+            }
+          }
+        end
+
+        it do
+          is_expected.to contain_file('/etc/fail2ban/action.d').with(
+            ensure: 'directory'
+          )
+        end
+
+        it do
+          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
+            %r{^dest = root$}
+          )
+        end
+
+        it do
+          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
+            %r{^sender = fail2ban@localhost$}
+          )
+        end
+
+        it do
+          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
+            %r{^actionstart = $}
+          )
+        end
+
+        it do
+          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
+            %r{^actionstop = $}
+          )
+        end
+      end
+
+      describe 'sendmail not managed by default' do
+        let(:params) do
+          {
+            sendmail_config: {
+            },
+            sendmail_actions: {
+            }
+          }
+        end
+
+        it do
+          is_expected.not_to contain_file('/etc/fail2ban/action.d/sendmail-common.local')
+        end
+
+        it do
+          is_expected.not_to contain_file('/etc/fail2ban/action.d').with(
+            ensure: 'directory'
+          )
+        end
+      end
     end
   end
 end
