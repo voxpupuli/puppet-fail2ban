@@ -61,9 +61,11 @@ class fail2ban::config {
     }
 
     file_line { 'sendmail_after_override':
-      line  => 'after = sendmail-common.local',
-      after => 'before = sendmail-common.conf',
-      path  => "${fail2ban::config_dir_path}/action.d/sendmail-buffered.conf",
+      line    => 'after = sendmail-common.local',
+      after   => 'before = sendmail-common.conf',
+      path    => "${fail2ban::config_dir_path}/action.d/sendmail-buffered.conf",
+      notify  => $fail2ban::config_file_notify,
+      require => File["${fail2ban::config_dir_path}/action.d"],
     }
 
     file { "${fail2ban::config_dir_path}/action.d/sendmail-common.local":
