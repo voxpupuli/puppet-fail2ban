@@ -257,7 +257,7 @@ describe 'fail2ban' do
         EOS
         apply_manifest(pp, catch_failures: true)
         # fail2ban-client supports fetching config since version 0.9
-        fail2ban_version = shell('LANG=C fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2-')
+        fail2ban_version = shell('LC_ALL=C fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2-')
         if Gem::Version.new(fail2ban_version.output) >= Gem::Version.new('0.9.0')
           fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
           expect(fail2ban_status.output).to contain %r{^\n$}
