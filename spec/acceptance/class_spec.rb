@@ -258,7 +258,7 @@ describe 'fail2ban' do
         apply_manifest(pp, catch_failures: true)
         # fail2ban-client supports fetching config since version 0.9
         fail2ban_version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2- | tail -n1')
-        if Gem::Version.new(fail2ban_version.output) >= Gem::Version.new('0.9.0')
+        if Gem::Version.new(fail2ban_version.stdout) >= Gem::Version.new('0.9.0')
           fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
           expect(fail2ban_status.output).to contain %r{^\n$}
         else
