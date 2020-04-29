@@ -136,16 +136,16 @@ action = %(<%= $fail2ban::action %>)s
 
 [ssh]
 
-enabled  = <%= "ssh" in $fail2ban::jails %>
-port     = ssh
+enabled  = <%= 'ssh' in $fail2ban::jails %>
+port     = <%= fail2ban::port('ssh', 'ssh') %>
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 6
 
 [dropbear]
 
-enabled  = <%= "dropbear" in $fail2ban::jails %>
-port     = ssh
+enabled  = <%= 'dropbear' in $fail2ban::jails %>
+port     = <%= fail2ban::port('dropbear', 'ssh') %>
 filter   = dropbear
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -242,33 +242,33 @@ maxretry  = 6
 
 [apache-noscript]
 
-enabled  = <%= "apache-noscript" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= 'apache-noscript' in $fail2ban::jails %>
+port     = <%= fail2ban::port('apache-noscript', 'http,https') %>
 filter   = apache-noscript
 logpath  = /var/log/apache*/*error.log
 maxretry = 6
 
 [apache-overflows]
 
-enabled  = <%= "apache-overflows" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= 'apache-overflows' in $fail2ban::jails %>
+port     = <%= fail2ban::port('apache-overflows', 'http,https') %>
 filter   = apache-overflows
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
 [apache-modsecurity]
 
-enabled  = <%= "apache-modsecurity" in $fail2ban::jails %>
+enabled  = <%= 'apache-modsecurity' in $fail2ban::jails %>
 filter   = apache-modsecurity
-port     = http,https
+port     = <%= fail2ban::port('apache-modsecurity', 'http,https') %>
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
 [apache-nohome]
 
-enabled  = <%= "apache-nohome" in $fail2ban::jails %>
+enabled  = <%= 'apache-nohome' in $fail2ban::jails %>
 filter   = apache-nohome
-port     = http,https
+port     = <%= fail2ban::port('apache-nohome', 'http,https') %>
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
@@ -278,8 +278,8 @@ maxretry = 2
 
 [php-url-fopen]
 
-enabled = <%= "php-url-fopen" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= 'php-url-fopen' in $fail2ban::jails %>
+port    = <%= fail2ban::port('php-url-fopen', 'http,https') %>
 filter  = php-url-fopen
 logpath = /var/www/*/logs/access_log
 
@@ -301,32 +301,32 @@ logpath = /var/log/lighttpd/error.log
 
 [lighttpd-auth]
 
-enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= 'lighttpd-auth' in $fail2ban::jails %>
+port    = <%= fail2ban::port('lighttpd-auth', 'http,https') %>
 filter  = suhosin
 logpath = /var/log/lighttpd/error.log
 
 [nginx-http-auth]
 
-enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
+enabled = <%= 'nginx-http-auth' in $fail2ban::jails %>
 filter  = nginx-http-auth
-port    = http,https
+port    = <%= fail2ban::port('nginx-http-auth', 'http,https') %>
 logpath = /var/log/nginx/*error*.log
 
 # Monitor roundcube server
 [roundcube-auth]
 
-enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
+enabled  = <%= 'roundcube-auth' in $fail2ban::jails %>
 filter   = roundcube-auth
-port     = http,https
+port     = <%= fail2ban::port('roundcube-auth', 'http,https') %>
 logpath  = /var/log/roundcube/userlogins
 
 
 [sogo-auth]
 
-enabled  = <%= "sogo-auth" in $fail2ban::jails %>
+enabled  = <%= 'sogo-auth' in $fail2ban::jails %>
 filter   = sogo-auth
-port     = http, https
+port     = <%= fail2ban::port('sogo-auth', 'http,https') %>
 # without proxy this would be:
 # port    = 20000
 logpath  = /var/log/sogo/sogo.log
@@ -338,8 +338,8 @@ logpath  = /var/log/sogo/sogo.log
 
 [vsftpd]
 
-enabled  = <%= "vsftpd" in $fail2ban::jails %>
-port     = ftp,ftp-data,ftps,ftps-data
+enabled  = <%= 'vsftpd' in $fail2ban::jails %>
+port     = <%= fail2ban::port('vsftpd', 'ftp,ftp-data,ftps,ftps-data') %>
 filter   = vsftpd
 logpath  = /var/log/vsftpd.log
 # or overwrite it in jails.local to be
@@ -351,8 +351,8 @@ maxretry = 6
 
 [proftpd]
 
-enabled  = <%= "proftpd" in $fail2ban::jails %>
-port     = ftp,ftp-data,ftps,ftps-data
+enabled  = <%= 'proftpd' in $fail2ban::jails %>
+port     = <%= fail2ban::port('proftpd', 'ftp,ftp-data,ftps,ftps-data') %>
 filter   = proftpd
 logpath  = /var/log/proftpd/proftpd.log
 maxretry = 6
@@ -360,8 +360,8 @@ maxretry = 6
 
 [pure-ftpd]
 
-enabled  = <%= "pure-ftpd" in $fail2ban::jails %>
-port     = ftp,ftp-data,ftps,ftps-data
+enabled  = <%= 'pure-ftpd' in $fail2ban::jails %>
+port     = <%= fail2ban::port('pure-ftpd', 'ftp,ftp-data,ftps,ftps-data') %>
 filter   = pure-ftpd
 logpath  = /var/log/syslog
 maxretry = 6
@@ -369,8 +369,8 @@ maxretry = 6
 
 [wuftpd]
 
-enabled  = <%= "wuftpd" in $fail2ban::jails %>
-port     = ftp,ftp-data,ftps,ftps-data
+enabled  = <%= 'wuftpd' in $fail2ban::jails %>
+port     = <%= fail2ban::port('wuftpd', 'ftp,ftp-data,ftps,ftps-data') %>
 filter   = wuftpd
 logpath  = /var/log/syslog
 maxretry = 6
@@ -382,8 +382,8 @@ maxretry = 6
 
 [postfix]
 
-enabled  = <%= "postfix" in $fail2ban::jails %>
-port     = smtp,ssmtp,submission
+enabled  = <%= 'postfix' in $fail2ban::jails %>
+port     = <%= fail2ban::port('postfix', 'smtp,465,submission') %>
 filter   = postfix
 logpath  = /var/log/mail.log
 
@@ -403,16 +403,16 @@ logpath  = /var/log/mail.log
 
 [courierauth]
 
-enabled  = <%= "courierauth" in $fail2ban::jails %>
-port     = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
+enabled  = <%= 'courierauth' in $fail2ban::jails %>
+port     = <%= fail2ban::port('courierauth', 'smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s') %>
 filter   = courierlogin
 logpath  = /var/log/mail.log
 
 
 [sasl]
 
-enabled  = <%= "sasl" in $fail2ban::jails %>
-port     = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
+enabled  = <%= 'sasl' in $fail2ban::jails %>
+port     = <%= fail2ban::port('postfix-sasl', 'smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s') %>
 filter   = postfix-sasl
 # You might consider monitoring /var/log/mail.warn instead if you are
 # running postfix since it would provide the same log lines at the
@@ -421,8 +421,8 @@ logpath  = /var/log/mail.log
 
 [dovecot]
 
-enabled = <%= "dovecot" in $fail2ban::jails %>
-port    = smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s
+enabled = <%= 'dovecot' in $fail2ban::jails %>
+port    = <%= fail2ban::port('dovecot', 'smtp,ssmtp,submission,imap2,imap3,imaps,pop3,pop3s') %>
 filter  = dovecot
 logpath = /var/log/mail.log
 
@@ -473,8 +473,8 @@ logpath  = /var/log/mysqld.log
 
 [named-refused-tcp]
 
-enabled  = <%= "named-refused-tcp" in $fail2ban::jails %>
-port     = domain,953
+enabled  = <%= 'named-refused-tcp' in $fail2ban::jails %>
+port     = <%= fail2ban::port('named-refused-tcp', 'domain,953') %>
 protocol = tcp
 filter   = named-refused
 logpath  = /var/log/named/security.log
@@ -490,9 +490,9 @@ action   = iptables-multiport[name=freeswitch-tcp, port="5060,5061,5080,5081", p
 
 [ejabberd-auth]
 
-enabled  = <%= "ejabberd-auth" in $fail2ban::jails %>
+enabled  = <%= 'ejabberd-auth' in $fail2ban::jails %>
 filter   = ejabberd-auth
-port     = xmpp-client
+port     = <%= fail2ban::port('ejabberd-auth', 'xmpp-client') %>
 protocol = tcp
 logpath  = /var/log/ejabberd/ejabberd.log
 
@@ -501,17 +501,17 @@ logpath  = /var/log/ejabberd/ejabberd.log
 # see https://github.com/fail2ban/fail2ban/issues/37
 [asterisk-tcp]
 
-enabled  = <%= "asterisk-tcp" in $fail2ban::jails %>
+enabled  = <%= 'asterisk-tcp' in $fail2ban::jails %>
 filter   = asterisk
-port     = 5060,5061
+port     = <%= fail2ban::port('asterisk-tcp', '5060,5061') %>
 protocol = tcp
 logpath  = /var/log/asterisk/messages
 
 [asterisk-udp]
 
-enabled  = <%= "asterisk-udp" in $fail2ban::jails %>
+enabled  = <%= 'asterisk-udp' in $fail2ban::jails %>
 filter	 = asterisk
-port     = 5060,5061
+port     = <%= fail2ban::port('asterisk-udp', '5060,5061') %>
 protocol = udp
 logpath  = /var/log/asterisk/messages
 
