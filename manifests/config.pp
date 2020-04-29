@@ -53,4 +53,34 @@ class fail2ban::config {
       fail("${facts['os']['family']} not supported.")
     }
   }
+  if !empty($fail2ban::sendmail_config) or !empty($fail2ban::sendmail_actions) {
+    file { "${fail2ban::config_dir_path}/action.d":
+      ensure  => 'directory',
+      notify  => $fail2ban::config_file_notify,
+      require => File[$fail2ban::config_dir_path],
+    }
+
+    file_line { 'sendmail_after_override':
+      line    => 'after = sendmail-common.local',
+      after   => 'before = sendmail-common.conf',
+      path    => "${fail2ban::config_dir_path}/action.d/sendmail-buffered.conf",
+      notify  => $fail2ban::config_file_notify,
+      require => File["${fail2ban::config_dir_path}/action.d"],
+    }
+
+    file { "${fail2ban::config_dir_path}/action.d/sendmail-common.local":
+      ensure  => $fail2ban::config_file_ensure,
+      owner   => $fail2ban::config_file_owner,
+      group   => $fail2ban::config_file_group,
+      mode    => $fail2ban::config_file_mode,
+      content => epp("${module_name}/common/sendmail.conf.epp",
+        {
+          actions => $fail2ban::sendmail_actions,
+          config  => $fail2ban::sendmail_config,
+        }
+      ),
+      notify  => $fail2ban::config_file_notify,
+      require => File["${fail2ban::config_dir_path}/action.d"],
+    }
+  }
 }
