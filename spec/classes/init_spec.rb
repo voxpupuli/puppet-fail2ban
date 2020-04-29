@@ -320,6 +320,14 @@ describe 'fail2ban', type: :class do
         end
 
         it do
+          is_expected.to contain_file_line('sendmail_after_override').with(
+            path: '/etc/fail2ban/action.d/sendmail-buffered.conf',
+            line: 'after = sendmail-common.local',
+            after: 'before = sendmail-common.conf'
+          )
+        end
+
+        it do
           is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
             %r{^dest = root$}
           )

@@ -244,6 +244,7 @@ describe 'fail2ban' do
       end
     end
 
+    # rubocop:disable RSpec/MultipleExpectations
     context 'when service start/stop notification are disabled' do
       it 'is expected.to have empty sshd actions' do
         pp = <<-EOS
@@ -254,6 +255,7 @@ describe 'fail2ban' do
             }
           }
         EOS
+        apply_manifest(pp, catch_failures: true)
         # fail2ban-client supports fetching config since version 0.9
         fail2ban_version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2-')
         if Gem::Version.new(fail2ban_version.output) >= Gem::Version.new('0.9.0')
@@ -265,5 +267,6 @@ describe 'fail2ban' do
         end
       end
     end
+    # rubocop:enable RSpec/MultipleExpectations
   end
 end
