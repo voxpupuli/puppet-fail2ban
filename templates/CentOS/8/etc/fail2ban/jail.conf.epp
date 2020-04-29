@@ -256,7 +256,7 @@ action = %(<%= $fail2ban::action %>)s
 # See "tests/files/logs/sshd" or "filter.d/sshd.conf" for usage example and details.
 #mode   = normal
 enabled = <%= "ssh" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 

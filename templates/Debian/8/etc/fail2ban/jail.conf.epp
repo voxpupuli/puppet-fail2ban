@@ -137,7 +137,7 @@ action = %(<%= $fail2ban::action %>)s
 [ssh]
 
 enabled  = <%= "ssh" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 6

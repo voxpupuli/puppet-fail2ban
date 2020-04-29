@@ -40,6 +40,7 @@ class fail2ban (
   String[1] $sender = "fail2ban@${facts['networking']['fqdn']}",
   String[1] $iptables_chain = 'INPUT',
   Array[String[1]] $jails = ['ssh', 'ssh-ddos'],
+  Hash $jails_config = {},
   Integer[0] $maxretry = 3,
   Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto'] $default_backend = 'auto',
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],

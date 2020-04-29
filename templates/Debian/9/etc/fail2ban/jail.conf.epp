@@ -191,7 +191,7 @@ action_cf_mwl = cloudflare[cfuser="%(cfemail)s", cftoken="%(cfapikey)s"]
                 %(mta)s-whois-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s"]
 
 # Report block via blocklist.de fail2ban reporting service API
-# 
+#
 # See the IMPORTANT note in action.d/blocklist_de.conf for when to
 # use this action. Create a file jail.d/blocklist_de.local containing
 # [Init]
@@ -230,7 +230,7 @@ action = %(<%= $fail2ban::action %>)s
 [sshd]
 
 enabled = <%= "ssh" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 
@@ -240,7 +240,7 @@ backend = %(sshd_backend)s
 # The mail-whois action send a notification e-mail with a whois request
 # in the body.
 enabled = <%= "ssh-ddos" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh-ddos.port', String, undef, 'ssh') %>
 logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 
@@ -351,7 +351,7 @@ enabled  = <%= "nginx-http-auth" in $fail2ban::jails %>
 port    = http,https
 logpath = %(nginx_error_log)s
 
-# To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module` 
+# To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module`
 # and define `limit_req` and `limit_req_zone` as described in nginx documentation
 # http://nginx.org/en/docs/http/ngx_http_limit_req_module.html
 # or for example see in 'config/filter.d/nginx-limit-req.conf'

@@ -216,7 +216,7 @@ action = %(<%= $fail2ban::action %>)s
 
 [sshd]
 enabled = <%= "ssh" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 filter  = sshd
 logpath = %(sshd_log)s
 
@@ -226,7 +226,7 @@ logpath = %(sshd_log)s
 # The mail-whois action send a notification e-mail with a whois request
 # in the boidy.
 enabled = <%= "ssh-ddos" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh-ddos.port', String, undef, 'ssh') %>
 filter  = sshd
 logpath = %(sshd_log)s
 
