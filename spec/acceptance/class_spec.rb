@@ -301,8 +301,10 @@ EOS
       end
 
       context 'is expected to modify selinux-ssh port' do
-        describe file(config_file_path) do
-          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2202$} }
+        unless os[:family] == 'debian' and os[:release] == 8
+          describe file(config_file_path) do
+            its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2202$} }
+          end
         end
       end
     end
