@@ -289,8 +289,14 @@ EOS
       end
 
       it 'is expected to modify sshd port' do
-        shell("grep \"\\[sshd\\]\" -A 10 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
+        if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[ssh\\]\" -A 10 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
+          end
+        else
+          shell("grep \"\\[sshd\\]\" -A 10 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
+          end
         end
       end
 
