@@ -325,8 +325,10 @@ EOS
       end
 
       it 'is expected to modify apache-badbots port' do
-        shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
     end
