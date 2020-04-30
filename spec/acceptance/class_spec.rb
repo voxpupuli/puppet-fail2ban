@@ -284,6 +284,8 @@ fail2ban::jails_config:
     port: 'ssh,2202'
   apache-auth:
     port: '80,443'
+  apache-badbots:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -319,6 +321,12 @@ EOS
           shell("grep \"\\[apache-auth\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify apache-badbots port' do
+        shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end

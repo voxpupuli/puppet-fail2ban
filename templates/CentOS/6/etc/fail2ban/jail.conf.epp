@@ -218,15 +218,15 @@ maxretry = 5
 
 [apache-auth]
 enabled = <%= "apache-auth" in $fail2ban::jails %>
-port     = <%= lookup('fail2ban::jails_config.apache-auth.port', String, undef, 'http,https') %>
-logpath  = %(apache_error_log)s
+port    = <%= lookup('fail2ban::jails_config.apache-auth.port', String, undef, 'http,https') %>
+logpath = %(apache_error_log)s
 
 
 [apache-badbots]
 # Ban hosts which agent identifies spammer robots crawling the web
 # for email addresses. The mail outputs are buffered.
-enabled = <%= "apache-badbots" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= "apache-badbots" in $fail2ban::jails %>
+port     = <%= lookup('fail2ban::jails_config.apache-badbots.port', String, undef, 'http,https') %>
 logpath  = %(apache_access_log)s
 bantime  = 172800
 maxretry = 1
