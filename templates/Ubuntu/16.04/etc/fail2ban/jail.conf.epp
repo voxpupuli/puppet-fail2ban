@@ -241,7 +241,7 @@ maxretry = 6
 [dropbear]
 
 enabled  = <%= "dropbear" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.dropbear.port', String, undef, 'ssh') %>
 logpath  = %(dropbear_log)s
 maxretry = 6
 
@@ -249,7 +249,7 @@ maxretry = 6
 [selinux-ssh]
 
 enabled  = <%= "selinux-ssh" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.selinux-ssh.port', String, undef, 'ssh') %>
 logpath  = %(auditd_log)s
 maxretry = 5
 

@@ -233,14 +233,14 @@ logpath = %(sshd_log)s
 
 [dropbear]
 enabled = <%= "dropbear" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.dropbear.port', String, undef, 'ssh') %>
 filter   = sshd
 logpath  = %(dropbear_log)s
 
 
 [selinux-ssh]
 enabled = <%= "selinux-ssh" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.selinux-ssh.port', String, undef, 'ssh') %>
 filter   = sshd
 logpath  = %(auditd_log)s
 maxretry = 5

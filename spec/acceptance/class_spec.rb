@@ -243,6 +243,8 @@ describe 'fail2ban' do
         expect(fail2ban_status.output).to contain ssh_jail
       end
     end
+
+    # rubocop:disable RSpec/MultipleExpectations
     context 'when service start/stop notification are disabled' do
       it 'is expected.to have empty sshd actions' do
         pp = <<-EOS
@@ -266,5 +268,43 @@ describe 'fail2ban' do
       end
     end
     # rubocop:enable RSpec/MultipleExpectations
+
+    context 'when overriding default port configuration' do
+      before(:all) do
+        pp = <<-EOS
+          class { 'fail2ban': }
+        EOS
+        yaml = <<-EOS
+fail2ban::jails_config:
+  ssh:
+    port: 'ssh,2200'
+  dropbear:
+    port: 'ssh,2201'
+  selinux-ssh:
+    port: 'ssh,2202'
+EOS
+        shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
+
+        apply_manifest(pp, catch_failures: true)
+      end
+
+      context 'is expected to modify sshd port' do
+        describe file(config_file_path) do
+          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2200$} }
+        end
+      end
+
+      context 'is expected to modify dropbear port' do
+        describe file(config_file_path) do
+          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2201$} }
+        end
+      end
+
+      context 'is expected to modify selinux-ssh port' do
+        describe file(config_file_path) do
+          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2202$} }
+        end
+      end
+    end
   end
 end
