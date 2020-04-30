@@ -35,7 +35,7 @@ class fail2ban::config {
     'RedHat': {
       # Not using firewalld by now
       file { '00-firewalld.conf':
-        ensure  => 'absent',
+        ensure  => $fail2ban::manage_firewalld,
         path    => "${fail2ban::config_dir_path}/jail.d/00-firewalld.conf",
         notify  => $fail2ban::config_file_notify,
         require => $fail2ban::config_file_require,
@@ -44,7 +44,7 @@ class fail2ban::config {
     'Debian': {
       # Remove debian defaults conf
       file { 'defaults-debian.conf':
-        ensure  => absent,
+        ensure  => $fail2ban::manage_defaults,
         path    => "${fail2ban::config_dir_path}/jail.d/defaults-debian.conf",
         require => $fail2ban::config_file_require,
       }
