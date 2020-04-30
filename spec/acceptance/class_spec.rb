@@ -282,6 +282,8 @@ fail2ban::jails_config:
     port: 'ssh,2201'
   selinux-ssh:
     port: 'ssh,2202'
+  apache-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -289,15 +291,13 @@ EOS
       end
 
       it 'is expected to modify sshd port' do
-        if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
-          shell("grep \"\\[ssh\\]\" -A 10 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
-          end
-        else
-          shell("grep \"\\[sshd\\]\" -A 10 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
-          end
-        end
+        r = if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+              # Debian 8 is calling jail `ssh` instead of `sshd`
+              shell("grep \"\\[ssh\\]\" -A 10 #{config_file_path}")
+            else
+              shell("grep \"\\[sshd\\]\" -A 10 #{config_file_path}")
+            end
+        expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
       end
 
       it 'is expected to modify dropbear port' do
@@ -311,6 +311,12 @@ EOS
           shell("grep \"\\[selinux-ssh\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+ssh,2202$}
           end
+        end
+      end
+
+      it 'is expected to modify apache-auth port' do
+        shell("grep \"\\[apache-auth\\]\" -A 5 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end
