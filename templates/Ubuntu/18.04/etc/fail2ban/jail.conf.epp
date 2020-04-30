@@ -277,7 +277,7 @@ logpath  = %(auditd_log)s
 [apache-auth]
 
 enabled  = <%= "apache-auth" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-auth.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 
 
