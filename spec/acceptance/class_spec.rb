@@ -288,22 +288,22 @@ EOS
         apply_manifest(pp, catch_failures: true)
       end
 
-      context 'is expected to modify sshd port' do
-        describe file(config_file_path) do
-          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2200$} }
+      it 'is expected to modify sshd port' do
+        shell("grep \"\\[sshd\\]\" -A 10 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
         end
       end
 
-      context 'is expected to modify dropbear port' do
-        describe file(config_file_path) do
-          its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2201$} }
+      it 'is expected to modify dropbear port' do
+        shell("grep \"\\[dropbear\\]\" -A 5 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+ssh,2201$}
         end
       end
 
-      context 'is expected to modify selinux-ssh port' do
-        unless os[:family] == 'debian' and os[:release] == 8
-          describe file(config_file_path) do
-            its(:content) { is_expected.to match %r{^port\s+\=\s+ssh,2202$} }
+      it 'is expected to modify selinux-ssh port' do
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[selinux-ssh\\]\" -A 5 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+ssh,2202$}
           end
         end
       end
