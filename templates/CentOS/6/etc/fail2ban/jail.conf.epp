@@ -233,8 +233,8 @@ maxretry = 1
 
 
 [apache-noscript]
-enabled = <%= "apache-noscript" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= "apache-noscript" in $fail2ban::jails %>
+port     = <%= lookup('fail2ban::jails_config.apache-badbots.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 6
 

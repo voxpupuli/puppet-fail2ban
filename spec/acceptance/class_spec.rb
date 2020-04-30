@@ -286,6 +286,8 @@ fail2ban::jails_config:
     port: '80,443'
   apache-badbots:
     port: '80,443'
+  apache-noscript:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -329,6 +331,12 @@ EOS
           shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify apache-noscript port' do
+        shell("grep \"\\[apache-noscript\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end
