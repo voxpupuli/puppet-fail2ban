@@ -27,6 +27,9 @@ class fail2ban (
   Hash[String[1], Any] $config_file_hash = {},
   Hash $config_file_options_hash = {},
 
+  Enum['absent', 'present'] $manage_defaults = 'absent',
+  Enum['absent', 'present'] $manage_firewalld = 'absent',
+
   Enum['running', 'stopped'] $service_ensure = 'running',
   String[1] $service_name = 'fail2ban',
   Boolean $service_enable = true,

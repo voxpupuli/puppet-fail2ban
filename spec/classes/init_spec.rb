@@ -221,6 +221,42 @@ describe 'fail2ban', type: :class do
           end
         end
 
+        case facts[:os]['family']
+        when 'RedHat'
+          context 'when manage_firewalld' do
+            let(:params) do
+              {
+                manage_firewalld: 'present'
+              }
+            end
+
+            it do
+              is_expected.to contain_file('00-firewalld.conf').with(
+                'ensure'  => 'present',
+                'path'    => '/etc/fail2ban/jail.d/00-firewalld.conf',
+                'notify'  => 'Service[fail2ban]',
+                'require' => 'Package[fail2ban]'
+              )
+            end
+          end
+        when 'Debian'
+          context 'when manage_defaults' do
+            let(:params) do
+              {
+                manage_defaults: 'present'
+              }
+            end
+
+            it do
+              is_expected.to contain_file('defaults-debian.conf').with(
+                'ensure'  => 'present',
+                'path'    => '/etc/fail2ban/jail.d/defaults-debian.conf',
+                'require' => 'Package[fail2ban]'
+              )
+            end
+          end
+        end
+
         context 'when iptables chain provided' do
           let(:params) do
             {

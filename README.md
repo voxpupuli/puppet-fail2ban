@@ -279,6 +279,16 @@ Defaults to '{}'.
 
 Determines which parameters should be passed to an ERB template. Defaults to '{}'.
 
+#### `manage_defaults`
+
+Determines whether the file `/etc/fail2ban/jail.d/defaults-debian.conf` should
+be deleted or not. Defaults to 'absent'.
+
+#### `manage_firewalld`
+
+Determines whether the file `/etc/fail2ban/jail.d/00-firewalld.conf` should be
+deleted or not. Defaults to 'absent'.
+
 #### `service_ensure`
 
 Determines if the service should be running or not. Valid values are 'running'
@@ -495,7 +505,6 @@ fail2ban::sendmail_config:
   sender: fail2ban@localhost
   sendername: Fail2Ban
 ```
-
 
 ## Limitations
 
