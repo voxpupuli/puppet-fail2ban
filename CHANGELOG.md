@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.2.0) (2020-05-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.1.0...v3.2.0)
+
+**Implemented enhancements:**
+
+- Add parameters manage\_defaults, manage\_firewalld [\#147](https://github.com/voxpupuli/puppet-fail2ban/pull/147) ([dhoppe](https://github.com/dhoppe))
+- Support overriding service notifications \(\#143\) [\#144](https://github.com/voxpupuli/puppet-fail2ban/pull/144) ([deric](https://github.com/deric))
+
+**Closed issues:**
+
+- Why is firewalld being "deactivated" [\#146](https://github.com/voxpupuli/puppet-fail2ban/issues/146)
+- Option to disable service start/stop notifications [\#143](https://github.com/voxpupuli/puppet-fail2ban/issues/143)
+
+**Merged pull requests:**
+
+- Fix several markdown lint issues [\#142](https://github.com/voxpupuli/puppet-fail2ban/pull/142) ([dhoppe](https://github.com/dhoppe))
+
 ## [v3.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.1.0) (2020-04-22)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.0.0...v3.1.0)
