@@ -429,44 +429,98 @@ in a specific jail).
 
 #### Debian
 
-* apache
+* 3proxy
+* apache-auth
+* apache-badbots
+* apache-botsearch
+* apache-fakegooglebot
 * apache-modsecurity
 * apache-multiport
 * apache-nohome
 * apache-noscript
 * apache-overflows
-* asterisk-tcp
-* asterisk-udp
+* apache-shellshock
+* assp
+* asterisk
+* bitwarden
+* centreon
+* counter-strike
 * courierauth
-* couriersmtp
+* courier-smtp
+* cyrus-imap
+* directadmin
+* domino-smtp
 * dovecot
 * dropbear
+* drupal-auth
 * ejabberd-auth
+* exim
+* exim-spam
 * freeswitch
+* froxlor-auth
+* groupoffice
+* gssftpd
+* guacamole
+* haproxy-http-auth
+* horde
+* kerio
 * lighttpd-auth
 * lighttpd-fastcgi
+* mongodb-auth
+* monit
+* murmur
 * mysqld-auth
 * nagios
-* named-refused-tcp
+* named-refused
+* nginx-botsearch
 * nginx-http-auth
+* nginx-limit-req
+* nsd
+* openhab-auth
+* openwebmail
+* oracleims
 * pam-generic
+* pass2allow-ftp
+* perdition
 * php-url-fopen
+* phpmyadmin-syslog
+* portsentry
 * postfix
+* postfix-rbl
+* postfix-sasl
 * proftpd
 * pure-ftpd
+* qmail-rbl
 * recidive
 * roundcube-auth
 * sasl
+* selinux-ssh
+* sendmail-auth
+* sendmail-reject
+* sieve
+* screensharing
+* slapd
 * sogo-auth
+* solid-pop3d
+* squid
+* squirrelmail
 * ssh
 * ssh-blocklist
 * ssh-ddos
 * ssh-iptables-ipset4
 * ssh-iptables-ipset6
 * ssh-route
+* stunnel
+* suhosin
+* tine20
+* traefik-auth
+* uwimap-auth
 * vsftpd
+* webmin-auth
 * wuftpd
 * xinetd-fail
+* zoneminder
+* znc-adminlog
 
 ### Custom jails
 
@@ -511,7 +565,7 @@ fail2ban::sendmail_config:
 This module has been tested on:
 
 * Debian 8/9/10
-* Ubuntu 16.04/18.04
+* Ubuntu 16.04/18.04/20.04
 * RedHat 6/7/8
 * CentOS 6/7/8
 
