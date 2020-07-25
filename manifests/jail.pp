@@ -27,7 +27,6 @@ define fail2ban::jail (
   Optional[String] $config_file_notify = $fail2ban::config_file_notify,
   Optional[String] $config_file_require = $fail2ban::config_file_require,
 ) {
-
   # Jail filter creation
   file { "custom_filter_${name}":
     ensure  => file,
