@@ -243,8 +243,6 @@ describe 'fail2ban' do
         expect(fail2ban_status.output).to contain ssh_jail
       end
     end
-
-    # rubocop:disable RSpec/MultipleExpectations
     context 'when service start/stop notification are disabled' do
       it 'is expected.to have empty sshd actions' do
         pp = <<-EOS

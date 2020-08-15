@@ -1,7 +1,6 @@
 # == Class: fail2ban::config
 #
 class fail2ban::config {
-
   file { 'fail2ban.dir':
     ensure  => $fail2ban::config_dir_ensure,
     path    => $fail2ban::config_dir_path,
