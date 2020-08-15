@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.3.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.3.0) (2020-08-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.2.0...v3.3.0)
+
+**Merged pull requests:**
+
+- Add Ubuntu 20.04 support [\#151](https://github.com/voxpupuli/puppet-fail2ban/pull/151) ([davealden](https://github.com/davealden))
+
 ## [v3.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v3.2.0) (2020-05-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.1.0...v3.2.0)
