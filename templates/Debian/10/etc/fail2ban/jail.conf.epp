@@ -365,8 +365,8 @@ logpath = %(nginx_error_log)s
 # or for example see in 'config/filter.d/nginx-limit-req.conf'
 [nginx-limit-req]
 
-enabled  = <%= "nginx-limit-req" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= "nginx-limit-req" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.nginx-limit-req.port', String, undef, 'http,https') %>
 logpath = %(nginx_error_log)s
 
 [nginx-botsearch]
