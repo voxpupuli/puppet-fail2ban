@@ -303,6 +303,8 @@ fail2ban::jails_config:
     port: '80,443'
   nginx-limit-req:
     port: '80,443'
+  nginx-botsearch:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -408,6 +410,14 @@ EOS
       it 'is expected to modify nginx-limit-req port' do
         unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify nginx-botsearch port' do
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[nginx-botsearch\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
         end

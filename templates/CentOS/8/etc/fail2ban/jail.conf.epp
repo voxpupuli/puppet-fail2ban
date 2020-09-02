@@ -366,7 +366,7 @@ logpath = %(nginx_error_log)s
 
 [nginx-botsearch]
 enabled  = <%= "nginx-botsearch" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.nginx-botsearch.port', String, undef, 'http,https') %>
 logpath  = %(nginx_error_log)s
 maxretry = 2
 
