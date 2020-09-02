@@ -430,9 +430,9 @@ logpath = /home/groupoffice/log/info.log
 # Monitor SOGo groupware server
 # without proxy this would be:
 # port    = 20000
-enabled  = <%= "sogo-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/sogo/sogo.log
+enabled = <%= "sogo-auth" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.sogo-auth.port', String, undef, 'http,https') %>
+logpath = /var/log/sogo/sogo.log
 
 
 [tine20]

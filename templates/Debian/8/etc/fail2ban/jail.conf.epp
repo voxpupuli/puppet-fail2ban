@@ -326,7 +326,7 @@ logpath  = /var/log/roundcube/userlogins
 
 enabled  = <%= "sogo-auth" in $fail2ban::jails %>
 filter   = sogo-auth
-port     = http, https
+port     = <%= lookup('fail2ban::jails_config.sogo-auth.port', String, undef, 'http,https') %>
 # without proxy this would be:
 # port    = 20000
 logpath  = /var/log/sogo/sogo.log

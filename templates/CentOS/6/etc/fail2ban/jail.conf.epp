@@ -349,7 +349,7 @@ enabled = <%= "sogo-auth" in $fail2ban::jails %>
 # Monitor SOGo groupware server
 # without proxy this would be:
 # port    = 20000
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.sogo-auth.port', String, undef, 'http,https') %>
 logpath  = /var/log/sogo/sogo.log
 
 

@@ -323,6 +323,8 @@ fail2ban::jails_config:
     port: '80,443'
   groupoffice:
     port: '80,443'
+  sogo-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -494,6 +496,12 @@ EOS
           shell("grep \"\\[groupoffice\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify sogo-auth port' do
+        shell("grep \"\\[sogo-auth\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end
