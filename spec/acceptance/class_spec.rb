@@ -15,6 +15,12 @@ when 'RedHat'
   ssh_jail              = 'ssh'
 end
 
+
+def detect_fail2ban_version
+  version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2- | tail -n1')
+  Gem::Version.new(version.stdout)
+end
+
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
 shell("touch #{ssh_log_file}")
 
@@ -256,8 +262,7 @@ describe 'fail2ban' do
         EOS
         apply_manifest(pp, catch_failures: true)
         # fail2ban-client supports fetching config since version 0.9
-        fail2ban_version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2- | tail -n1')
-        if Gem::Version.new(fail2ban_version.stdout) >= Gem::Version.new('0.9.0')
+        if detect_fail2ban_version >= Gem::Version.new('0.9.0')
           fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
           expect(fail2ban_status.output).to contain %r{^\n$}
         else
@@ -313,6 +318,8 @@ EOS
         apply_manifest(pp, catch_failures: true)
       end
 
+      fail2ban_version = detect_fail2ban_version
+
       it 'is expected to modify sshd port' do
         r = if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
               # Debian 8 is calling jail `ssh` instead of `sshd`
@@ -330,7 +337,7 @@ EOS
       end
 
       it 'is expected to modify selinux-ssh port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.8.11')
           shell("grep \"\\[selinux-ssh\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+ssh,2202$}
           end
@@ -338,7 +345,7 @@ EOS
       end
 
       it 'is expected to modify apache-auth port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.8.11')
           shell("grep \"\\[apache-auth\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -346,7 +353,7 @@ EOS
       end
 
       it 'is expected to modify apache-badbots port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.4')
           shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -366,7 +373,7 @@ EOS
       end
 
       it 'is expected to modify apache-nohome port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.8.10')
           shell("grep \"\\[apache-nohome\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -374,7 +381,7 @@ EOS
       end
 
       it 'is expected to modify apache-botsearch port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.0')
           shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -382,7 +389,7 @@ EOS
       end
 
       it 'is expected to modify apache-fakegooglebot port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.6')
           shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -396,7 +403,7 @@ EOS
       end
 
       it 'is expected to modify apache-shellshock port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.1')
           shell("grep \"\\[apache-shellshock\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -410,7 +417,7 @@ EOS
       end
 
       it 'is expected to modify nginx-limit-req port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.4')
           shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -418,7 +425,7 @@ EOS
       end
 
       it 'is expected to modify nginx-botsearch port' do
-        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        if fail2ban_version >= Gem::Version.new('0.9.2')
           shell("grep \"\\[nginx-botsearch\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
