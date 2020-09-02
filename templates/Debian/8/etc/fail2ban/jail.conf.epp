@@ -302,7 +302,7 @@ logpath = /var/log/lighttpd/error.log
 [lighttpd-auth]
 
 enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.lighttpd-auth.port', String, undef, 'http,https') %>
 filter  = suhosin
 logpath = /var/log/lighttpd/error.log
 

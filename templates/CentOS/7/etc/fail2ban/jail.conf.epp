@@ -312,7 +312,7 @@ logpath = %(suhosin_log)s
 enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
 # Same as above for Apache's mod_auth
 # It catches wrong authentifications
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.lighttpd-auth.port', String, undef, 'http,https') %>
 logpath = %(lighttpd_error_log)s
 
 
