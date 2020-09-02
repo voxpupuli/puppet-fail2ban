@@ -354,20 +354,26 @@ EOS
       end
 
       it 'is expected to modify apache-nohome port' do
-        shell("grep \"\\[apache-nohome\\]\" -A 6 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[apache-nohome\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
 
       it 'is expected to modify apache-botsearch port' do
-        shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
 
       it 'is expected to modify apache-fakegooglebot port' do
-        shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
     end
