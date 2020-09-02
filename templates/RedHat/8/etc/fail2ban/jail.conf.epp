@@ -416,7 +416,7 @@ logpath = /var/log/openwebmail.log
 
 [horde]
 enabled  = <%= "horde" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.horde.port', String, undef, 'http,https') %>
 logpath  = /var/log/horde/horde.log
 
 

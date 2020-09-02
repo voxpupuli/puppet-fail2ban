@@ -401,23 +401,23 @@ logpath = %(lighttpd_error_log)s
 #
 
 [roundcube-auth]
-enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
-port     = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
-logpath  = %(roundcube_errors_log)s
+enabled = <%= "roundcube-auth" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
+logpath = %(roundcube_errors_log)s
 # Use following line in your jail.local if roundcube logs to journal.
 #backend = %(syslog_backend)s
 
 
 [openwebmail]
-enabled  = <%= "openwebmail" in $fail2ban::jails %>
-port     = <%= lookup('fail2ban::jails_config.openwebmail.port', String, undef, 'http,https') %>
-logpath  = /var/log/openwebmail.log
+enabled = <%= "openwebmail" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.openwebmail.port', String, undef, 'http,https') %>
+logpath = /var/log/openwebmail.log
 
 
 [horde]
-enabled  = <%= "horde" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/horde/horde.log
+enabled = <%= "horde" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.horde.port', String, undef, 'http,https') %>
+logpath = /var/log/horde/horde.log
 
 
 [groupoffice]
