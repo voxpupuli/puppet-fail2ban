@@ -15,9 +15,9 @@ when 'RedHat'
   ssh_jail              = 'ssh'
 end
 
-def detect_fail2ban_version
-  version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2- | tail -n1')
-  Gem::Version.new(version.stdout)
+def fail2ban_is_at_least(version)
+  res = shell('fail2ban-server --version | awk \'/Fail2Ban v/ {print $2; EXIT}\'')
+  Gem::Version.new(res.stdout) >= Gem::Version.new(version)
 end
 
 # Ensure the ssh log file is created, otherwise the service doesn't start completely
@@ -260,8 +260,9 @@ describe 'fail2ban' do
           }
         EOS
         apply_manifest(pp, catch_failures: true)
+
         # fail2ban-client supports fetching config since version 0.9
-        if detect_fail2ban_version >= Gem::Version.new('0.9.0')
+        if fail2ban_is_at_least('0.9.0')
           fail2ban_status = shell('fail2ban-client get sshd action sendmail-buffered actionstart')
           expect(fail2ban_status.output).to contain %r{^\n$}
         else
@@ -270,8 +271,8 @@ describe 'fail2ban' do
         end
       end
     end
-    # rubocop:enable RSpec/MultipleExpectations
 
+    # rubocop:enable RSpec/MultipleExpectations
     context 'when overriding default port configuration' do
       before(:all) do
         pp = <<-EOS
@@ -331,10 +332,11 @@ EOS
         apply_manifest(pp, catch_failures: true)
       end
 
-      fail2ban_version = detect_fail2ban_version
-
+      # fail2ban version check must be inside "it" block,
+      # so that the variable will be evaluated
+      # after package installation
       it 'is expected to modify sshd port' do
-        r = if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+        r = if fail2ban_is_at_least('0.9.0')
               # Debian 8 is calling jail `ssh` instead of `sshd`
               shell("grep \"\\[ssh\\]\" -A 10 #{config_file_path}")
             else
@@ -343,14 +345,40 @@ EOS
         expect(r.stdout).to match %r{^port\s+\=\s+ssh,2200$}
       end
 
-      it 'is expected to modify dropbear port' do
-        shell("grep \"\\[dropbear\\]\" -A 5 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+ssh,2201$}
+      it 'is expected to modify lighttpd-auth port' do
+        if fail2ban_is_at_least('0.8.7')
+          shell("grep \"\\[lighttpd-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify roundcube-auth port' do
+        if fail2ban_is_at_least('0.8.9')
+          shell("grep \"\\[roundcube-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify apache-nohome port' do
+        if fail2ban_is_at_least('0.8.10')
+          shell("grep \"\\[apache-nohome\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify suhosin port' do
+        if fail2ban_is_at_least('0.8.11')
+          shell("grep \"\\[suhosin\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
 
       it 'is expected to modify selinux-ssh port' do
-        if fail2ban_version >= Gem::Version.new('0.8.11')
+        if fail2ban_is_at_least('0.8.11')
           shell("grep \"\\[selinux-ssh\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+ssh,2202$}
           end
@@ -358,18 +386,101 @@ EOS
       end
 
       it 'is expected to modify apache-auth port' do
-        if fail2ban_version >= Gem::Version.new('0.8.11')
+        if fail2ban_is_at_least('0.8.11')
           shell("grep \"\\[apache-auth\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
         end
       end
 
+      it 'is expected to modify horde port' do
+        if fail2ban_is_at_least('0.8.11')
+          shell("grep \"\\[horde\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify groupoffice port' do
+        if fail2ban_is_at_least('0.8.11')
+          shell("grep \"\\[groupoffice\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify openwebmail port' do
+        if fail2ban_is_at_least('0.8.11')
+          shell("grep \"\\[openwebmail\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify apache-botsearch port' do
+        if fail2ban_is_at_least('0.9.0')
+          shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify apache-shellshock port' do
+        if fail2ban_is_at_least('0.9.0')
+          shell("grep \"\\[apache-shellshock\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+
+      it 'is expected to modify nginx-botsearch port' do
+        if fail2ban_is_at_least('0.9.2')
+          shell("grep \"\\[nginx-botsearch\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify nginx-limit-req port' do
+        if fail2ban_is_at_least('0.9.4')
+          shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
       it 'is expected to modify apache-badbots port' do
-        if fail2ban_version >= Gem::Version.new('0.9.4')
+        if fail2ban_is_at_least('0.9.4')
           shell("grep \"\\[apache-badbots\\]\" -A 7 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify apache-fakegooglebot port' do
+        if fail2ban_is_at_least('0.9.6')
+          shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify dropbear port' do
+        shell("grep \"\\[dropbear\\]\" -A 5 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+ssh,2201$}
+        end
+      end
+
+      it 'is expected to modify apache-modsecurity port' do
+        shell("grep \"\\[apache-modsecurity\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        end
+      end
+
+      it 'is expected to modify nginx-http-auth port' do
+        shell("grep \"\\[nginx-http-auth\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
 
@@ -385,122 +496,14 @@ EOS
         end
       end
 
-      it 'is expected to modify apache-nohome port' do
-        if fail2ban_version >= Gem::Version.new('0.8.10')
-          shell("grep \"\\[apache-nohome\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify apache-botsearch port' do
-        if fail2ban_version >= Gem::Version.new('0.9.0')
-          shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify apache-fakegooglebot port' do
-        if fail2ban_version >= Gem::Version.new('0.9.6')
-          shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify apache-modsecurity port' do
-        shell("grep \"\\[apache-modsecurity\\]\" -A 6 #{config_file_path}") do |r|
+      it 'is expected to modify sogo-auth port' do
+        shell("grep \"\\[sogo-auth\\]\" -A 6 #{config_file_path}") do |r|
           expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-        end
-      end
-
-      it 'is expected to modify apache-shellshock port' do
-        if fail2ban_version >= Gem::Version.new('0.9.1')
-          shell("grep \"\\[apache-shellshock\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify nginx-http-auth port' do
-        shell("grep \"\\[nginx-http-auth\\]\" -A 6 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-        end
-      end
-
-      it 'is expected to modify nginx-limit-req port' do
-        if fail2ban_version >= Gem::Version.new('0.9.4')
-          shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify nginx-botsearch port' do
-        if fail2ban_version >= Gem::Version.new('0.9.2')
-          shell("grep \"\\[nginx-botsearch\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
         end
       end
 
       it 'is expected to modify php-url-fopen port' do
         shell("grep \"\\[php-url-fopen\\]\" -A 6 #{config_file_path}") do |r|
-          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-        end
-      end
-
-      it 'is expected to modify suhosin port' do
-        if fail2ban_version >= Gem::Version.new('0.8.11')
-          shell("grep \"\\[suhosin\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify lighttpd-auth port' do
-        if fail2ban_version >= Gem::Version.new('0.8.7')
-          shell("grep \"\\[lighttpd-auth\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify roundcube-auth port' do
-        if fail2ban_version >= Gem::Version.new('0.8.9')
-          shell("grep \"\\[roundcube-auth\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify openwebmail port' do
-        if fail2ban_version >= Gem::Version.new('0.8.12')
-          shell("grep \"\\[openwebmail\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify horde port' do
-        if fail2ban_version >= Gem::Version.new('0.8.12')
-          shell("grep \"\\[horde\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify groupoffice port' do
-        if fail2ban_version >= Gem::Version.new('0.8.12')
-          shell("grep \"\\[groupoffice\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
-          end
-        end
-      end
-
-      it 'is expected to modify sogo-auth port' do
-        shell("grep \"\\[sogo-auth\\]\" -A 6 #{config_file_path}") do |r|
           expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
