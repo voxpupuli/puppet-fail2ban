@@ -274,6 +274,7 @@ describe 'fail2ban' do
 
     # rubocop:enable RSpec/MultipleExpectations
     context 'when overriding default port configuration' do
+
       before(:all) do
         pp = <<-EOS
           class { 'fail2ban': }
@@ -336,7 +337,7 @@ EOS
       # so that the variable will be evaluated
       # after package installation
       it 'is expected to modify sshd port' do
-        r = if fail2ban_is_at_least('0.9.0')
+        r = if fact('os.family') == 'Debian' && fact('os.release.major') == '8'
               # Debian 8 is calling jail `ssh` instead of `sshd`
               shell("grep \"\\[ssh\\]\" -A 10 #{config_file_path}")
             else
