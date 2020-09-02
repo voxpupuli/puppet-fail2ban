@@ -309,9 +309,9 @@ logpath  = %(apache_error_log)s
 maxretry = 2
 
 [apache-shellshock]
-enabled = <%= "apache-shellshock" in $fail2ban::jails %>
-port    = http,https
-logpath = %(apache_error_log)s
+enabled  = <%= "apache-shellshock" in $fail2ban::jails %>
+port     = <%= lookup('fail2ban::jails_config.apache-shellshock.port', String, undef, 'http,https') %>
+logpath  = %(apache_error_log)s
 maxretry = 1
 
 [nginx-http-auth]
