@@ -436,8 +436,8 @@ logpath = /var/log/horde/horde.log
 [groupoffice]
 
 enabled = <%= "groupoffice" in $fail2ban::jails %>
-port     = http,https
-logpath  = /home/groupoffice/log/info.log
+port    = <%= lookup('fail2ban::jails_config.groupoffice.port', String, undef, 'http,https') %>
+logpath = /home/groupoffice/log/info.log
 
 
 [sogo-auth]

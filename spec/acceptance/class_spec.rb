@@ -321,6 +321,8 @@ fail2ban::jails_config:
     port: '80,443'
   horde:
     port: '80,443'
+  groupoffice:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -482,6 +484,14 @@ EOS
       it 'is expected to modify horde port' do
         if fail2ban_version >= Gem::Version.new('0.8.12')
           shell("grep \"\\[horde\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify groupoffice port' do
+        if fail2ban_version >= Gem::Version.new('0.8.12')
+          shell("grep \"\\[groupoffice\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
         end
