@@ -294,6 +294,8 @@ fail2ban::jails_config:
     port: '80,443'
   apache-botsearch:
     port: '80,443'
+  apache-fakegooglebot:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -360,6 +362,12 @@ EOS
 
       it 'is expected to modify apache-botsearch port' do
         shell("grep \"\\[apache-botsearch\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        end
+      end
+
+      it 'is expected to modify apache-fakegooglebot port' do
+        shell("grep \"\\[apache-fakegooglebot\\]\" -A 6 #{config_file_path}") do |r|
           expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
