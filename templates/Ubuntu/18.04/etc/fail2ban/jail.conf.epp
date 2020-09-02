@@ -394,7 +394,7 @@ logpath = %(nginx_access_log)s
 [suhosin]
 
 enabled = <%= "suhosin" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.suhosin.port', String, undef, 'http,https') %>
 logpath = %(suhosin_log)s
 
 

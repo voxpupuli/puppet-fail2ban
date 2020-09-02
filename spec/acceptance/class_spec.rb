@@ -15,7 +15,6 @@ when 'RedHat'
   ssh_jail              = 'ssh'
 end
 
-
 def detect_fail2ban_version
   version = shell('fail2ban-server --version | head -n1 | awk \'{print $2}\' | cut -c 2- | tail -n1')
   Gem::Version.new(version.stdout)
@@ -312,6 +311,8 @@ fail2ban::jails_config:
     port: '80,443'
   php-url-fopen:
     port: '80,443'
+  suhosin:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -435,6 +436,14 @@ EOS
       it 'is expected to modify php-url-fopen port' do
         shell("grep \"\\[php-url-fopen\\]\" -A 6 #{config_file_path}") do |r|
           expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        end
+      end
+
+      it 'is expected to modify suhosin port' do
+        if fail2ban_version >= Gem::Version.new('0.8.11')
+          shell("grep \"\\[suhosin\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
     end
