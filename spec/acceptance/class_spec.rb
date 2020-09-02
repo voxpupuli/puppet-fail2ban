@@ -244,7 +244,6 @@ describe 'fail2ban' do
       end
     end
 
-    # rubocop:disable RSpec/MultipleExpectations
     context 'when service start/stop notification are disabled' do
       it 'is expected.to have empty sshd actions' do
         pp = <<-EOS
