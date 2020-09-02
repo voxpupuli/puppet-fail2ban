@@ -274,7 +274,6 @@ describe 'fail2ban' do
 
     # rubocop:enable RSpec/MultipleExpectations
     context 'when overriding default port configuration' do
-
       before(:all) do
         pp = <<-EOS
           class { 'fail2ban': }
@@ -373,7 +372,7 @@ EOS
       end
 
       it 'is expected to modify suhosin port' do
-        if fail2ban_is_at_least('0.8.11')
+        if fail2ban_is_at_least('0.9.0')
           shell("grep \"\\[suhosin\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -381,7 +380,8 @@ EOS
       end
 
       it 'is expected to modify selinux-ssh port' do
-        if fail2ban_is_at_least('0.8.11')
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[selinux-ssh\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+ssh,2202$}
           end
@@ -389,7 +389,8 @@ EOS
       end
 
       it 'is expected to modify apache-auth port' do
-        if fail2ban_is_at_least('0.8.11')
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[apache-auth\\]\" -A 5 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -397,7 +398,8 @@ EOS
       end
 
       it 'is expected to modify horde port' do
-        if fail2ban_is_at_least('0.8.11')
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[horde\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -405,7 +407,8 @@ EOS
       end
 
       it 'is expected to modify groupoffice port' do
-        if fail2ban_is_at_least('0.8.11')
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[groupoffice\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -413,7 +416,8 @@ EOS
       end
 
       it 'is expected to modify openwebmail port' do
-        if fail2ban_is_at_least('0.8.11')
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[openwebmail\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
@@ -453,9 +457,18 @@ EOS
       end
 
       it 'is expected to modify nginx-limit-req port' do
-        if fail2ban_is_at_least('0.9.4')
-          shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
-            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        case fact('os.family')
+        when 'Debian'
+          if fail2ban_is_at_least('0.9.4')
+            shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
+              expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+            end
+          end
+        when 'RedHat'
+          if fact('os.release.major').to_i >= 8
+            shell("grep \"\\[nginx-limit-req\\]\" -A 6 #{config_file_path}") do |r|
+              expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+            end
           end
         end
       end
