@@ -310,7 +310,7 @@ logpath = /var/log/lighttpd/error.log
 
 enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
 filter  = nginx-http-auth
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.nginx-http-auth.port', String, undef, 'http,https') %>
 logpath = /var/log/nginx/*error*.log
 
 # Monitor roundcube server

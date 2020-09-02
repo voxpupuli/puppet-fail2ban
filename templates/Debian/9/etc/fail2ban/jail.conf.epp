@@ -347,8 +347,8 @@ logpath = /opt/openhab/logs/request.log
 
 [nginx-http-auth]
 
-enabled  = <%= "nginx-http-auth" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.nginx-http-auth.port', String, undef, 'http,https') %>
 logpath = %(nginx_error_log)s
 
 # To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module`

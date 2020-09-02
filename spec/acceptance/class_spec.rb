@@ -299,6 +299,8 @@ fail2ban::jails_config:
     port: '80,443'
   apache-shellshock:
     port: '80,443'
+  nginx-http-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -392,6 +394,12 @@ EOS
           shell("grep \"\\[apache-shellshock\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify nginx-http-auth port' do
+        shell("grep \"\\[nginx-http-auth\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end
