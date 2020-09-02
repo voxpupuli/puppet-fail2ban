@@ -291,7 +291,7 @@ logpath  = %(apache_error_log)s
 [apache-overflows]
 
 enabled  = <%= "apache-overflows" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-overflows.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 

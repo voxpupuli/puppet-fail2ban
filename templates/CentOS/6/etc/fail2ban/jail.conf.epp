@@ -234,14 +234,14 @@ maxretry = 1
 
 [apache-noscript]
 enabled  = <%= "apache-noscript" in $fail2ban::jails %>
-port     = <%= lookup('fail2ban::jails_config.apache-badbots.port', String, undef, 'http,https') %>
+port     = <%= lookup('fail2ban::jails_config.apache-noscript.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 6
 
 
 [apache-overflows]
-enabled = <%= "apache-overflows" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= "apache-overflows" in $fail2ban::jails %>
+port     = <%= lookup('fail2ban::jails_config.apache-overflows.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
