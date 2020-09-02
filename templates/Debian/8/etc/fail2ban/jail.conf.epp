@@ -268,7 +268,7 @@ maxretry = 2
 
 enabled  = <%= "apache-nohome" in $fail2ban::jails %>
 filter   = apache-nohome
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-nohome.port', String, undef, 'http,https') %>
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
