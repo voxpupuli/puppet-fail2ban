@@ -303,8 +303,8 @@ ignorecommand = %(ignorecommands_dir)s/apache-fakegooglebot <ip>
 
 
 [apache-modsecurity]
-enabled = <%= "apache-modsecurity" in $fail2ban::jails %>
-port     = http,https
+enabled  = <%= "apache-modsecurity" in $fail2ban::jails %>
+port     = <%= lookup('fail2ban::jails_config.apache-modsecurity.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
