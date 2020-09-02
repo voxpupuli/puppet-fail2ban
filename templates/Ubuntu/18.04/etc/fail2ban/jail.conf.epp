@@ -422,8 +422,8 @@ logpath  = %(roundcube_errors_log)s
 [openwebmail]
 
 enabled = <%= "openwebmail" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/openwebmail.log
+port    = <%= lookup('fail2ban::jails_config.openwebmail.port', String, undef, 'http,https') %>
+logpath = /var/log/openwebmail.log
 
 
 [horde]
