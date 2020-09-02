@@ -327,6 +327,8 @@ fail2ban::jails_config:
     port: '80,443'
   sogo-auth:
     port: '80,443'
+  tine20:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -434,6 +436,13 @@ EOS
         end
       end
 
+      it 'is expected to modify tine20 port' do
+        if fail2ban_is_at_least('0.9.0')
+          shell("grep \"\\[tine20\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
 
       it 'is expected to modify nginx-botsearch port' do
         if fail2ban_is_at_least('0.9.2')

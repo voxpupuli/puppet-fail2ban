@@ -452,8 +452,8 @@ logpath = /var/log/sogo/sogo.log
 [tine20]
 
 enabled = <%= "tine20" in $fail2ban::jails %>
-logpath  = /var/log/tine20/tine20.log
-port     = http,https
+logpath = /var/log/tine20/tine20.log
+port    = <%= lookup('fail2ban::jails_config.tine20.port', String, undef, 'http,https') %>
 
 
 #
