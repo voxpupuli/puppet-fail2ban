@@ -317,7 +317,7 @@ maxretry = 2
 [apache-botsearch]
 
 enabled  = <%= "apache-botsearch" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-botsearch.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
