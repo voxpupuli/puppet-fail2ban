@@ -16,7 +16,7 @@ when 'RedHat'
 end
 
 def fail2ban_is_at_least(version)
-  res = shell('fail2ban-server --version | awk \'/Fail2Ban v/ {print $2; EXIT}\'')
+  res = shell('fail2ban-server --version | awk \'/Fail2Ban v/ {print substr($2,2); EXIT}\'')
   Gem::Version.new(res.stdout) >= Gem::Version.new(version)
 end
 
