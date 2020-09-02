@@ -315,6 +315,8 @@ fail2ban::jails_config:
     port: '80,443'
   lighttpd-auth:
     port: '80,443'
+  roundcube-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -452,6 +454,14 @@ EOS
       it 'is expected to modify lighttpd-auth port' do
         if fail2ban_version >= Gem::Version.new('0.8.7')
           shell("grep \"\\[lighttpd-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify roundcube-auth port' do
+        if fail2ban_version >= Gem::Version.new('0.8.9')
+          shell("grep \"\\[roundcube-auth\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
         end

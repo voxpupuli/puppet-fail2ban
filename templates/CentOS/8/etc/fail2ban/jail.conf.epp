@@ -402,7 +402,7 @@ logpath = %(lighttpd_error_log)s
 
 [roundcube-auth]
 enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
 logpath  = %(roundcube_errors_log)s
 # Use following line in your jail.local if roundcube logs to journal.
 #backend = %(syslog_backend)s

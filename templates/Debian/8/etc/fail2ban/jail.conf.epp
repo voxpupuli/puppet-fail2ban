@@ -318,7 +318,7 @@ logpath = /var/log/nginx/*error*.log
 
 enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
 filter   = roundcube-auth
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
 logpath  = /var/log/roundcube/userlogins
 
 
