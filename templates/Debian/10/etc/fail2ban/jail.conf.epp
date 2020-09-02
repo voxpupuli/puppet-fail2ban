@@ -384,7 +384,7 @@ maxretry = 2
 [php-url-fopen]
 
 enabled = <%= "php-url-fopen" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.php-url-fopen.port', String, undef, 'http,https') %>
 logpath = %(nginx_access_log)s
           %(apache_access_log)s
 

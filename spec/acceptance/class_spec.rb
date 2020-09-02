@@ -305,6 +305,8 @@ fail2ban::jails_config:
     port: '80,443'
   nginx-botsearch:
     port: '80,443'
+  php-url-fopen:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -420,6 +422,12 @@ EOS
           shell("grep \"\\[nginx-botsearch\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
+        end
+      end
+
+      it 'is expected to modify php-url-fopen port' do
+        shell("grep \"\\[php-url-fopen\\]\" -A 6 #{config_file_path}") do |r|
+          expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
         end
       end
     end
