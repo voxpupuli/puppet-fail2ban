@@ -447,10 +447,10 @@ port     = <%= lookup('fail2ban::jails_config.tine20.port', String, undef, 'http
 #
 
 [drupal-auth]
-enabled  = <%= "drupal-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = %(syslog_daemon)s
-backend  = %(syslog_backend)s
+enabled = <%= "drupal-auth" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.drupal-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_daemon)s
+backend = %(syslog_backend)s
 
 [guacamole]
 enabled  = <%= "guacamole" in $fail2ban::jails %>

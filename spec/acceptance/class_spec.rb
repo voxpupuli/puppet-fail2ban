@@ -328,6 +328,8 @@ fail2ban::jails_config:
     port: '80,443'
   tine20:
     port: '80,443'
+  drupal-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -528,6 +530,14 @@ EOS
       it 'is expected to modify php-url-fopen port' do
         shell("grep \"\\[php-url-fopen\\]\" -A 6 #{config_file_path}") do |r|
           expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+        end
+      end
+
+      it 'is expected to modify drupal-auth port' do
+        if fail2ban_is_at_least('0.9.0')
+          shell("grep \"\\[drupal-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
         end
       end
     end

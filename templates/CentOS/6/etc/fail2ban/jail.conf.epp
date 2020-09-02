@@ -367,8 +367,8 @@ maxretry = 5
 
 [drupal-auth]
 enabled = <%= "drupal-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = %(syslog_daemon)s
+port    = <%= lookup('fail2ban::jails_config.drupal-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_daemon)s
 
 [guacamole]
 enabled = <%= "guacamole" in $fail2ban::jails %>
