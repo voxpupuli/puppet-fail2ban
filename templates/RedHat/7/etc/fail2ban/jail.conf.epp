@@ -430,7 +430,7 @@ logpath = %(syslog_authpriv)s
 
 [squid]
 enabled = <%= "squid" in $fail2ban::jails %>
-port     =  80,443,3128,8080
+port    = <%= lookup('fail2ban::jails_config.squid.port', String, undef, '80,443,3128,8080') %>
 logpath = /var/log/squid/access.log
 
 

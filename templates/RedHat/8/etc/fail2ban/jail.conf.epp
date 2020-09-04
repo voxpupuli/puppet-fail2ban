@@ -485,9 +485,9 @@ backend  = %(syslog_backend)s
 #
 
 [squid]
-enabled  = <%= "squid" in $fail2ban::jails %>
-port     =  80,443,3128,8080
-logpath  = /var/log/squid/access.log
+enabled = <%= "squid" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.squid.port', String, undef, '80,443,3128,8080') %>
+logpath = /var/log/squid/access.log
 
 
 [3proxy]
