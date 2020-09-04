@@ -341,7 +341,7 @@ fail2ban::jails_config:
   squid:
     port: '3128'
   3proxy:
-    port: '3128'
+    port: '3129'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
