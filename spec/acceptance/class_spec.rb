@@ -336,6 +336,8 @@ fail2ban::jails_config:
     port: '2811'
   webmin-auth:
     port: '10001'
+  froxlor-auth:
+    port: '80,443'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -568,6 +570,15 @@ EOS
         unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[webmin-auth\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+10001$}
+          end
+        end
+      end
+
+      it 'is expected to modify froxlor-auth port' do
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[froxlor-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
           end
         end
       end

@@ -385,14 +385,14 @@ logpath = /var/log/monit
 
 [webmin-auth]
 enabled = <%= "webmin-auth" in $fail2ban::jails %>
-port    = 10000
+port    = <%= lookup('fail2ban::jails_config.webmin-auth.port', String, undef, '10000') %>
 logpath = %(syslog_authpriv)s
 
 
 [froxlor-auth]
 enabled = <%= "froxlor-auth" in $fail2ban::jails %>
-port    = http,https
-logpath  = %(syslog_authpriv)s
+port    = <%= lookup('fail2ban::jails_config.froxlor-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_authpriv)s
 
 
 #

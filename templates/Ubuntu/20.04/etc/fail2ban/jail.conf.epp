@@ -534,9 +534,9 @@ backend = %(syslog_backend)s
 [froxlor-auth]
 
 enabled = <%= "froxlor-auth" in $fail2ban::jails %>
-port    = http,https
-logpath  = %(syslog_authpriv)s
-backend  = %(syslog_backend)s
+port    = <%= lookup('fail2ban::jails_config.froxlor-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_authpriv)s
+backend = %(syslog_backend)s
 
 
 #
