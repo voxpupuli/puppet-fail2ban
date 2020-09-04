@@ -385,7 +385,7 @@ logpath = /var/log/monit
 
 [webmin-auth]
 enabled = <%= "webmin-auth" in $fail2ban::jails %>
-port    = 10000
+port    = <%= lookup('fail2ban::jails_config.webmin-auth.port', String, undef, '10000') %>
 logpath = %(syslog_authpriv)s
 
 

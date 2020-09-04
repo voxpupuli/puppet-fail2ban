@@ -333,7 +333,9 @@ fail2ban::jails_config:
   guacamole:
     port: '80,443'
   monit:
-    port: 2811
+    port: '2811'
+  webmin-auth:
+    port: '10001'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -557,6 +559,15 @@ EOS
         if fail2ban_is_at_least('0.9.1')
           shell("grep \"\\[monit\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+2811$}
+          end
+        end
+      end
+
+      it 'is expected to modify webmin-auth port' do
+        # since 0.8.9
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[webmin-auth\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+10001$}
           end
         end
       end
