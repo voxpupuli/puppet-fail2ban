@@ -471,8 +471,8 @@ backend = %(syslog_backend)s
 [guacamole]
 
 enabled = <%= "guacamole" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/tomcat*/catalina.out
+port    = <%= lookup('fail2ban::jails_config.guacamole.port', String, undef, 'http,https') %>
+logpath = /var/log/tomcat*/catalina.out
 
 [monit]
 #Ban clients brute-forcing the monit gui login
