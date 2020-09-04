@@ -340,6 +340,8 @@ fail2ban::jails_config:
     port: '80,443'
   squid:
     port: '3128'
+  3proxy:
+    port: '3128'
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -590,6 +592,15 @@ EOS
         unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
           shell("grep \"\\[squid\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+3128$}
+          end
+        end
+      end
+
+      it 'is expected to modify 3proxy port' do
+        # since 0.8.11
+        unless fact('os.family') == 'Debian' && fact('os.release.major') == '8'
+          shell("grep \"\\[3proxy\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+3129$}
           end
         end
       end

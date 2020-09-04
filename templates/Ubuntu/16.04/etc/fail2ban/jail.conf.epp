@@ -473,8 +473,8 @@ logpath = /var/log/squid/access.log
 
 [3proxy]
 
-enabled  = <%= "3proxy" in $fail2ban::jails %>
-port    = 3128
+enabled = <%= "3proxy" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.3proxy.port', String, undef, '3128') %>
 logpath = /var/log/3proxy.log
 
 
