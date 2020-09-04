@@ -332,6 +332,8 @@ fail2ban::jails_config:
     port: '80,443'
   guacamole:
     port: '80,443'
+  monit:
+    port: 2811
 EOS
         shell "echo \"#{yaml}\" > /etc/puppetlabs/code/environments/production/data/common.yaml"
 
@@ -547,6 +549,14 @@ EOS
         if fail2ban_is_at_least('0.9.0')
           shell("grep \"\\[guacamole\\]\" -A 6 #{config_file_path}") do |r|
             expect(r.stdout).to match %r{^port\s+\=\s+80,443$}
+          end
+        end
+      end
+
+      it 'is expected to modify monit port' do
+        if fail2ban_is_at_least('0.9.1')
+          shell("grep \"\\[monit\\]\" -A 6 #{config_file_path}") do |r|
+            expect(r.stdout).to match %r{^port\s+\=\s+2811$}
           end
         end
       end

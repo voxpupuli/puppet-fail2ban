@@ -460,7 +460,7 @@ logpath = /var/log/tomcat*/catalina.out
 [monit]
 #Ban clients brute-forcing the monit gui login
 enabled  = <%= "monit" in $fail2ban::jails %>
-port     = 2812
+port     = <%= lookup('fail2ban::jails_config.monit.port', String, undef, '2812') %>
 logpath  = /var/log/monit
            /var/log/monit.log
 
