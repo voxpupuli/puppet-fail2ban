@@ -323,7 +323,7 @@ logpath = %(lighttpd_error_log)s
 [roundcube-auth]
 enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
 port     = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
-logpath  = logpath = %(roundcube_errors_log)s
+logpath  = %(roundcube_errors_log)s
 
 
 [openwebmail]
