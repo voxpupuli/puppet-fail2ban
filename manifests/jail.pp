@@ -1,13 +1,17 @@
 # == Define: fail2ban::jail
 #
 define fail2ban::jail (
+  Enum[absent|file] $ensure = 'file',
+  Boolean $enabled = true,
+
+  Enum[absent|file] $filter_ensure = 'file',
+  Boolean $filter_manage = true,
   Optional[String] $filter_includes = undef,
   Optional[String] $filter_failregex = undef,
   Optional[String] $filter_ignoreregex = undef,
   Optional[Integer] $filter_maxlines = undef,
   Optional[String] $filter_datepattern = undef,
   $filter_additional_config = undef,
-  Boolean $enabled = true,
   Optional[String] $action = undef,
   String $filter = $title,
   String $logpath = undef,
@@ -27,32 +31,34 @@ define fail2ban::jail (
   Optional[String] $config_file_notify = $fail2ban::config_file_notify,
   Optional[String] $config_file_require = $fail2ban::config_file_require,
 ) {
-  # Jail filter creation
-  file { "custom_filter_${name}":
-    ensure  => file,
-    path    => "${config_dir_filter_path}/${name}.conf",
-    content => epp('fail2ban/common/custom_filter.conf.epp',
-      {
-        findtime                 => $findtime,
-        filter_includes          => $filter_includes,
-        filter_additional_config => $filter_additional_config,
-        filter_failregex         => $filter_failregex,
-        filter_ignoreregex       => $filter_ignoreregex,
-        filter_maxlines          => $filter_maxlines,
-        filter_datepattern       => $filter_datepattern,
-        journalmatch             => $journalmatch,
-      }
-    ),
-    owner   => $config_file_owner,
-    group   => $config_file_group,
-    mode    => $config_file_mode,
-    notify  => $config_file_notify,
-    require => $config_file_require,
+  if $filter_manage {
+    # Jail filter creation
+    file { "custom_filter_${name}":
+      ensure  => $filter_ensure,
+      path    => "${config_dir_filter_path}/${name}.conf",
+      content => epp('fail2ban/common/custom_filter.conf.epp',
+        {
+          findtime                 => $findtime,
+          filter_includes          => $filter_includes,
+          filter_additional_config => $filter_additional_config,
+          filter_failregex         => $filter_failregex,
+          filter_ignoreregex       => $filter_ignoreregex,
+          filter_maxlines          => $filter_maxlines,
+          filter_datepattern       => $filter_datepattern,
+          journalmatch             => $journalmatch,
+        }
+      ),
+      owner   => $config_file_owner,
+      group   => $config_file_group,
+      mode    => $config_file_mode,
+      notify  => $config_file_notify,
+      require => $config_file_require,
+    }
   }
 
   # Jail creation
   file { "custom_jail_${name}":
-    ensure  => file,
+    ensure  => $ensure,
     path    => "${fail2ban::config_dir_path}/jail.d/${name}.conf",
     content => epp('fail2ban/common/custom_jail.conf.epp',
       {
