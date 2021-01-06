@@ -137,7 +137,7 @@ action = %(<%= $fail2ban::action %>)s
 [ssh]
 
 enabled  = <%= "ssh" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -145,7 +145,7 @@ maxretry = 6
 [dropbear]
 
 enabled  = <%= "dropbear" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.dropbear.port', String, undef, 'ssh') %>
 filter   = dropbear
 logpath  = /var/log/auth.log
 maxretry = 6
@@ -243,7 +243,7 @@ maxretry  = 6
 [apache-noscript]
 
 enabled  = <%= "apache-noscript" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-noscript.port', String, undef, 'http,https') %>
 filter   = apache-noscript
 logpath  = /var/log/apache*/*error.log
 maxretry = 6
@@ -251,7 +251,7 @@ maxretry = 6
 [apache-overflows]
 
 enabled  = <%= "apache-overflows" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-overflows.port', String, undef, 'http,https') %>
 filter   = apache-overflows
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
@@ -260,7 +260,7 @@ maxretry = 2
 
 enabled  = <%= "apache-modsecurity" in $fail2ban::jails %>
 filter   = apache-modsecurity
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-modsecurity.port', String, undef, 'http,https') %>
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
@@ -268,7 +268,7 @@ maxretry = 2
 
 enabled  = <%= "apache-nohome" in $fail2ban::jails %>
 filter   = apache-nohome
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-nohome.port', String, undef, 'http,https') %>
 logpath  = /var/log/apache*/*error.log
 maxretry = 2
 
@@ -279,7 +279,7 @@ maxretry = 2
 [php-url-fopen]
 
 enabled = <%= "php-url-fopen" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.php-url-fopen.port', String, undef, 'http,https') %>
 filter  = php-url-fopen
 logpath = /var/www/*/logs/access_log
 
@@ -302,7 +302,7 @@ logpath = /var/log/lighttpd/error.log
 [lighttpd-auth]
 
 enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.lighttpd-auth.port', String, undef, 'http,https') %>
 filter  = suhosin
 logpath = /var/log/lighttpd/error.log
 
@@ -310,7 +310,7 @@ logpath = /var/log/lighttpd/error.log
 
 enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
 filter  = nginx-http-auth
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.nginx-http-auth.port', String, undef, 'http,https') %>
 logpath = /var/log/nginx/*error*.log
 
 # Monitor roundcube server
@@ -318,7 +318,7 @@ logpath = /var/log/nginx/*error*.log
 
 enabled  = <%= "roundcube-auth" in $fail2ban::jails %>
 filter   = roundcube-auth
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
 logpath  = /var/log/roundcube/userlogins
 
 
@@ -326,7 +326,7 @@ logpath  = /var/log/roundcube/userlogins
 
 enabled  = <%= "sogo-auth" in $fail2ban::jails %>
 filter   = sogo-auth
-port     = http, https
+port     = <%= lookup('fail2ban::jails_config.sogo-auth.port', String, undef, 'http,https') %>
 # without proxy this would be:
 # port    = 20000
 logpath  = /var/log/sogo/sogo.log

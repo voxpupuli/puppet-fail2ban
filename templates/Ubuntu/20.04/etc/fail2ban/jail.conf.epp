@@ -48,19 +48,19 @@ before = paths-debian.conf
 # MISCELLANEOUS OPTIONS
 #
 
-# "bantime.increment" allows to use database for searching of previously banned ip's to increase a 
+# "bantime.increment" allows to use database for searching of previously banned ip's to increase a
 # default ban time using special formula, default it is banTime * 1, 2, 4, 8, 16, 32...
 #bantime.increment = true
 
-# "bantime.rndtime" is the max number of seconds using for mixing with random time 
+# "bantime.rndtime" is the max number of seconds using for mixing with random time
 # to prevent "clever" botnets calculate exact time IP can be unbanned again:
-#bantime.rndtime = 
+#bantime.rndtime =
 
 # "bantime.maxtime" is the max number of seconds using the ban time can reach (don't grows further)
-#bantime.maxtime = 
+#bantime.maxtime =
 
 # "bantime.factor" is a coefficient to calculate exponent growing of the formula or common multiplier,
-# default value of factor is 1 and with default value of formula, the ban time 
+# default value of factor is 1 and with default value of formula, the ban time
 # grows by 1, 2, 4, 8, 16 ...
 #bantime.factor = 1
 
@@ -71,16 +71,16 @@ before = paths-debian.conf
 # more aggressive example of formula has the same values only for factor "2.0 / 2.885385" :
 #bantime.formula = ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)
 
-# "bantime.multipliers" used to calculate next value of ban time instead of formula, coresponding 
+# "bantime.multipliers" used to calculate next value of ban time instead of formula, coresponding
 # previously ban count and given "bantime.factor" (for multipliers default is 1);
-# following example grows ban time by 1, 2, 4, 8, 16 ... and if last ban count greater as multipliers count, 
+# following example grows ban time by 1, 2, 4, 8, 16 ... and if last ban count greater as multipliers count,
 # always used last multiplier (64 in example), for factor '1' and original ban time 600 - 10.6 hours
 #bantime.multipliers = 1 2 4 8 16 32 64
 # following example can be used for small initial ban time (bantime=60) - it grows more aggressive at begin,
 # for bantime=60 the multipliers are minutes and equal: 1 min, 5 min, 30 min, 1 hour, 5 hour, 12 hour, 1 day, 2 day
 #bantime.multipliers = 1 5 30 60 300 720 1440 2880
 
-# "bantime.overalljails" (if true) specifies the search of IP in the database will be executed 
+# "bantime.overalljails" (if true) specifies the search of IP in the database will be executed
 # cross over all jails, if false (dafault), only current jail of the ban IP will be searched
 #bantime.overalljails = false
 
@@ -241,11 +241,11 @@ action_cf_mwl = cloudflare[cfuser="%(cfemail)s", cftoken="%(cfapikey)s"]
                 %(mta)s-whois-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 
 # Report block via blocklist.de fail2ban reporting service API
-# 
+#
 # See the IMPORTANT note in action.d/blocklist_de.conf for when to use this action.
 # Specify expected parameters in file action.d/blocklist_de.local or if the interpolation
 # `action_blocklist_de` used for the action, set value of `blocklist_de_apikey`
-# in your `jail.local` globally (section [DEFAULT]) or per specific jail section (resp. in 
+# in your `jail.local` globally (section [DEFAULT]) or per specific jail section (resp. in
 # corresponding jail.d/my-jail.local file).
 #
 action_blocklist_de  = blocklist_de[email="%(sender)s", service=%(filter)s, apikey="%(blocklist_de_apikey)s", agent="%(fail2ban_agent)s"]
@@ -291,7 +291,7 @@ action = %(<%= $fail2ban::action %>)s
 # See "tests/files/logs/sshd" or "filter.d/sshd.conf" for usage example and details.
 #mode   = normal
 enabled = <%= "ssh" in $fail2ban::jails %>
-port    = ssh
+port    = <%= lookup('fail2ban::jails_config.ssh.port', String, undef, 'ssh') %>
 logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 
@@ -299,7 +299,7 @@ backend = %(sshd_backend)s
 [dropbear]
 
 enabled  = <%= "dropbear" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.dropbear.port', String, undef, 'ssh') %>
 logpath  = %(dropbear_log)s
 backend  = %(dropbear_backend)s
 
@@ -307,7 +307,7 @@ backend  = %(dropbear_backend)s
 [selinux-ssh]
 
 enabled  = <%= "selinux-ssh" in $fail2ban::jails %>
-port     = ssh
+port     = <%= lookup('fail2ban::jails_config.selinux-ssh.port', String, undef, 'ssh') %>
 logpath  = %(auditd_log)s
 
 
@@ -318,7 +318,7 @@ logpath  = %(auditd_log)s
 [apache-auth]
 
 enabled  = <%= "apache-auth" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-auth.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 
 
@@ -326,7 +326,7 @@ logpath  = %(apache_error_log)s
 # Ban hosts which agent identifies spammer robots crawling the web
 # for email addresses. The mail outputs are buffered.
 enabled  = <%= "apache-badbots" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-badbots.port', String, undef, 'http,https') %>
 logpath  = %(apache_access_log)s
 bantime  = 48h
 maxretry = 1
@@ -335,14 +335,14 @@ maxretry = 1
 [apache-noscript]
 
 enabled  = <%= "apache-noscript" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-noscript.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 
 
 [apache-overflows]
 
 enabled  = <%= "apache-overflows" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-overflows.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
@@ -350,7 +350,7 @@ maxretry = 2
 [apache-nohome]
 
 enabled  = <%= "apache-nohome" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-nohome.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
@@ -358,7 +358,7 @@ maxretry = 2
 [apache-botsearch]
 
 enabled  = <%= "apache-botsearch" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-botsearch.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
@@ -366,7 +366,7 @@ maxretry = 2
 [apache-fakegooglebot]
 
 enabled  = <%= "apache-fakegooglebot" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-fakegooglebot.port', String, undef, 'http,https') %>
 logpath  = %(apache_access_log)s
 maxretry = 1
 ignorecommand = %(ignorecommands_dir)s/apache-fakegooglebot <ip>
@@ -375,7 +375,7 @@ ignorecommand = %(ignorecommands_dir)s/apache-fakegooglebot <ip>
 [apache-modsecurity]
 
 enabled  = <%= "apache-modsecurity" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.apache-modsecurity.port', String, undef, 'http,https') %>
 logpath  = %(apache_error_log)s
 maxretry = 2
 
@@ -383,8 +383,8 @@ maxretry = 2
 [apache-shellshock]
 
 enabled  = <%= "apache-shellshock" in $fail2ban::jails %>
-port    = http,https
-logpath = %(apache_error_log)s
+port     = <%= lookup('fail2ban::jails_config.apache-shellshock.port', String, undef, 'http,https') %>
+logpath  = %(apache_error_log)s
 maxretry = 1
 
 
@@ -398,24 +398,24 @@ logpath = /opt/openhab/logs/request.log
 
 [nginx-http-auth]
 
-enabled  = <%= "nginx-http-auth" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= "nginx-http-auth" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.nginx-http-auth.port', String, undef, 'http,https') %>
 logpath = %(nginx_error_log)s
 
-# To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module` 
+# To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module`
 # and define `limit_req` and `limit_req_zone` as described in nginx documentation
 # http://nginx.org/en/docs/http/ngx_http_limit_req_module.html
 # or for example see in 'config/filter.d/nginx-limit-req.conf'
 [nginx-limit-req]
 
-enabled  = <%= "nginx-limit-req" in $fail2ban::jails %>
-port    = http,https
+enabled = <%= "nginx-limit-req" in $fail2ban::jails %>
+port    = <%= lookup('fail2ban::jails_config.nginx-limit-req.port', String, undef, 'http,https') %>
 logpath = %(nginx_error_log)s
 
 [nginx-botsearch]
 
 enabled  = <%= "nginx-botsearch" in $fail2ban::jails %>
-port     = http,https
+port     = <%= lookup('fail2ban::jails_config.nginx-botsearch.port', String, undef, 'http,https') %>
 logpath  = %(nginx_error_log)s
 maxretry = 2
 
@@ -427,7 +427,7 @@ maxretry = 2
 [php-url-fopen]
 
 enabled = <%= "php-url-fopen" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.php-url-fopen.port', String, undef, 'http,https') %>
 logpath = %(nginx_access_log)s
           %(apache_access_log)s
 
@@ -435,7 +435,7 @@ logpath = %(nginx_access_log)s
 [suhosin]
 
 enabled = <%= "suhosin" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.suhosin.port', String, undef, 'http,https') %>
 logpath = %(suhosin_log)s
 
 
@@ -443,7 +443,7 @@ logpath = %(suhosin_log)s
 # Same as above for Apache's mod_auth
 # It catches wrong authentifications
 enabled = <%= "lighttpd-auth" in $fail2ban::jails %>
-port    = http,https
+port    = <%= lookup('fail2ban::jails_config.lighttpd-auth.port', String, undef, 'http,https') %>
 logpath = %(lighttpd_error_log)s
 
 
@@ -454,8 +454,8 @@ logpath = %(lighttpd_error_log)s
 [roundcube-auth]
 
 enabled = <%= "roundcube-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = %(roundcube_errors_log)s
+port    = <%= lookup('fail2ban::jails_config.roundcube-auth.port', String, undef, 'http,https') %>
+logpath = %(roundcube_errors_log)s
 # Use following line in your jail.local if roundcube logs to journal.
 #backend = %(syslog_backend)s
 
@@ -463,22 +463,22 @@ logpath  = %(roundcube_errors_log)s
 [openwebmail]
 
 enabled = <%= "openwebmail" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/openwebmail.log
+port    = <%= lookup('fail2ban::jails_config.openwebmail.port', String, undef, 'http,https') %>
+logpath = /var/log/openwebmail.log
 
 
 [horde]
 
 enabled = <%= "horde" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/horde/horde.log
+port    = <%= lookup('fail2ban::jails_config.horde.port', String, undef, 'http,https') %>
+logpath = /var/log/horde/horde.log
 
 
 [groupoffice]
 
 enabled = <%= "groupoffice" in $fail2ban::jails %>
-port     = http,https
-logpath  = /home/groupoffice/log/info.log
+port    = <%= lookup('fail2ban::jails_config.horde.port', String, undef, 'http,https') %>
+logpath = /home/groupoffice/log/info.log
 
 
 [sogo-auth]
@@ -486,15 +486,15 @@ logpath  = /home/groupoffice/log/info.log
 # without proxy this would be:
 # port    = 20000
 enabled = <%= "sogo-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/sogo/sogo.log
+port    = <%= lookup('fail2ban::jails_config.sogo-auth.port', String, undef, 'http,https') %>
+logpath = /var/log/sogo/sogo.log
 
 
 [tine20]
 
 enabled = <%= "tine20" in $fail2ban::jails %>
-logpath  = /var/log/tine20/tine20.log
-port     = http,https
+logpath = /var/log/tine20/tine20.log
+port    = <%= lookup('fail2ban::jails_config.tine20.port', String, undef, 'http,https') %>
 
 
 #
@@ -505,28 +505,28 @@ port     = http,https
 [drupal-auth]
 
 enabled = <%= "drupal-auth" in $fail2ban::jails %>
-port     = http,https
-logpath  = %(syslog_daemon)s
-backend  = %(syslog_backend)s
+port    = <%= lookup('fail2ban::jails_config.drupal-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_daemon)s
+backend = %(syslog_backend)s
 
 [guacamole]
 
 enabled = <%= "guacamole" in $fail2ban::jails %>
-port     = http,https
-logpath  = /var/log/tomcat*/catalina.out
+port    = <%= lookup('fail2ban::jails_config.guacamole.port', String, undef, 'http,https') %>
+logpath = /var/log/tomcat*/catalina.out
 
 [monit]
 #Ban clients brute-forcing the monit gui login
 enabled = <%= "monit" in $fail2ban::jails %>
-port = 2812
-logpath  = /var/log/monit
+port    = <%= lookup('fail2ban::jails_config.monit.port', String, undef, '2812') %>
+logpath = /var/log/monit
            /var/log/monit.log
 
 
 [webmin-auth]
 
 enabled = <%= "webmin-auth" in $fail2ban::jails %>
-port    = 10000
+port    = <%= lookup('fail2ban::jails_config.webmin-auth.port', String, undef, '10000') %>
 logpath = %(syslog_authpriv)s
 backend = %(syslog_backend)s
 
@@ -534,9 +534,9 @@ backend = %(syslog_backend)s
 [froxlor-auth]
 
 enabled = <%= "froxlor-auth" in $fail2ban::jails %>
-port    = http,https
-logpath  = %(syslog_authpriv)s
-backend  = %(syslog_backend)s
+port    = <%= lookup('fail2ban::jails_config.froxlor-auth.port', String, undef, 'http,https') %>
+logpath = %(syslog_authpriv)s
+backend = %(syslog_backend)s
 
 
 #
@@ -547,14 +547,14 @@ backend  = %(syslog_backend)s
 [squid]
 
 enabled = <%= "squid" in $fail2ban::jails %>
-port     =  80,443,3128,8080
+port    = <%= lookup('fail2ban::jails_config.squid.port', String, undef, '80,443,3128,8080') %>
 logpath = /var/log/squid/access.log
 
 
 [3proxy]
 
 enabled = <%= "3proxy" in $fail2ban::jails %>
-port    = 3128
+port    = <%= lookup('fail2ban::jails_config.3proxy.port', String, undef, '3128') %>
 logpath = /var/log/3proxy.log
 
 
