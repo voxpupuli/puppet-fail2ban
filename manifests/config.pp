@@ -48,6 +48,9 @@ class fail2ban::config {
         require => $fail2ban::config_file_require,
       }
     }
+    'Suse':{
+      # No defaults to deal with
+    }
     default: {
       fail("${facts['os']['family']} not supported.")
     }
