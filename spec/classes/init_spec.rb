@@ -96,7 +96,27 @@ describe 'fail2ban', type: :class do
             )
           end
         end
-      end
+
+        context 'when install package with install_options' do
+          let :facts do
+            {
+              osfamily: 'RedHat',
+            }
+          end
+          let :params do
+            { 
+              package_ensure: 'present',
+              package_install_options: ['--enablerepo=*'] }
+          end
+  
+          it 'Will install the package with install options' do
+            is_expected.to contain_package('fail2ban').with(
+              ensure: 'present',
+              install_options: ['--enablerepo=*']
+            )
+          end
+        end
+      end  
 
       describe 'fail2ban::config' do
         context 'defaults' do
