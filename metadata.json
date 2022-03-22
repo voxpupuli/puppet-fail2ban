@@ -33,6 +33,11 @@
       ]
     },
     {
+      "operatingsystem": "OpenSuSE",
+      "operatingsystemrelease": [
+        "15"
+      ]
+    },    {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "7",

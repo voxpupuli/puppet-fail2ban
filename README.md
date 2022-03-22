@@ -522,6 +522,93 @@ in a specific jail).
 * zoneminder
 * znc-adminlog
 
+#### Suse
+
+* 3proxy
+* apache-auth
+* apache-badbots
+* apache-botsearch
+* apache-common
+* apache-fakegooglebot
+* apache-modsecurity
+* apache-nohome
+* apache-noscript
+* apache-overflows
+* apache-pass
+* apache-shellshock
+* assp
+* asterisk
+* botsearch-common
+* common
+* counter-strike
+* courier-auth
+* courier-smtp
+* cyrus-imap
+* directadmin
+* domino-smtp
+* dovecot
+* dropbear
+* drupal-auth
+* ejabberd-auth
+* exim-common
+* exim-spam
+* exim
+* freeswitch
+* froxlor-auth
+* groupoffice
+* gssftpd
+* guacamole
+* haproxy-http-auth
+* horde
+* ignorecommands
+* kerio
+* lighttpd-auth
+* mongodb-auth
+* monit
+* murmur
+* mysqld-auth
+* nagios
+* named-refused
+* nginx-botsearch
+* nginx-http-auth
+* nginx-limit-req
+* nsd
+* openhab
+* openwebmail
+* oracleims
+* pam-generic
+* perdition
+* php-url-fopen
+* phpmyadmin-syslog
+* portsentry
+* postfix
+* proftpd
+* pure-ftpd
+* qmail
+* recidive
+* roundcube-auth
+* screensharingd
+* selinux-common
+* selinux-ssh
+* sendmail-auth
+* sendmail-reject
+* sieve
+* slapd
+* sogo-auth
+* solid-pop3d
+* squid
+* squirrelmail
+* sshd
+* stunnel
+* suhosin
+* tine20
+* uwimap-auth
+* vsftpd
+* webmin-auth
+* wuftpd
+* xinetd-fail
+* zoneminder
+
 ### Custom jails
 
 Users can add their own jails by using this YAML definition:
@@ -568,6 +655,7 @@ This module has been tested on:
 * Ubuntu 16.04/18.04/20.04
 * RedHat 6/7/8
 * CentOS 6/7/8
+* OpenSuSE 15
 
 ## Development
 
