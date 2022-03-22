@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'fail2ban::define', type: :define do
@@ -19,9 +21,9 @@ describe 'fail2ban::define', type: :define do
 
         it do
           is_expected.to contain_file('define_fail2ban.conf').with(
-            'ensure'  => 'present',
-            'source'  => 'puppet:///modules/fail2ban/Debian/10/etc/fail2ban/jail.conf',
-            'notify'  => 'Service[fail2ban]',
+            'ensure' => 'present',
+            'source' => 'puppet:///modules/fail2ban/Debian/10/etc/fail2ban/jail.conf',
+            'notify' => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
           )
         end
@@ -36,9 +38,9 @@ describe 'fail2ban::define', type: :define do
 
         it do
           is_expected.to contain_file('define_fail2ban.conf').with(
-            'ensure'  => 'present',
+            'ensure' => 'present',
             'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-            'notify'  => 'Service[fail2ban]',
+            'notify' => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
           )
         end
@@ -53,9 +55,9 @@ describe 'fail2ban::define', type: :define do
 
         it do
           is_expected.to contain_file('define_fail2ban.conf').with(
-            'ensure'  => 'present',
+            'ensure' => 'present',
             'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-            'notify'  => 'Service[fail2ban]',
+            'notify' => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
           ).with_content(%r{^chain = INPUT$})
         end
@@ -73,9 +75,9 @@ describe 'fail2ban::define', type: :define do
 
         it do
           is_expected.to contain_file('define_fail2ban.conf').with(
-            'ensure'  => 'present',
+            'ensure' => 'present',
             'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-            'notify'  => 'Service[fail2ban]',
+            'notify' => 'Service[fail2ban]',
             'require' => 'Package[fail2ban]'
           ).with_content(%r{^chain = INPUT$})
         end

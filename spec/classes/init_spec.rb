@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'fail2ban', type: :class do
@@ -53,13 +55,15 @@ describe 'fail2ban', type: :class do
               'ensure' => 'absent'
             )
           end
+
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
-              'notify'  => 'Service[fail2ban]',
+              'ensure' => 'present',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
+
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
@@ -82,13 +86,15 @@ describe 'fail2ban', type: :class do
               'ensure' => 'purged'
             )
           end
+
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'absent',
-              'notify'  => 'Service[fail2ban]',
+              'ensure' => 'absent',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
+
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
@@ -102,8 +108,8 @@ describe 'fail2ban', type: :class do
         context 'defaults' do
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
-              'notify'  => 'Service[fail2ban]',
+              'ensure' => 'present',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
@@ -118,12 +124,12 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.dir').with(
-              'ensure'  => 'directory',
-              'force'   => false,
-              'purge'   => false,
+              'ensure' => 'directory',
+              'force' => false,
+              'purge' => false,
               'recurse' => true,
-              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
-              'notify'  => 'Service[fail2ban]',
+              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
@@ -139,12 +145,12 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.dir').with(
-              'ensure'  => 'directory',
-              'force'   => true,
-              'purge'   => true,
+              'ensure' => 'directory',
+              'force' => true,
+              'purge' => true,
               'recurse' => true,
-              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
-              'notify'  => 'Service[fail2ban]',
+              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
@@ -159,9 +165,9 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
-              'source'  => 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf',
-              'notify'  => 'Service[fail2ban]',
+              'ensure' => 'present',
+              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
@@ -176,9 +182,9 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
+              'ensure' => 'present',
               'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify'  => 'Service[fail2ban]',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
@@ -193,9 +199,9 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
+              'ensure' => 'present',
               'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify'  => 'Service[fail2ban]',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             ).with_content(%r{^chain = INPUT$})
           end
@@ -213,9 +219,9 @@ describe 'fail2ban', type: :class do
 
           it do
             is_expected.to contain_file('fail2ban.conf').with(
-              'ensure'  => 'present',
+              'ensure' => 'present',
               'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify'  => 'Service[fail2ban]',
+              'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             ).with_content(%r{^chain = INPUT$})
           end
@@ -232,9 +238,9 @@ describe 'fail2ban', type: :class do
 
             it do
               is_expected.to contain_file('00-firewalld.conf').with(
-                'ensure'  => 'present',
-                'path'    => '/etc/fail2ban/jail.d/00-firewalld.conf',
-                'notify'  => 'Service[fail2ban]',
+                'ensure' => 'present',
+                'path' => '/etc/fail2ban/jail.d/00-firewalld.conf',
+                'notify' => 'Service[fail2ban]',
                 'require' => 'Package[fail2ban]'
               )
             end
@@ -249,8 +255,8 @@ describe 'fail2ban', type: :class do
 
             it do
               is_expected.to contain_file('defaults-debian.conf').with(
-                'ensure'  => 'present',
-                'path'    => '/etc/fail2ban/jail.d/defaults-debian.conf',
+                'ensure' => 'present',
+                'path' => '/etc/fail2ban/jail.d/defaults-debian.conf',
                 'require' => 'Package[fail2ban]'
               )
             end

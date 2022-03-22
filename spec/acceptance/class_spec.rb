@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 case fact('osfamily')
@@ -75,13 +77,16 @@ describe 'fail2ban' do
       describe package(package_name) do
         it { is_expected.not_to be_installed }
       end
+
       describe file(config_file_path) do
         it { is_expected.to be_file }
       end
+
       describe service(service_name) do
         it { is_expected.not_to be_running }
         # The docker images of Debian do not use systemd, the following test
         # cannot be performed on these images.
+
         it { is_expected.not_to be_enabled } if fact('osfamily') != 'Debian'
       end
     end
@@ -102,9 +107,11 @@ describe 'fail2ban' do
       describe package(package_name) do
         it { is_expected.not_to be_installed }
       end
+
       describe file(config_file_path) do
         it { is_expected.not_to be_file }
       end
+
       describe service(service_name) do
         it { is_expected.not_to be_running }
         it { is_expected.not_to be_enabled }
@@ -243,6 +250,7 @@ describe 'fail2ban' do
         expect(fail2ban_status.output).to contain ssh_jail
       end
     end
+
     context 'when service start/stop notification are disabled' do
       it 'is expected.to have empty sshd actions' do
         pp = <<-EOS
@@ -265,6 +273,5 @@ describe 'fail2ban' do
         end
       end
     end
-    # rubocop:enable RSpec/MultipleExpectations
   end
 end
