@@ -1,2 +1,3 @@
 ---
 fail2ban::config_file_before: 'paths-fedora.conf'
+fail2ban::config_file_template: "fail2ban/RedHat/%{facts.os.release.major}/etc/fail2ban/jail.conf.epp"
