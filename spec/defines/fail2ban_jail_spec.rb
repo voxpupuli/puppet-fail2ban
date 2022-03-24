@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'fail2ban::jail' do
@@ -12,9 +14,9 @@ describe 'fail2ban::jail' do
 
       let(:params) do
         {
-          'logpath'            => '/var/log/syslog',
-          'filter_failregex'   => 'Login failed for user .* from <HOST>',
-          'filter_maxlines'    => 10,
+          'logpath' => '/var/log/syslog',
+          'filter_failregex' => 'Login failed for user .* from <HOST>',
+          'filter_maxlines' => 10,
           'filter_datepattern' => '%%Y-%%m-%%d %%H:%%M(?::%%S)?'
         }
       end
@@ -25,32 +27,32 @@ describe 'fail2ban::jail' do
 
       it do
         is_expected.to contain_file('custom_jail_spec_test_jail').with(
-          'ensure'  => 'file',
-          'notify'  => 'Service[fail2ban]',
+          'ensure' => 'file',
+          'notify' => 'Service[fail2ban]',
           'content' => %r{\[spec_test_jail\]}
         )
       end
 
       it do
         is_expected.to contain_file('custom_filter_spec_test_jail').with(
-          'ensure'  => 'file',
-          'notify'  => 'Service[fail2ban]',
+          'ensure' => 'file',
+          'notify' => 'Service[fail2ban]',
           'content' => %r{failregex = Login failed for user .* from <HOST>}
         )
       end
 
       it do
         is_expected.to contain_file('custom_filter_spec_test_jail').with(
-          'ensure'  => 'file',
-          'notify'  => 'Service[fail2ban]',
+          'ensure' => 'file',
+          'notify' => 'Service[fail2ban]',
           'content' => %r{maxlines = 10}
         )
       end
 
       it do
         is_expected.to contain_file('custom_filter_spec_test_jail').with(
-          'ensure'  => 'file',
-          'notify'  => 'Service[fail2ban]',
+          'ensure' => 'file',
+          'notify' => 'Service[fail2ban]',
           'content' => %r{datepattern = %%Y-%%m-%%d %%H:%%M(?::%%S)?}
         )
       end
