@@ -1,0 +1,3 @@
+---
+# Use CentOS templates for OracleLinux
+fail2ban::config_file_template: "fail2ban/CentOS/%{facts.os.release.major}/etc/fail2ban/jail.conf.epp"

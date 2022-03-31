@@ -9,8 +9,14 @@ describe 'fail2ban', type: :class do
         facts
       end
 
+      # Simulate what happens in Hiera for subsequent explcit
+      # config_file_template test
       let(:config_file_template) do
-        "fail2ban/#{facts[:os]['name']}/#{facts[:os]['release']['major']}/etc/fail2ban/jail.conf.epp"
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['name'] != facts[:os]['family']
+          "fail2ban/CentOS/#{facts[:os]['release']['major']}/etc/fail2ban/jail.conf.epp"
+        else
+          "fail2ban/#{facts[:os]['name']}/#{facts[:os]['release']['major']}/etc/fail2ban/jail.conf.epp"
+        end
       end
 
       it { is_expected.to compile.with_all_deps }
@@ -187,6 +193,17 @@ describe 'fail2ban', type: :class do
               'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
+          end
+        end
+
+        context 'when content template via Hiera' do
+          it do
+            is_expected.to contain_file('fail2ban.conf').with(
+              'ensure' => 'present',
+              'content' => %r{THIS FILE IS MANAGED BY PUPPET},
+              'notify' => 'Service[fail2ban]',
+              'require' => 'Package[fail2ban]'
+            ).with_content(%r{^chain = INPUT$})
           end
         end
 
