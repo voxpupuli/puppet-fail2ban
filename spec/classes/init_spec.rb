@@ -9,14 +9,38 @@ describe 'fail2ban', type: :class do
         facts
       end
 
+      # Hard code one existing template as a custom template
       let(:config_file_template) do
-        "fail2ban/#{facts[:os]['name']}/#{facts[:os]['release']['major']}/etc/fail2ban/jail.conf.epp"
+        'fail2ban/RedHat/8/etc/fail2ban/jail.conf.epp'
       end
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
+      case [facts[:os]['name'], facts[:os]['release']['major']]
+      when %w[OpenSuSE 15]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/OpenSuSE/15/etc/fail2ban/jail.conf.epp') }
+      when %w[CentOS 7]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/CentOS/7/etc/fail2ban/jail.conf.epp') }
+      when %w[RedHat 7]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/7/etc/fail2ban/jail.conf.epp') }
+      when %w[AlmaLinux 8], %w[RedHat 8], %w[Rocky 8], %w[CentOS 8]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/8/etc/fail2ban/jail.conf.epp') }
+      when %w[AlmaLinux 9], %w[RedHat 9], %w[Rocky 9], %w[CentOS 9]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/9/etc/fail2ban/jail.conf.epp') }
+      when %w[Debian 10]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/10/etc/fail2ban/jail.conf.epp') }
+      when %w[Debian 11]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/11/etc/fail2ban/jail.conf.epp') }
+      when ['Ubuntu', '18.04']
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/18.04/etc/fail2ban/jail.conf.epp') }
+      when ['Ubuntu', '20.04']
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/20.04/etc/fail2ban/jail.conf.epp') }
+      else
+        # has to be better way of doing this.
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('a new os.name or os.release.major needs a new case') }
+      end
 
       describe 'fail2ban::install' do
         context 'defaults' do

@@ -137,8 +137,12 @@ describe 'fail2ban' do
     context 'when content template' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
+          $_config_file_template = $facts['os']['family'] ? {
+            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+          }
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+            config_file_template => $_config_file_template,
           }
         EOS
 
@@ -155,8 +159,12 @@ describe 'fail2ban' do
     context 'when content template and custom chain' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
+          $_config_file_template = $facts['os']['family'] ? {
+            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+          }
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+            config_file_template => $_config_file_template,
             iptables_chain => 'TEST',
           }
         EOS
@@ -174,8 +182,12 @@ describe 'fail2ban' do
     context 'when content template and custom banaction' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
+          $_config_file_template = $facts['os']['family'] ? {
+            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+          }
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+            config_file_template => $_config_file_template,
             banaction            => 'iptables'
           }
         EOS
@@ -192,8 +204,12 @@ describe 'fail2ban' do
     context 'when content template and custom sender' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
+          $_config_file_template = $facts['os']['family'] ? {
+            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+          }
           class { 'fail2ban':
-            config_file_template => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
+            config_file_template => $_config_file_template,
             sender => 'custom-sender@example.com',
           }
         EOS
