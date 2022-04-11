@@ -18,6 +18,7 @@ describe 'fail2ban', type: :class do
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
+
       case [facts[:os]['name'], facts[:os]['release']['major']]
       when %w[OpenSuSE 15]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/OpenSuSE/15/etc/fail2ban/jail.conf.epp') }
