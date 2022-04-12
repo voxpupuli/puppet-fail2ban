@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.1.0) (2022-04-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Consolidate jail.conf.epp for RedHat osfamily [\#177](https://github.com/voxpupuli/puppet-fail2ban/pull/177) ([traylenator](https://github.com/traylenator))
+- Support CentOS/RHEL/Alma/Rocky 9 [\#176](https://github.com/voxpupuli/puppet-fail2ban/pull/176) ([traylenator](https://github.com/traylenator))
+- Allow puppet/extlib 6.x [\#174](https://github.com/voxpupuli/puppet-fail2ban/pull/174) ([bastelfreak](https://github.com/bastelfreak))
+- Add AlmaLinux & Rocky config, identical to CentOS [\#163](https://github.com/voxpupuli/puppet-fail2ban/pull/163) ([vollmerk](https://github.com/vollmerk))
+- Initial support for openSUSE [\#158](https://github.com/voxpupuli/puppet-fail2ban/pull/158) ([mattqm](https://github.com/mattqm))
+
+**Fixed bugs:**
+
+- Fix apache-badbots on RedHat [\#148](https://github.com/voxpupuli/puppet-fail2ban/pull/148) ([deric](https://github.com/deric))
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.0.0) (2021-12-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v3.3.0...v4.0.0)
