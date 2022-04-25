@@ -45,6 +45,7 @@ class fail2ban (
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',
+  String[1] $banaction_allports = 'iptables-allports',
   Hash $sendmail_config = {},
   Hash $sendmail_actions = {},
 ) {

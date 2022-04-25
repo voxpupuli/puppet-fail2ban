@@ -332,6 +332,21 @@ describe 'fail2ban', type: :class do
             )
           end
         end
+
+        context 'when banaction_allports string provided' do
+          let(:params) do
+            {
+              config_file_template: config_file_template,
+              banaction_allports: 'nftables-allports'
+            }
+          end
+
+          it do
+            is_expected.to contain_file('fail2ban.conf').with_content(
+              %r{^banaction_allports = nftables-allports$}
+            )
+          end
+        end
       end
 
       describe 'fail2ban::service' do
