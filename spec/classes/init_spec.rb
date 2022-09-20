@@ -38,6 +38,8 @@ describe 'fail2ban', type: :class do
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/18.04/etc/fail2ban/jail.conf.epp') }
       when ['Ubuntu', '20.04']
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/20.04/etc/fail2ban/jail.conf.epp') }
+      when ['Ubuntu', '22.04']
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/22.04/etc/fail2ban/jail.conf.epp') }
       else
         # has to be better way of doing this.
         it { is_expected.to contain_class('fail2ban').with_config_file_template('a new os.name or os.release.major needs a new case') }
