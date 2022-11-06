@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.2.0) (2022-11-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v4.1.0...v4.2.0)
+
+**Implemented enhancements:**
+
+- Add support for Ubuntu 22.04 [\#178](https://github.com/voxpupuli/puppet-fail2ban/pull/178) ([grant-veepshosting](https://github.com/grant-veepshosting))
+
+**Closed issues:**
+
+- Template for Rocky Linux 8 [\#183](https://github.com/voxpupuli/puppet-fail2ban/issues/183)
+
 ## [v4.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.1.0) (2022-04-12)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v4.0.0...v4.1.0)
