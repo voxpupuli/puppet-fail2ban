@@ -10,7 +10,7 @@ define fail2ban::jail (
   Boolean $enabled = true,
   Optional[String] $action = undef,
   String $filter = $title,
-  String $logpath = undef,
+  Optional[String[1]] $logpath = undef,
   Integer $maxretry = $fail2ban::maxretry,
   Optional[Integer] $findtime = undef,
   Integer $bantime = $fail2ban::bantime,
@@ -27,6 +27,10 @@ define fail2ban::jail (
   Optional[String] $config_file_notify = $fail2ban::config_file_notify,
   Optional[String] $config_file_require = $fail2ban::config_file_require,
 ) {
+  unless $logpath or $journalmatch {
+    fail('One of fail2ban::jail::logpath or fail2ban::jail::journalmatch must be set')
+  }
+
   # Jail filter creation
   file { "custom_filter_${name}":
     ensure  => file,
