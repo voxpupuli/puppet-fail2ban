@@ -587,7 +587,7 @@ Default value: `$title`
 
 ##### <a name="-fail2ban--jail--logpath"></a>`logpath`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 
 
