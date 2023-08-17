@@ -424,10 +424,8 @@ describe 'fail2ban', type: :class do
       describe 'sendmail not managed by default' do
         let(:params) do
           {
-            sendmail_config: {
-            },
-            sendmail_actions: {
-            }
+            sendmail_config: {},
+            sendmail_actions: {}
           }
         end
 
