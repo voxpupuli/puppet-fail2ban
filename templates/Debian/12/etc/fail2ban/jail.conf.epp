@@ -211,16 +211,20 @@ banaction = <%= $fail2ban::banaction %>
 banaction_allports = iptables-allports
 
 # The simplest action to take: ban only
-action_ = %(banaction)s[port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+action_ = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+
+# ban & send an e-mail with buffered report to the destemail.
+action_mb = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+            %(mta)s-buffered[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s"]
 
 # ban & send an e-mail with whois report to the destemail.
 action_mw = %(action_)s
-            %(mta)s-whois[sender="%(sender)s", dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s"]
+            %(mta)s-whois[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s"]
 
 # ban & send an e-mail with whois report and relevant log lines
 # to the destemail.
 action_mwl = %(action_)s
-             %(mta)s-whois-lines[sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
+             %(mta)s-whois-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 
 # See the IMPORTANT note in action.d/xarf-login-attack for when to use this action
 #
@@ -229,29 +233,34 @@ action_mwl = %(action_)s
 action_xarf = %(action_)s
              xarf-login-attack[service=%(__name__)s, sender="%(sender)s", logpath="%(logpath)s", port="%(port)s"]
 
-# ban & send a notification to one or more of the 50+ services supported by Apprise.
-# See https://github.com/caronc/apprise/wiki for details on what is supported.
-#
-# You may optionally over-ride the default configuration line (containing the Apprise URLs)
-# by using 'apprise[config="/alternate/path/to/apprise.cfg"]' otherwise
-# /etc/fail2ban/apprise.conf is sourced for your supported notification configuration.
-# action = %(action_)s
-#          apprise
-
 # ban IP on CloudFlare & send an e-mail with whois report and relevant log lines
 # to the destemail.
 action_cf_mwl = cloudflare[cfuser="%(cfemail)s", cftoken="%(cfapikey)s"]
-                %(mta)s-whois-lines[sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
+                %(mta)s-whois-lines[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s", logpath="%(logpath)s", chain="%(chain)s"]
 
 # Report block via blocklist.de fail2ban reporting service API
-# 
+#
 # See the IMPORTANT note in action.d/blocklist_de.conf for when to use this action.
 # Specify expected parameters in file action.d/blocklist_de.local or if the interpolation
 # `action_blocklist_de` used for the action, set value of `blocklist_de_apikey`
-# in your `jail.local` globally (section [DEFAULT]) or per specific jail section (resp. in 
+# in your `jail.local` globally (section [DEFAULT]) or per specific jail section (resp. in
 # corresponding jail.d/my-jail.local file).
 #
 action_blocklist_de  = blocklist_de[email="%(sender)s", service="%(__name__)s", apikey="%(blocklist_de_apikey)s", agent="%(fail2ban_agent)s"]
+
+# Report ban via badips.com, and use as blacklist
+#
+# See BadIPsAction docstring in config/action.d/badips.py for
+# documentation for this action.
+#
+# NOTE: This action relies on banaction being present on start and therefore
+# should be last action defined for a jail.
+#
+action_badips = badips.py[category="%(__name__)s", banaction="%(banaction)s", agent="%(fail2ban_agent)s"]
+#
+# Report ban via badips.com (uses action.d/badips.conf for reporting only)
+#
+action_badips_report = badips[category="%(__name__)s", agent="%(fail2ban_agent)s"]
 
 # Report ban via abuseipdb.com.
 #
