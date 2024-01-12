@@ -1,5 +1,44 @@
 # == Class: fail2ban
 #
+# @param config_file_before
+# @param package_name
+# @param package_list
+# @param package_ensure
+# @param config_dir_path
+# @param config_dir_filter_path
+# @param config_dir_purge
+# @param config_dir_recurse
+# @param config_dir_source
+# @param config_file_path
+# @param config_file_owner
+# @param config_file_group
+# @param config_file_mode
+# @param config_file_source
+# @param config_file_string
+# @param config_file_template
+# @param config_file_notify
+# @param config_file_require
+# @param config_file_hash
+# @param config_file_options_hash
+# @param manage_defaults
+# @param manage_firewalld
+# @param service_ensure
+# @param service_name
+# @param service_enable
+# @param action
+# @param bantime
+# @param email
+# @param sender
+# @param iptables_chain
+# @param jails
+# @param jails_config
+# @param maxretry
+# @param default_backend
+# @param whitelist
+# @param custom_jails
+# @param banaction
+# @param sendmail_config
+# @param sendmail_actions
 class fail2ban (
   String[1] $config_file_before,
 
@@ -40,6 +79,7 @@ class fail2ban (
   String[1] $sender = "fail2ban@${facts['networking']['fqdn']}",
   String[1] $iptables_chain = 'INPUT',
   Array[String[1]] $jails = ['ssh', 'ssh-ddos'],
+  Hash $jails_config = {},
   Integer[0] $maxretry = 3,
   Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto'] $default_backend = 'auto',
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
