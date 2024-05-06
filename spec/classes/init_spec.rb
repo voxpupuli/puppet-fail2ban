@@ -30,8 +30,6 @@ describe 'fail2ban', type: :class do
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/8/etc/fail2ban/jail.conf.epp') }
       when %w[AlmaLinux 9], %w[RedHat 9], %w[Rocky 9], %w[CentOS 9]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/9/etc/fail2ban/jail.conf.epp') }
-      when %w[Debian 10]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/10/etc/fail2ban/jail.conf.epp') }
       when %w[Debian 11]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/11/etc/fail2ban/jail.conf.epp') }
       when %w[Debian 12]
