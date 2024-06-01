@@ -1,0 +1,13 @@
+{
+  "description": "Unban IP in all jails and database",
+  "input_method": "stdin",
+  "files": [
+    "ruby_task_helper/files/task_helper.rb"
+  ],
+  "parameters": {
+    "ips": {
+      "description": "IP addresses to unban",
+      "type": "Array[Stdlib::IP::Address]"
+    }
+  }
+}
