@@ -5,6 +5,7 @@ class fail2ban (
 
   Enum['absent', 'latest', 'present', 'purged'] $package_ensure = 'present',
   String[1] $package_name = 'fail2ban',
+  Optional[Array[String]] $package_install_options = undef,
   Optional[Array[String]] $package_list = undef,
 
   Stdlib::Absolutepath $config_dir_path = '/etc/fail2ban',
