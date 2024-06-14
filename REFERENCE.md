@@ -16,6 +16,12 @@
 * [`fail2ban::define`](#fail2ban--define): == Define: fail2ban::define
 * [`fail2ban::jail`](#fail2ban--jail): == Define: fail2ban::jail
 
+### Tasks
+
+* [`banip`](#banip): Ban IPs in a jail
+* [`unban`](#unban): Unban IP in all jails and database
+* [`unbanip`](#unbanip): Unban IP in a jail
+
 ## Classes
 
 ### <a name="fail2ban"></a>`fail2ban`
@@ -704,4 +710,60 @@ Data type: `Optional[String]`
 
 
 Default value: `$fail2ban::config_file_require`
+
+## Tasks
+
+### <a name="banip"></a>`banip`
+
+Ban IPs in a jail
+
+**Supports noop?** false
+
+#### Parameters
+
+##### `jail`
+
+Data type: `String[1]`
+
+The jail to operate on
+
+##### `ips`
+
+Data type: `Array[Stdlib::IP::Address]`
+
+IP addresses to ban
+
+### <a name="unban"></a>`unban`
+
+Unban IP in all jails and database
+
+**Supports noop?** false
+
+#### Parameters
+
+##### `ips`
+
+Data type: `Array[Stdlib::IP::Address]`
+
+IP addresses to unban
+
+### <a name="unbanip"></a>`unbanip`
+
+Unban IP in a jail
+
+**Supports noop?** false
+
+#### Parameters
+
+##### `jail`
+
+Data type: `String[1]`
+
+The jail to operate on
+
+##### `ips`
+
+Data type: `Array[Stdlib::IP::Address]`
+
+IP addresses to unban
 
