@@ -1,0 +1,17 @@
+{
+  "description": "Ban IPs in a jail",
+  "input_method": "stdin",
+  "files": [
+    "ruby_task_helper/files/task_helper.rb"
+  ],
+  "parameters": {
+    "jail": {
+      "description": "The jail to operate on",
+      "type": "String[1]"
+    },
+    "ips": {
+      "description": "IP addresses to ban",
+      "type": "Array[Stdlib::IP::Address]"
+    }
+  }
+}
