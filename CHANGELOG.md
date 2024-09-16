@@ -4,7 +4,32 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.2.0) (2022-11-06)
+## [v5.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v5.0.0) (2024-09-16)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v4.2.0...v5.0.0)
+
+**Breaking changes:**
+
+- Move description of parameters from README to puppet-strings. [\#219](https://github.com/voxpupuli/puppet-fail2ban/pull/219) ([Dan33l](https://github.com/Dan33l))
+- Drop CentOS 8 support [\#217](https://github.com/voxpupuli/puppet-fail2ban/pull/217) ([Dan33l](https://github.com/Dan33l))
+- remove support for debian 10 [\#208](https://github.com/voxpupuli/puppet-fail2ban/pull/208) ([TheMeier](https://github.com/TheMeier))
+- Drop Puppet 6 support [\#194](https://github.com/voxpupuli/puppet-fail2ban/pull/194) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add support for Ubuntu 24.04 \(noble\) [\#215](https://github.com/voxpupuli/puppet-fail2ban/pull/215) ([amateo](https://github.com/amateo))
+- Add tasks to ban/unban IP addresses in jails [\#209](https://github.com/voxpupuli/puppet-fail2ban/pull/209) ([smortex](https://github.com/smortex))
+- bump puppet extlib version \< 8.0.0 [\#202](https://github.com/voxpupuli/puppet-fail2ban/pull/202) ([sandwitch](https://github.com/sandwitch))
+- Add Puppet 8 support [\#198](https://github.com/voxpupuli/puppet-fail2ban/pull/198) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for Debian 12 [\#197](https://github.com/voxpupuli/puppet-fail2ban/pull/197) ([cFire](https://github.com/cFire))
+- Allow puppetlabs-stdlib 9.x [\#196](https://github.com/voxpupuli/puppet-fail2ban/pull/196) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Use actual Debian 11 configuration [\#191](https://github.com/voxpupuli/puppet-fail2ban/pull/191) ([smortex](https://github.com/smortex))
+- `logpath` is not required when `journalmatch` in provided [\#190](https://github.com/voxpupuli/puppet-fail2ban/pull/190) ([smortex](https://github.com/smortex))
+
+## [v4.2.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v4.2.0) (2022-11-10)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v4.1.0...v4.2.0)
 
