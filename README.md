@@ -13,7 +13,6 @@
 1. [Module Description - What the module does and why it is useful](#module-description)
 1. [Setup - The basics of getting started with fail2ban](#setup)
     * [What fail2ban affects](#what-fail2ban-affects)
-    * [Setup requirements](#setup-requirements)
     * [Beginning with fail2ban](#beginning-with-fail2ban)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
@@ -40,12 +39,6 @@ operating systems and distributions.
 * fail2ban configuration file.
 * fail2ban service.
 
-### Setup Requirements
-
-* Puppet >= 3.0
-* Facter >= 1.6
-* [Extlib module](https://github.com/voxpupuli/puppet-extlib)
-* [Stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib)
 
 ### Beginning with fail2ban
 
@@ -180,174 +173,6 @@ Disable the fail2ban service.
       service_ensure => 'stopped',
     }
 ```
-
-## Reference
-
-### Classes
-
-#### Public Classes
-
-* fail2ban: Main class, includes all other classes.
-
-#### Private Classes
-
-* fail2ban::install: Handles the packages.
-* fail2ban::config: Handles the configuration file.
-* fail2ban::service: Handles the service.
-
-### Parameters
-
-#### `package_ensure`
-
-Determines if the package should be installed. Valid values are 'present',
-'latest', 'absent' and 'purged'. Defaults to 'present'.
-
-#### `package_name`
-
-Determines the name of package to manage. Defaults to 'fail2ban'.
-
-#### `package_list`
-
-Determines if additional packages should be managed. Defaults to 'undef'.
-
-#### `config_dir_ensure`
-
-Determines if the configuration directory should be present. Valid values are
-'absent' and 'directory'. Defaults to 'directory'.
-
-#### `config_dir_path`
-
-Determines if the configuration directory should be managed. Defaults to '/etc/fail2ban'
-
-#### `config_dir_purge`
-
-Determines if unmanaged configuration files should be removed. Valid values are
-'true' and 'false'. Defaults to 'false'.
-
-#### `config_dir_recurse`
-
-Determines if the configuration directory should be recursively managed. Valid
-values are 'true' and 'false'. Defaults to 'true'.
-
-#### `config_dir_source`
-
-Determines the source of a configuration directory. Defaults to 'undef'.
-
-#### `config_file_path`
-
-Determines if the configuration file should be managed. Defaults to '/etc/fail2ban/jail.conf'
-
-#### `config_file_owner`
-
-Determines which user should own the configuration file. Defaults to 'root'.
-
-#### `config_file_group`
-
-Determines which group should own the configuration file. Defaults to 'root'.
-
-#### `config_file_mode`
-
-Determines the desired permissions mode of the configuration file. Defaults to '0644'.
-
-#### `config_file_source`
-
-Determines the source of a configuration file. Defaults to 'undef'.
-
-#### `config_file_string`
-
-Determines the content of a configuration file. Defaults to 'undef'.
-
-#### `config_file_template`
-
-Determines the content of a configuration file. Defaults to 'undef'.
-
-#### `config_file_notify`
-
-Determines if the service should be restarted after configuration changes.
-Defaults to 'Service[fail2ban]'.
-
-#### `config_file_require`
-
-Determines which package a configuration file depends on. Defaults to 'Package[fail2ban]'.
-
-#### `config_file_hash`
-
-Determines which configuration files should be managed via `fail2ban::define`.
-Defaults to '{}'.
-
-#### `config_file_options_hash`
-
-Determines which parameters should be passed to an ERB template. Defaults to '{}'.
-
-#### `manage_defaults`
-
-Determines whether the file `/etc/fail2ban/jail.d/defaults-debian.conf` should
-be deleted or not. Defaults to 'absent'.
-
-#### `manage_firewalld`
-
-Determines whether the file `/etc/fail2ban/jail.d/00-firewalld.conf` should be
-deleted or not. Defaults to 'absent'.
-
-#### `service_ensure`
-
-Determines if the service should be running or not. Valid values are 'running'
-and 'stopped'. Defaults to 'running'.
-
-#### `service_name`
-
-Determines the name of service to manage. Defaults to 'fail2ban'.
-
-#### `service_enable`
-
-Determines if the service should be enabled at boot. Valid values are 'true' and
-'false'. Defaults to 'true'.
-
-#### `action`
-
-Determines how banned ip addresses should be reported. Defaults to 'action_mb'.
-
-#### `bantime`
-
-Determines how many seconds ip addresses will be banned. Defaults to '432000'.
-
-#### `email`
-
-Determines which email address should be notified about restricted hosts and
-suspicious logins. Defaults to "fail2ban@${::domain}".
-
-#### `sender`
-
-Determines which email address should notify about restricted hosts and
-suspicious logins. Defaults to 'fail2ban@${::fqdn}'.
-
-#### `iptables_chain`
-
-Determines chain where jumps will to be added in iptables-\* actions. Defaults
-to 'INPUT'.
-
-#### `jails`
-
-Determines which services should be protected by Fail2ban. Defaults to '['ssh', 'ssh-ddos']'.
-
-#### `maxretry`
-
-Determines the number of failed login attempts needed to block a host.
-Defaults to '3'.
-
-#### `whitelist`
-
-Determines which ip addresses will not be reported. Defaults to '['127.0.0.1/8',
-'192.168.56.0/24']'.
-
-#### `custom_jails`
-
-Determines which custom jails should be included (see [Custom jails](#custom-jails).
-
-#### `banaction`
-
-Determines which action to perform when performing a global ban (not overridden
-in a specific jail).
 
 ## Jails available
 
@@ -649,13 +474,7 @@ fail2ban::sendmail_config:
 
 ## Limitations
 
-This module has been tested on:
-
-* Debian 8/9/10
-* Ubuntu 16.04/18.04/20.04
-* RedHat 6/7/8/9
-* CentOS 6/7/8/9
-* OpenSuSE 15
+Supported OSes and dependencies are given into metadata.json file.
 
 ## Development
 
