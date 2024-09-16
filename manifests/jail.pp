@@ -1,4 +1,4 @@
-# == Define: fail2ban::jail
+# @summary Handles the jails.
 #
 define fail2ban::jail (
   Optional[String] $filter_includes = undef,
