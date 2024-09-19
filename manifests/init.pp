@@ -27,7 +27,7 @@
 # @param service_name Determines the name of service to manage.
 # @param service_enable Determines if the service should be enabled at boot.
 # @param action Determines how banned ip addresses should be reported.
-# @param bantime Determines how many seconds ip addresses will be banned.
+# @param bantime Determines how many time (second or hour or week) ip addresses will be banned.
 # @param email Determines which email address should be notified about restricted hosts and suspicious logins.
 # @param sender Determines which email address should notify about restricted hosts and suspicious logins.
 # @param iptables_chain Determines chain where jumps will to be added in iptables-\* actions.
@@ -72,7 +72,7 @@ class fail2ban (
   Boolean $service_enable = true,
 
   String[1] $action = 'action_mb',
-  Variant[Integer[0], String[1]] $bantime = 432000,
+  Fail2ban::Time $bantime = 432000,
   String[1] $email = "fail2ban@${facts['networking']['domain']}",
   String[1] $sender = "fail2ban@${facts['networking']['fqdn']}",
   String[1] $iptables_chain = 'INPUT',
