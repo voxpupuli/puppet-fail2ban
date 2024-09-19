@@ -21,6 +21,10 @@
 * [`fail2ban::define`](#fail2ban--define): == Define: fail2ban::define
 * [`fail2ban::jail`](#fail2ban--jail): Handles the jails.
 
+### Data types
+
+* [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
+
 ### Tasks
 
 * [`banip`](#banip): Ban IPs in a jail
@@ -271,9 +275,9 @@ Default value: `'action_mb'`
 
 ##### <a name="-fail2ban--bantime"></a>`bantime`
 
-Data type: `Variant[Integer[0], String[1]]`
+Data type: `Fail2ban::Time`
 
-Determines how many seconds ip addresses will be banned.
+Determines how many time (second or hour or week) ip addresses will be banned.
 
 Default value: `432000`
 
@@ -607,7 +611,7 @@ Default value: `$fail2ban::maxretry`
 
 ##### <a name="-fail2ban--jail--findtime"></a>`findtime`
 
-Data type: `Optional[Integer]`
+Data type: `Optional[Fail2ban::Time]`
 
 
 
@@ -615,7 +619,7 @@ Default value: `undef`
 
 ##### <a name="-fail2ban--jail--bantime"></a>`bantime`
 
-Data type: `Integer`
+Data type: `Fail2ban::Time`
 
 
 
@@ -708,6 +712,36 @@ Data type: `Optional[String]`
 
 
 Default value: `$fail2ban::config_file_require`
+
+## Data types
+
+### <a name="Fail2ban--Time"></a>`Fail2ban::Time`
+
+Describes time format allowed for bantime and findtime
+The time entries in fail2ban configuration (like findtime or bantime)
+can be provided as integer in seconds or as string using special abbreviation
+format (e. g. 600 is the same as 10m).
+
+Abbreviation tokens:
+
+  years?, yea?, yy?
+  months?, mon?
+  weeks?, wee?, ww?
+  days?, da, dd?
+  hours?, hou?, hh?
+  minutes?, min?, mm?
+  seconds?, sec?, ss?
+
+  The question mark (?) means the optional character, so day as well as days can be used.
+
+You can combine multiple tokens in format (separated with space resp. without separator), e. g.: 1y 6mo or 1d12h30m.
+Note that tokens m as well as mm means minutes, for month use abbreviation mo or mon.
+
+The time format can be tested using fail2ban-client:
+
+       fail2ban-client --str2sec 1d12h
+
+Alias of `Variant[Integer[0], Pattern['^\d.*$']]`
 
 ## Tasks
 
