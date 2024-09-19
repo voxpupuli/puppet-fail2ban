@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v5.0.1](https://github.com/voxpupuli/puppet-fail2ban/tree/v5.0.1) (2024-09-17)
+## [v5.0.2](https://github.com/voxpupuli/puppet-fail2ban/tree/v5.0.2) (2024-09-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v5.0.1...v5.0.2)
+
+**Fixed bugs:**
+
+- datatype difference for bantime, datatype erroneous restriction for findtime [\#222](https://github.com/voxpupuli/puppet-fail2ban/pull/222) ([Dan33l](https://github.com/Dan33l))
+
+## [v5.0.1](https://github.com/voxpupuli/puppet-fail2ban/tree/v5.0.1) (2024-09-18)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v5.0.0...v5.0.1)
 
