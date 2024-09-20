@@ -23,6 +23,7 @@
 
 ### Data types
 
+* [`Fail2ban::Logpath`](#Fail2ban--Logpath): Describes logpath format allowed
 * [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
 
 ### Tasks
@@ -496,6 +497,7 @@ Handles the jails.
 
 The following parameters are available in the `fail2ban::jail` defined type:
 
+* [`logpath`](#-fail2ban--jail--logpath)
 * [`filter_includes`](#-fail2ban--jail--filter_includes)
 * [`filter_failregex`](#-fail2ban--jail--filter_failregex)
 * [`filter_ignoreregex`](#-fail2ban--jail--filter_ignoreregex)
@@ -505,7 +507,6 @@ The following parameters are available in the `fail2ban::jail` defined type:
 * [`enabled`](#-fail2ban--jail--enabled)
 * [`action`](#-fail2ban--jail--action)
 * [`filter`](#-fail2ban--jail--filter)
-* [`logpath`](#-fail2ban--jail--logpath)
 * [`maxretry`](#-fail2ban--jail--maxretry)
 * [`findtime`](#-fail2ban--jail--findtime)
 * [`bantime`](#-fail2ban--jail--bantime)
@@ -520,6 +521,14 @@ The following parameters are available in the `fail2ban::jail` defined type:
 * [`config_file_source`](#-fail2ban--jail--config_file_source)
 * [`config_file_notify`](#-fail2ban--jail--config_file_notify)
 * [`config_file_require`](#-fail2ban--jail--config_file_require)
+
+##### <a name="-fail2ban--jail--logpath"></a>`logpath`
+
+Data type: `Optional[Fail2ban::Logpath]`
+
+Filename(s) of the log files to be monitored
+
+Default value: `undef`
 
 ##### <a name="-fail2ban--jail--filter_includes"></a>`filter_includes`
 
@@ -592,14 +601,6 @@ Data type: `String`
 
 
 Default value: `$title`
-
-##### <a name="-fail2ban--jail--logpath"></a>`logpath`
-
-Data type: `Optional[String[1]]`
-
-
-
-Default value: `undef`
 
 ##### <a name="-fail2ban--jail--maxretry"></a>`maxretry`
 
@@ -714,6 +715,12 @@ Data type: `Optional[String]`
 Default value: `$fail2ban::config_file_require`
 
 ## Data types
+
+### <a name="Fail2ban--Logpath"></a>`Fail2ban::Logpath`
+
+Describes logpath format allowed
+
+Alias of `Variant[String[1], Array[String[1]]]`
 
 ### <a name="Fail2ban--Time"></a>`Fail2ban::Time`
 
