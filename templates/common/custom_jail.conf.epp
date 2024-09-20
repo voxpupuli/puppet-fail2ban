@@ -9,7 +9,13 @@ enabled  = <%= $enabled %>
 action   = <%= $action %>
 <% } -%>
 filter   = <%= $filter %>
+<% if $logpath  =~ Array[String[1]] { -%>
+logpath  = <%- $logpath.each |$l| { -%>
+ <%= $l %>
+<%- } -%>
+<% } else { -%>
 logpath  = <%= $logpath %>
+<%- } -%>
 maxretry = <%= $maxretry %>
 <% if $findtime { -%>
 findtime     = <%= $findtime %>

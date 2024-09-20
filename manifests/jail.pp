@@ -1,5 +1,7 @@
 # @summary Handles the jails.
 #
+# @param logpath Filename(s) of the log files to be monitored
+#
 define fail2ban::jail (
   Optional[String] $filter_includes = undef,
   Optional[String] $filter_failregex = undef,
@@ -10,7 +12,7 @@ define fail2ban::jail (
   Boolean $enabled = true,
   Optional[String] $action = undef,
   String $filter = $title,
-  Optional[String[1]] $logpath = undef,
+  Optional[Fail2ban::Logpath] $logpath = undef,
   Integer $maxretry = $fail2ban::maxretry,
   Optional[Fail2ban::Time] $findtime = undef,
   Fail2ban::Time $bantime = $fail2ban::bantime,
