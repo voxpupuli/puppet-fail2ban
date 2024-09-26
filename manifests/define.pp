@@ -1,5 +1,16 @@
 # == Define: fail2ban::define
 #
+# @param config_file_path
+# @param config_file_owner
+# @param config_file_group
+# @param config_file_mode
+# @param config_file_source
+# @param config_file_string
+# @param config_file_template
+# @param config_file_notify
+# @param config_file_require
+# @param config_file_options_hash
+#
 define fail2ban::define (
   Stdlib::Absolutepath $config_file_path = "${fail2ban::config_dir_path}/${title}",
   String $config_file_owner = $fail2ban::config_file_owner,
