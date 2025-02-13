@@ -21,9 +21,14 @@
 * [`fail2ban::define`](#fail2ban--define): == Define: fail2ban::define
 * [`fail2ban::jail`](#fail2ban--jail): Handles the jails.
 
+### Functions
+
+* [`fail2ban::port`](#fail2ban--port): See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html for more information on native puppet functions.  Looks up fail
+
 ### Data types
 
 * [`Fail2ban::Logpath`](#Fail2ban--Logpath): Describes logpath format allowed
+* [`Fail2ban::Port`](#Fail2ban--Port): Port type
 * [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
 
 ### Tasks
@@ -77,8 +82,42 @@ The following parameters are available in the `fail2ban` class:
 * [`custom_jails`](#-fail2ban--custom_jails)
 * [`banaction`](#-fail2ban--banaction)
 * [`config_file_before`](#-fail2ban--config_file_before)
+* [`package_name`](#-fail2ban--package_name)
+* [`package_list`](#-fail2ban--package_list)
+* [`package_ensure`](#-fail2ban--package_ensure)
+* [`config_dir_path`](#-fail2ban--config_dir_path)
 * [`config_dir_filter_path`](#-fail2ban--config_dir_filter_path)
+* [`config_dir_purge`](#-fail2ban--config_dir_purge)
+* [`config_dir_recurse`](#-fail2ban--config_dir_recurse)
+* [`config_dir_source`](#-fail2ban--config_dir_source)
+* [`config_file_path`](#-fail2ban--config_file_path)
+* [`config_file_owner`](#-fail2ban--config_file_owner)
+* [`config_file_group`](#-fail2ban--config_file_group)
+* [`config_file_mode`](#-fail2ban--config_file_mode)
+* [`config_file_source`](#-fail2ban--config_file_source)
+* [`config_file_string`](#-fail2ban--config_file_string)
+* [`config_file_template`](#-fail2ban--config_file_template)
+* [`config_file_notify`](#-fail2ban--config_file_notify)
+* [`config_file_require`](#-fail2ban--config_file_require)
+* [`config_file_hash`](#-fail2ban--config_file_hash)
+* [`config_file_options_hash`](#-fail2ban--config_file_options_hash)
+* [`manage_defaults`](#-fail2ban--manage_defaults)
+* [`manage_firewalld`](#-fail2ban--manage_firewalld)
+* [`service_ensure`](#-fail2ban--service_ensure)
+* [`service_name`](#-fail2ban--service_name)
+* [`service_enable`](#-fail2ban--service_enable)
+* [`action`](#-fail2ban--action)
+* [`bantime`](#-fail2ban--bantime)
+* [`email`](#-fail2ban--email)
+* [`sender`](#-fail2ban--sender)
+* [`iptables_chain`](#-fail2ban--iptables_chain)
+* [`jails`](#-fail2ban--jails)
+* [`jails_config`](#-fail2ban--jails_config)
+* [`maxretry`](#-fail2ban--maxretry)
 * [`default_backend`](#-fail2ban--default_backend)
+* [`whitelist`](#-fail2ban--whitelist)
+* [`custom_jails`](#-fail2ban--custom_jails)
+* [`banaction`](#-fail2ban--banaction)
 * [`sendmail_config`](#-fail2ban--sendmail_config)
 * [`sendmail_actions`](#-fail2ban--sendmail_actions)
 
@@ -352,6 +391,30 @@ Data type: `String[1]`
 
 
 
+##### <a name="-fail2ban--package_name"></a>`package_name`
+
+
+
+Default value: `'fail2ban'`
+
+##### <a name="-fail2ban--package_list"></a>`package_list`
+
+
+
+Default value: `undef`
+
+##### <a name="-fail2ban--package_ensure"></a>`package_ensure`
+
+
+
+Default value: `'present'`
+
+##### <a name="-fail2ban--config_dir_path"></a>`config_dir_path`
+
+
+
+Default value: `'/etc/fail2ban'`
+
 ##### <a name="-fail2ban--config_dir_filter_path"></a>`config_dir_filter_path`
 
 Data type: `Stdlib::Absolutepath`
@@ -360,6 +423,170 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/etc/fail2ban/filter.d'`
 
+##### <a name="-fail2ban--config_dir_purge"></a>`config_dir_purge`
+
+
+
+Default value: `false`
+
+##### <a name="-fail2ban--config_dir_recurse"></a>`config_dir_recurse`
+
+
+
+Default value: `true`
+
+##### <a name="-fail2ban--config_dir_source"></a>`config_dir_source`
+
+
+
+Default value: `undef`
+
+##### <a name="-fail2ban--config_file_path"></a>`config_file_path`
+
+
+
+Default value: `'/etc/fail2ban/jail.conf'`
+
+##### <a name="-fail2ban--config_file_owner"></a>`config_file_owner`
+
+
+
+Default value: `'root'`
+
+##### <a name="-fail2ban--config_file_group"></a>`config_file_group`
+
+
+
+Default value: `'root'`
+
+##### <a name="-fail2ban--config_file_mode"></a>`config_file_mode`
+
+
+
+Default value: `'0644'`
+
+##### <a name="-fail2ban--config_file_source"></a>`config_file_source`
+
+
+
+Default value: `undef`
+
+##### <a name="-fail2ban--config_file_string"></a>`config_file_string`
+
+
+
+Default value: `undef`
+
+##### <a name="-fail2ban--config_file_template"></a>`config_file_template`
+
+
+
+Default value: `undef`
+
+##### <a name="-fail2ban--config_file_notify"></a>`config_file_notify`
+
+
+
+Default value: `'Service[fail2ban]'`
+
+##### <a name="-fail2ban--config_file_require"></a>`config_file_require`
+
+
+
+Default value: `'Package[fail2ban]'`
+
+##### <a name="-fail2ban--config_file_hash"></a>`config_file_hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-fail2ban--config_file_options_hash"></a>`config_file_options_hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-fail2ban--manage_defaults"></a>`manage_defaults`
+
+
+
+Default value: `'absent'`
+
+##### <a name="-fail2ban--manage_firewalld"></a>`manage_firewalld`
+
+
+
+Default value: `'absent'`
+
+##### <a name="-fail2ban--service_ensure"></a>`service_ensure`
+
+
+
+Default value: `'running'`
+
+##### <a name="-fail2ban--service_name"></a>`service_name`
+
+
+
+Default value: `'fail2ban'`
+
+##### <a name="-fail2ban--service_enable"></a>`service_enable`
+
+
+
+Default value: `true`
+
+##### <a name="-fail2ban--action"></a>`action`
+
+
+
+Default value: `'action_mb'`
+
+##### <a name="-fail2ban--bantime"></a>`bantime`
+
+
+
+Default value: `432000`
+
+##### <a name="-fail2ban--email"></a>`email`
+
+
+
+Default value: `"fail2ban@${facts['networking']['domain']}"`
+
+##### <a name="-fail2ban--sender"></a>`sender`
+
+
+
+Default value: `"fail2ban@${facts['networking']['fqdn']}"`
+
+##### <a name="-fail2ban--iptables_chain"></a>`iptables_chain`
+
+
+
+Default value: `'INPUT'`
+
+##### <a name="-fail2ban--jails"></a>`jails`
+
+
+
+Default value: `['ssh', 'ssh-ddos']`
+
+##### <a name="-fail2ban--jails_config"></a>`jails_config`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-fail2ban--maxretry"></a>`maxretry`
+
+
+
+Default value: `3`
+
 ##### <a name="-fail2ban--default_backend"></a>`default_backend`
 
 Data type: `Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto']`
@@ -367,6 +594,24 @@ Data type: `Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto']`
 
 
 Default value: `'auto'`
+
+##### <a name="-fail2ban--whitelist"></a>`whitelist`
+
+
+
+Default value: `['127.0.0.1/8', '192.168.56.0/24']`
+
+##### <a name="-fail2ban--custom_jails"></a>`custom_jails`
+
+
+
+Default value: `{}`
+
+##### <a name="-fail2ban--banaction"></a>`banaction`
+
+
+
+Default value: `'iptables-multiport'`
 
 ##### <a name="-fail2ban--sendmail_config"></a>`sendmail_config`
 
@@ -507,6 +752,7 @@ The following parameters are available in the `fail2ban::jail` defined type:
 * [`enabled`](#-fail2ban--jail--enabled)
 * [`action`](#-fail2ban--jail--action)
 * [`filter`](#-fail2ban--jail--filter)
+* [`logpath`](#-fail2ban--jail--logpath)
 * [`maxretry`](#-fail2ban--jail--maxretry)
 * [`findtime`](#-fail2ban--jail--findtime)
 * [`bantime`](#-fail2ban--jail--bantime)
@@ -601,6 +847,12 @@ Data type: `String`
 
 
 Default value: `$title`
+
+##### <a name="-fail2ban--jail--logpath"></a>`logpath`
+
+
+
+Default value: `undef`
 
 ##### <a name="-fail2ban--jail--maxretry"></a>`maxretry`
 
@@ -714,6 +966,38 @@ Data type: `Optional[String]`
 
 Default value: `$fail2ban::config_file_require`
 
+## Functions
+
+### <a name="fail2ban--port"></a>`fail2ban::port`
+
+Type: Puppet Language
+
+See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html
+for more information on native puppet functions.
+
+Looks up fail2ban::jails_config.{namespace} for port configuration
+
+#### `fail2ban::port(String $config_key, Fail2ban::Port $default_port)`
+
+See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html
+for more information on native puppet functions.
+
+Looks up fail2ban::jails_config.{namespace} for port configuration
+
+Returns: `String` actual config
+
+##### `config_key`
+
+Data type: `String`
+
+
+
+##### `default_port`
+
+Data type: `Fail2ban::Port`
+
+
+
 ## Data types
 
 ### <a name="Fail2ban--Logpath"></a>`Fail2ban::Logpath`
@@ -721,6 +1005,12 @@ Default value: `$fail2ban::config_file_require`
 Describes logpath format allowed
 
 Alias of `Variant[String[1], Array[String[1]]]`
+
+### <a name="Fail2ban--Port"></a>`Fail2ban::Port`
+
+Port type
+
+Alias of `Variant[Integer, String, Tuple[Variant[Integer, String], 1, default]]`
 
 ### <a name="Fail2ban--Time"></a>`Fail2ban::Time`
 
