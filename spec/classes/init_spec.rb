@@ -32,6 +32,8 @@ describe 'fail2ban', type: :class do
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/11/etc/fail2ban/jail.conf.epp') }
       when %w[Debian 12]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/12/etc/fail2ban/jail.conf.epp') }
+      when %w[Debian 13]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/13/etc/fail2ban/jail.conf.epp') }
       when ['Ubuntu', '18.04']
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/18.04/etc/fail2ban/jail.conf.epp') }
       when ['Ubuntu', '20.04']
