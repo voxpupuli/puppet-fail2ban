@@ -2,6 +2,30 @@
 #
 # @param logpath Filename(s) of the log files to be monitored
 #
+# @param filter_includes
+# @param filter_failregex
+# @param filter_ignoreregex
+# @param filter_maxlines
+# @param filter_datepattern
+# @param filter_additional_config
+# @param enabled
+# @param action
+# @param filter
+# @param logpath
+# @param maxretry
+# @param findtime
+# @param bantime
+# @param port
+# @param backend
+# @param journalmatch
+# @param ignoreip
+# @param config_dir_filter_path
+# @param config_file_owner
+# @param config_file_group
+# @param config_file_mode
+# @param config_file_source
+# @param config_file_notify
+# @param config_file_require
 define fail2ban::jail (
   Optional[String] $filter_includes = undef,
   Optional[String] $filter_failregex = undef,

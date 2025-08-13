@@ -174,6 +174,18 @@ Disable the fail2ban service.
     }
 ```
 
+Customize port definition per jail
+
+```yaml
+fail2ban::jails_config:
+  ssh:
+    port: ssh,2200
+  dropbear:
+    port:
+      - ssh
+      - 2201
+```
+
 ## Jails available
 
 ### Pre-defined jails

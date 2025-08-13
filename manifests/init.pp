@@ -32,11 +32,13 @@
 # @param sender Determines which email address should notify about restricted hosts and suspicious logins.
 # @param iptables_chain Determines chain where jumps will to be added in iptables-\* actions.
 # @param jails Determines which services should be protected by Fail2ban.
+# @param jails_config Allows configuration per-jail, e.g. override default port.
 # @param maxretry Determines the number of failed login attempts needed to block a host.
 # @param whitelist Determines which ip addresses will not be reported
 # @param custom_jails Determines which custom jails should be included
 # @param banaction Determines which action to perform when performing a global ban (not overridden in a specific jail).
-#
+# @param sendmail_config
+# @param sendmail_actions
 class fail2ban (
   String[1] $config_file_before,
 
@@ -77,6 +79,7 @@ class fail2ban (
   String[1] $sender = "fail2ban@${facts['networking']['fqdn']}",
   String[1] $iptables_chain = 'INPUT',
   Array[String[1]] $jails = ['ssh', 'ssh-ddos'],
+  Hash $jails_config = {},
   Integer[0] $maxretry = 3,
   Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto'] $default_backend = 'auto',
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],

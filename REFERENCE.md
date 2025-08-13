@@ -21,9 +21,14 @@
 * [`fail2ban::define`](#fail2ban--define): == Define: fail2ban::define
 * [`fail2ban::jail`](#fail2ban--jail): Handles the jails.
 
+### Functions
+
+* [`fail2ban::port`](#fail2ban--port): See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html for more information on native puppet functions.  Looks up fail
+
 ### Data types
 
 * [`Fail2ban::Logpath`](#Fail2ban--Logpath): Describes logpath format allowed
+* [`Fail2ban::Port`](#Fail2ban--Port): Port type
 * [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
 
 ### Tasks
@@ -72,15 +77,16 @@ The following parameters are available in the `fail2ban` class:
 * [`sender`](#-fail2ban--sender)
 * [`iptables_chain`](#-fail2ban--iptables_chain)
 * [`jails`](#-fail2ban--jails)
+* [`jails_config`](#-fail2ban--jails_config)
 * [`maxretry`](#-fail2ban--maxretry)
 * [`whitelist`](#-fail2ban--whitelist)
 * [`custom_jails`](#-fail2ban--custom_jails)
 * [`banaction`](#-fail2ban--banaction)
+* [`sendmail_config`](#-fail2ban--sendmail_config)
+* [`sendmail_actions`](#-fail2ban--sendmail_actions)
 * [`config_file_before`](#-fail2ban--config_file_before)
 * [`config_dir_filter_path`](#-fail2ban--config_dir_filter_path)
 * [`default_backend`](#-fail2ban--default_backend)
-* [`sendmail_config`](#-fail2ban--sendmail_config)
-* [`sendmail_actions`](#-fail2ban--sendmail_actions)
 
 ##### <a name="-fail2ban--package_ensure"></a>`package_ensure`
 
@@ -314,6 +320,14 @@ Determines which services should be protected by Fail2ban.
 
 Default value: `['ssh', 'ssh-ddos']`
 
+##### <a name="-fail2ban--jails_config"></a>`jails_config`
+
+Data type: `Hash`
+
+Allows configuration per-jail, e.g. override default port.
+
+Default value: `{}`
+
 ##### <a name="-fail2ban--maxretry"></a>`maxretry`
 
 Data type: `Integer[0]`
@@ -346,6 +360,22 @@ Determines which action to perform when performing a global ban (not overridden 
 
 Default value: `'iptables-multiport'`
 
+##### <a name="-fail2ban--sendmail_config"></a>`sendmail_config`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="-fail2ban--sendmail_actions"></a>`sendmail_actions`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
 ##### <a name="-fail2ban--config_file_before"></a>`config_file_before`
 
 Data type: `String[1]`
@@ -367,22 +397,6 @@ Data type: `Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto']`
 
 
 Default value: `'auto'`
-
-##### <a name="-fail2ban--sendmail_config"></a>`sendmail_config`
-
-Data type: `Hash`
-
-
-
-Default value: `{}`
-
-##### <a name="-fail2ban--sendmail_actions"></a>`sendmail_actions`
-
-Data type: `Hash`
-
-
-
-Default value: `{}`
 
 ### <a name="fail2ban--install"></a>`fail2ban::install`
 
@@ -507,6 +521,7 @@ The following parameters are available in the `fail2ban::jail` defined type:
 * [`enabled`](#-fail2ban--jail--enabled)
 * [`action`](#-fail2ban--jail--action)
 * [`filter`](#-fail2ban--jail--filter)
+* [`logpath`](#-fail2ban--jail--logpath)
 * [`maxretry`](#-fail2ban--jail--maxretry)
 * [`findtime`](#-fail2ban--jail--findtime)
 * [`bantime`](#-fail2ban--jail--bantime)
@@ -601,6 +616,12 @@ Data type: `String`
 
 
 Default value: `$title`
+
+##### <a name="-fail2ban--jail--logpath"></a>`logpath`
+
+
+
+Default value: `undef`
 
 ##### <a name="-fail2ban--jail--maxretry"></a>`maxretry`
 
@@ -714,6 +735,38 @@ Data type: `Optional[String]`
 
 Default value: `$fail2ban::config_file_require`
 
+## Functions
+
+### <a name="fail2ban--port"></a>`fail2ban::port`
+
+Type: Puppet Language
+
+See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html
+for more information on native puppet functions.
+
+Looks up fail2ban::jails_config.{namespace} for port configuration
+
+#### `fail2ban::port(String[1] $config_key, Fail2ban::Port $default_port)`
+
+See https://puppet.com/docs/puppet/latest/lang_write_functions_in_puppet.html
+for more information on native puppet functions.
+
+Looks up fail2ban::jails_config.{namespace} for port configuration
+
+Returns: `String` actual config
+
+##### `config_key`
+
+Data type: `String[1]`
+
+
+
+##### `default_port`
+
+Data type: `Fail2ban::Port`
+
+
+
 ## Data types
 
 ### <a name="Fail2ban--Logpath"></a>`Fail2ban::Logpath`
@@ -721,6 +774,12 @@ Default value: `$fail2ban::config_file_require`
 Describes logpath format allowed
 
 Alias of `Variant[String[1], Array[String[1]]]`
+
+### <a name="Fail2ban--Port"></a>`Fail2ban::Port`
+
+Port type
+
+Alias of `Variant[Integer, String, Tuple[Variant[Integer, String], 1, default]]`
 
 ### <a name="Fail2ban--Time"></a>`Fail2ban::Time`
 
