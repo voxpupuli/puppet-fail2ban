@@ -138,7 +138,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           $_config_file_template = $facts['os']['family'] ? {
-            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            'RedHat' => "fail2ban/RedHat/#{config_file_path}.epp",
             default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
           }
           class { 'fail2ban':
@@ -160,7 +160,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           $_config_file_template = $facts['os']['family'] ? {
-            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            'RedHat' => "fail2ban/RedHat/#{config_file_path}.epp",
             default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
           }
           class { 'fail2ban':
@@ -183,7 +183,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           $_config_file_template = $facts['os']['family'] ? {
-            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            'RedHat' => "fail2ban/RedHat/#{config_file_path}.epp",
             default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
           }
           class { 'fail2ban':
@@ -205,7 +205,7 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           $_config_file_template = $facts['os']['family'] ? {
-            'RedHat' => "fail2ban/RedHat/#{fact('os.release.major')}/#{config_file_path}.epp",
+            'RedHat' => "fail2ban/RedHat/#{config_file_path}.epp",
             default  => "fail2ban/#{fact('os.name')}/#{fact('os.release.major')}/#{config_file_path}.epp",
           }
           class { 'fail2ban':
