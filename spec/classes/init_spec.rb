@@ -11,7 +11,7 @@ describe 'fail2ban', type: :class do
 
       # Hard code one existing template as a custom template
       let(:config_file_template) do
-        'fail2ban/RedHat/8/etc/fail2ban/jail.conf.epp'
+        'fail2ban/RedHat/etc/fail2ban/jail.conf.epp'
       end
 
       it { is_expected.to compile.with_all_deps }
@@ -22,12 +22,10 @@ describe 'fail2ban', type: :class do
       case [facts[:os]['name'], facts[:os]['release']['major']]
       when %w[OpenSuSE 15]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/OpenSuSE/15/etc/fail2ban/jail.conf.epp') }
-      when %w[RedHat 7]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/7/etc/fail2ban/jail.conf.epp') }
-      when %w[AlmaLinux 8], %w[RedHat 8], %w[Rocky 8]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/8/etc/fail2ban/jail.conf.epp') }
-      when %w[AlmaLinux 9], %w[RedHat 9], %w[Rocky 9], %w[CentOS 9]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/9/etc/fail2ban/jail.conf.epp') }
+      when %w[AlmaLinux 8], %w[RedHat 8], %w[Rocky 8],
+        %w[AlmaLinux 9], %w[RedHat 9], %w[Rocky 9], %w[CentOS 9],
+        %w[AlmaLinux 10], %w[RedHat 10], %w[Rocky 10], %w[CentOS 10]
+        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/etc/fail2ban/jail.conf.epp') }
       when %w[Debian 11]
         it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/11/etc/fail2ban/jail.conf.epp') }
       when %w[Debian 12]
