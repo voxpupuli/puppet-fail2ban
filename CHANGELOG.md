@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v6.0.0) (2025-11-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v5.0.2...v6.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#235](https://github.com/voxpupuli/puppet-fail2ban/pull/235) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Make banaction\_allports configurable [\#246](https://github.com/voxpupuli/puppet-fail2ban/pull/246) ([bigon](https://github.com/bigon))
+- Support CentOS, Alma, Rocky, RedHat 10 [\#242](https://github.com/voxpupuli/puppet-fail2ban/pull/242) ([traylenator](https://github.com/traylenator))
+- Add support for Debian 13 [\#236](https://github.com/voxpupuli/puppet-fail2ban/pull/236) ([Arakmar](https://github.com/Arakmar))
+- metadata.json: Add OpenVox [\#230](https://github.com/voxpupuli/puppet-fail2ban/pull/230) ([jstraw](https://github.com/jstraw))
+- jail logpath can handle several files [\#224](https://github.com/voxpupuli/puppet-fail2ban/pull/224) ([Dan33l](https://github.com/Dan33l))
+
+**Merged pull requests:**
+
+- replace legacy facts in yaml examples [\#227](https://github.com/voxpupuli/puppet-fail2ban/pull/227) ([janit42](https://github.com/janit42))
+
 ## [v5.0.2](https://github.com/voxpupuli/puppet-fail2ban/tree/v5.0.2) (2024-09-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v5.0.1...v5.0.2)
