@@ -208,7 +208,7 @@ fail2ban_agent = Fail2Ban/%(fail2ban_version)s
 # action_* variables. Can be overridden globally or per
 # section within jail.local file
 banaction = <%= $fail2ban::banaction %>
-banaction_allports = iptables-allports
+banaction_allports = <%= $fail2ban::banaction_allports %>
 
 # The simplest action to take: ban only
 action_ = %(banaction)s[name=%(__name__)s, bantime="%(bantime)s", port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]

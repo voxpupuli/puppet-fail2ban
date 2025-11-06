@@ -76,6 +76,7 @@ The following parameters are available in the `fail2ban` class:
 * [`whitelist`](#-fail2ban--whitelist)
 * [`custom_jails`](#-fail2ban--custom_jails)
 * [`banaction`](#-fail2ban--banaction)
+* [`banaction_allports`](#-fail2ban--banaction_allports)
 * [`config_file_before`](#-fail2ban--config_file_before)
 * [`config_dir_filter_path`](#-fail2ban--config_dir_filter_path)
 * [`default_backend`](#-fail2ban--default_backend)
@@ -345,6 +346,14 @@ Data type: `String[1]`
 Determines which action to perform when performing a global ban (not overridden in a specific jail).
 
 Default value: `'iptables-multiport'`
+
+##### <a name="-fail2ban--banaction_allports"></a>`banaction_allports`
+
+Data type: `String[1]`
+
+Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
+
+Default value: `'iptables-allports'`
 
 ##### <a name="-fail2ban--config_file_before"></a>`config_file_before`
 

@@ -334,6 +334,21 @@ describe 'fail2ban', type: :class do
             )
           end
         end
+
+        context 'when custom banaction_allports is provided' do
+          let(:params) do
+            {
+              config_file_template: config_file_template,
+              banaction_allports: 'iptables-allports'
+            }
+          end
+
+          it do
+            is_expected.to contain_file('fail2ban.conf').with_content(
+              %r{^banaction_allports = iptables-allports$}
+            )
+          end
+        end
       end
 
       describe 'fail2ban::service' do

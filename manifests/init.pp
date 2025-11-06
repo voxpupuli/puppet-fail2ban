@@ -36,6 +36,7 @@
 # @param whitelist Determines which ip addresses will not be reported
 # @param custom_jails Determines which custom jails should be included
 # @param banaction Determines which action to perform when performing a global ban (not overridden in a specific jail).
+# @param banaction_allports Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
 #
 class fail2ban (
   String[1] $config_file_before,
@@ -82,6 +83,7 @@ class fail2ban (
   Array $whitelist = ['127.0.0.1/8', '192.168.56.0/24'],
   Hash[String, Hash] $custom_jails = {},
   String[1] $banaction = 'iptables-multiport',
+  String[1] $banaction_allports = 'iptables-allports',
   Hash $sendmail_config = {},
   Hash $sendmail_actions = {},
 ) {
