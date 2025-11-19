@@ -19,30 +19,7 @@
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "11",
-        "12",
-        "13"
-      ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "18.04",
-        "20.04",
-        "22.04",
-        "24.04"
-      ]
-    },
-    {
-      "operatingsystem": "OpenSuSE",
-      "operatingsystemrelease": [
-        "15"
-      ]
-    },
-    {
-      "operatingsystem": "RedHat",
+      "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
         "8",
         "9",
@@ -57,7 +34,21 @@
       ]
     },
     {
-      "operatingsystem": "AlmaLinux",
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "12",
+        "13"
+      ]
+    },
+    {
+      "operatingsystem": "OpenSuSE",
+      "operatingsystemrelease": [
+        "15",
+        "16"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "8",
         "9",
@@ -70,6 +61,13 @@
         "8",
         "9",
         "10"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "22.04",
+        "24.04"
       ]
     }
   ],
