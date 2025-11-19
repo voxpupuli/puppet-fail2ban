@@ -1,7 +1,7 @@
 # fail2ban
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-fail2ban.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-fail2ban)
-[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-fail2ban/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-fail2ban)
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-fail2ban.svg)](https://github.com/voxpupuli/puppet-fail2ban/blob/master/LICENSE)
+[![Build Status](https://github.com/voxpupuli/puppet-fail2ban/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-fail2ban/actions/workflows/ci.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/fail2ban.svg)](https://forge.puppetlabs.com/puppet/fail2ban)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/fail2ban.svg)](https://forge.puppetlabs.com/puppet/fail2ban)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/fail2ban.svg)](https://forge.puppetlabs.com/puppet/fail2ban)
