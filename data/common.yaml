@@ -1,2 +1,0 @@
----
-fail2ban::config_file_template: "fail2ban/%{facts.os.name}/%{facts.os.release.major}/etc/fail2ban/jail.conf.epp"
