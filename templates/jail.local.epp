@@ -1,0 +1,57 @@
+# THIS FILE IS MANAGED BY PUPPET
+# DO NOT EDIT MANUALLY!
+<%# Parameters in [DEFAULTS] -%>
+<%- $default_params = {
+  #bantime.increment
+  #bantime.rndtime
+  #bantime.maxtime
+  #bantime.factor
+  #bantime.formula
+  #bantime.multipliers
+  #bantime.overalljails
+  #ignoreself
+  ignoreip             => $fail2ban::ignoreip_string,
+  #ignorecommand
+  bantime              => $fail2ban::bantime,
+  #findtime
+  maxretry             => $fail2ban::maxretry,
+  #maxmatches
+  backend              => $fail2ban::default_backend,
+  #usedns
+  #logencoding
+  #enabled
+  #mode
+  #filter
+  destemail           => $fail2ban::destemail,
+  sender              => $fail2ban::sender,
+  #mta
+  #protocol
+  chain                => $fail2ban::iptables_chain,
+  #port
+  #fail2ban_agent
+  banaction            => $fail2ban::banaction,
+  banaction_allports   => $fail2ban::banaction_allports,
+  action               => $fail2ban::action,
+ }
+ # After removing undefined values, is the hash not empty?
+ $has_default_params = !$default_params.filter |$key, $value| { $value != undef }.empty()
+ -%>
+<%# If there is at least one parameter, populate the section with defined params -%>
+<%- if $has_default_params { -%>
+[DEFAULT]
+<%-   $default_params.each |$name, $value| { -%>
+<%-     if $value != undef { -%>
+<%=       $name %> = <%= $value %>
+<%-     } -%>
+<%-   } -%>
+<%- } -%>
+
+<%# Jails -%>
+<%- if $fail2ban::jails != undef { -%>
+<%-   $fail2ban::jails.each |$jail| { -%>
+[<%=   $jail[0] %>]
+<%-     $jail[1].each |$name, $value| { -%>
+<%=       $name %> = <%= $value %>
+<%-     } -%>
+<%-   } -%>
+<%- } -%>

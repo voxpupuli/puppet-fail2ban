@@ -9,37 +9,15 @@ describe 'fail2ban', type: :class do
         facts
       end
 
-      # Hard code one existing template as a custom template
       let(:config_file_template) do
-        'fail2ban/RedHat/etc/fail2ban/jail.conf.epp'
+        'fail2ban/jail.local.epp'
       end
 
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
-
-      case [facts[:os]['name'], facts[:os]['release']['major']]
-      when %w[OpenSuSE 15]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/OpenSuSE/15/etc/fail2ban/jail.conf.epp') }
-      when %w[AlmaLinux 8], %w[RedHat 8], %w[Rocky 8],
-        %w[AlmaLinux 9], %w[RedHat 9], %w[Rocky 9], %w[CentOS 9],
-        %w[AlmaLinux 10], %w[RedHat 10], %w[Rocky 10], %w[CentOS 10]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/RedHat/etc/fail2ban/jail.conf.epp') }
-      when %w[Debian 11]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/11/etc/fail2ban/jail.conf.epp') }
-      when %w[Debian 12]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/12/etc/fail2ban/jail.conf.epp') }
-      when %w[Debian 13]
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Debian/13/etc/fail2ban/jail.conf.epp') }
-      when ['Ubuntu', '22.04']
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/22.04/etc/fail2ban/jail.conf.epp') }
-      when ['Ubuntu', '24.04']
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/Ubuntu/24.04/etc/fail2ban/jail.conf.epp') }
-      else
-        # has to be better way of doing this.
-        it { is_expected.to contain_class('fail2ban').with_config_file_template('a new os.name or os.release.major needs a new case') }
-      end
+      it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/jail.local.epp') }
 
       describe 'fail2ban::install' do
         context 'defaults' do
@@ -80,14 +58,6 @@ describe 'fail2ban', type: :class do
           end
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            )
-          end
-
-          it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
               'enable' => false
@@ -111,14 +81,6 @@ describe 'fail2ban', type: :class do
           end
 
           it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'absent',
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            )
-          end
-
-          it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
               'enable' => false
@@ -127,221 +89,38 @@ describe 'fail2ban', type: :class do
         end
       end
 
-      describe 'fail2ban::config' do
-        context 'defaults' do
+      case facts[:os]['family']
+      when 'RedHat'
+        context 'when manage_firewalld' do
+          let(:params) do
+            {
+              el_firewalld_conf_ensure: 'absent'
+            }
+          end
+
           it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
+            is_expected.to contain_file('00-firewalld.conf').with(
+              'ensure' => 'absent',
+              'path' => '/etc/fail2ban/jail.d/00-firewalld.conf',
               'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
             )
           end
         end
-
-        context 'when source dir' do
+      when 'Debian'
+        context 'when manage_defaults' do
           let(:params) do
             {
-              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
+              debian_defaults_conf_ensure: 'absent'
             }
           end
 
           it do
-            is_expected.to contain_file('fail2ban.dir').with(
-              'ensure' => 'directory',
-              'force' => false,
-              'purge' => false,
-              'recurse' => true,
-              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
+            is_expected.to contain_file('defaults-debian.conf').with(
+              'ensure' => 'absent',
+              'path' => '/etc/fail2ban/jail.d/defaults-debian.conf',
               'notify' => 'Service[fail2ban]',
               'require' => 'Package[fail2ban]'
-            )
-          end
-        end
-
-        context 'when source dir purged' do
-          let(:params) do
-            {
-              config_dir_purge: true,
-              config_dir_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.dir').with(
-              'ensure' => 'directory',
-              'force' => true,
-              'purge' => true,
-              'recurse' => true,
-              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban',
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            )
-          end
-        end
-
-        context 'when source file' do
-          let(:params) do
-            {
-              config_file_source: 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
-              'source' => 'puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf',
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            )
-          end
-        end
-
-        context 'when content string' do
-          let(:params) do
-            {
-              config_file_string: '# THIS FILE IS MANAGED BY PUPPET'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
-              'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            )
-          end
-        end
-
-        context 'when content template' do
-          let(:params) do
-            {
-              config_file_template: config_file_template
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
-              'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            ).with_content(%r{^chain = INPUT$})
-          end
-        end
-
-        context 'when content template (custom)' do
-          let(:params) do
-            {
-              config_file_template: config_file_template,
-              config_file_options_hash: {
-                'key' => 'value'
-              }
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with(
-              'ensure' => 'present',
-              'content' => %r{THIS FILE IS MANAGED BY PUPPET},
-              'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
-            ).with_content(%r{^chain = INPUT$})
-          end
-        end
-
-        case facts[:os]['family']
-        when 'RedHat'
-          context 'when manage_firewalld' do
-            let(:params) do
-              {
-                manage_firewalld: 'present'
-              }
-            end
-
-            it do
-              is_expected.to contain_file('00-firewalld.conf').with(
-                'ensure' => 'present',
-                'path' => '/etc/fail2ban/jail.d/00-firewalld.conf',
-                'notify' => 'Service[fail2ban]',
-                'require' => 'Package[fail2ban]'
-              )
-            end
-          end
-        when 'Debian'
-          context 'when manage_defaults' do
-            let(:params) do
-              {
-                manage_defaults: 'present'
-              }
-            end
-
-            it do
-              is_expected.to contain_file('defaults-debian.conf').with(
-                'ensure' => 'present',
-                'path' => '/etc/fail2ban/jail.d/defaults-debian.conf',
-                'require' => 'Package[fail2ban]'
-              )
-            end
-          end
-        end
-
-        context 'when iptables chain provided' do
-          let(:params) do
-            {
-              config_file_template: config_file_template,
-              iptables_chain: 'TEST'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with_content(
-              %r{^chain = TEST$}
-            )
-          end
-        end
-
-        context 'when bantime provided as string' do
-          let(:params) do
-            {
-              config_file_template: config_file_template,
-              bantime: '12h'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with_content(
-              %r{^bantime  = 12h$}
-            )
-          end
-        end
-
-        context 'when custom banaction is provided' do
-          let(:params) do
-            {
-              config_file_template: config_file_template,
-              banaction: 'iptables'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with_content(
-              %r{^banaction = iptables$}
-            )
-          end
-        end
-
-        context 'when custom banaction_allports is provided' do
-          let(:params) do
-            {
-              config_file_template: config_file_template,
-              banaction_allports: 'iptables-allports'
-            }
-          end
-
-          it do
-            is_expected.to contain_file('fail2ban.conf').with_content(
-              %r{^banaction_allports = iptables-allports$}
             )
           end
         end
@@ -370,84 +149,6 @@ describe 'fail2ban', type: :class do
               'enable' => true
             )
           end
-        end
-      end
-
-      describe 'fail2ban::jail' do
-        it do
-          is_expected.to compile.with_all_deps
-        end
-      end
-
-      describe 'sendmail' do
-        let(:params) do
-          {
-            sendmail_config: {
-              dest: 'root',
-              sender: 'fail2ban@localhost'
-            },
-            sendmail_actions: {
-              actionstart: '',
-              actionstop: ''
-            }
-          }
-        end
-
-        it do
-          is_expected.to contain_file('/etc/fail2ban/action.d').with(
-            ensure: 'directory'
-          )
-        end
-
-        it do
-          is_expected.to contain_file_line('sendmail_after_override').with(
-            path: '/etc/fail2ban/action.d/sendmail-buffered.conf',
-            line: 'after = sendmail-common.local',
-            after: 'before = sendmail-common.conf'
-          )
-        end
-
-        it do
-          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
-            %r{^dest = root$}
-          )
-        end
-
-        it do
-          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
-            %r{^sender = fail2ban@localhost$}
-          )
-        end
-
-        it do
-          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
-            %r{^actionstart = $}
-          )
-        end
-
-        it do
-          is_expected.to contain_file('/etc/fail2ban/action.d/sendmail-common.local').with_content(
-            %r{^actionstop = $}
-          )
-        end
-      end
-
-      describe 'sendmail not managed by default' do
-        let(:params) do
-          {
-            sendmail_config: {},
-            sendmail_actions: {}
-          }
-        end
-
-        it do
-          is_expected.not_to contain_file('/etc/fail2ban/action.d/sendmail-common.local')
-        end
-
-        it do
-          is_expected.not_to contain_file('/etc/fail2ban/action.d').with(
-            ensure: 'directory'
-          )
         end
       end
     end

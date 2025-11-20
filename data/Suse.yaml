@@ -1,2 +1,0 @@
----
-fail2ban::config_file_before: 'paths-opensuse.conf'

@@ -10,17 +10,22 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-1. [Module Description - What the module does and why it is useful](#module-description)
-1. [Setup - The basics of getting started with fail2ban](#setup)
-    * [What fail2ban affects](#what-fail2ban-affects)
-    * [Beginning with fail2ban](#beginning-with-fail2ban)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Jails available](#jails-available)
-    * [Pre-defined jails](#pre-defined-jails)
-    * [Custom jails](#custom-jails)
-1. [Development - Guide for contributing to the module](#development)
+2. [Module Description](#module-description)
+3. [Setup](#setup)
+   1. [What puppet-fail2ban affects](#what-puppet-fail2ban-affects)
+   2. [Beginning with fail2ban](#beginning-with-fail2ban)
+   3. [Migrating from puppet-fail2ban \<= 6.x](#migrating-from-puppet-fail2ban--6x)
+4. [Usage](#usage)
+   1. [Package and Service](#package-and-service)
+   2. [jail.local](#jaillocal)
+   3. [Custom actions](#custom-actions)
+   4. [Custom filters](#custom-filters)
+   5. [Custom jails](#custom-jails)
+5. [Limitations](#limitations)
+6. [Development](#development)
+   1. [Bug Report](#bug-report)
+   2. [Pull Request](#pull-request)
+   3. [Contributors](#contributors)
 
 ## Overview
 
@@ -28,44 +33,52 @@ This module installs, configures and manages the Fail2ban service.
 
 ## Module Description
 
-This module handles installing, configuring and running Fail2ban across a range of
-operating systems and distributions.
+This module handles installing, configuring and running [Fail2ban](https://github.com/fail2ban/fail2ban)
+across a range of operating systems and distributions.
 
 ## Setup
 
-### What fail2ban affects
+### What puppet-fail2ban affects
 
 * fail2ban package.
-* fail2ban configuration file.
+* fail2ban configuration files.
 * fail2ban service.
 
 
 ### Beginning with fail2ban
 
-Install and configure `fail2ban`:
+Install `fail2ban` with distro defaults and start/enable service:
 
 ```puppet
     class { 'fail2ban': }
 ```
 
-### Config file template
+### Migrating from puppet-fail2ban <= 6.x
 
-You can also manually specify a different configuration template. To do it, use
-your desired configuration template (e.g. if your template is in your local profile):
+Fail2ban was heavily refactored in 0.9.0 release and puppet-fail2ban 7.x
+reflects this. Configuration is now done overriding `.conf` files with `.local`
+files, changing only the intended parameters and keeping everything else to the
+default.
 
-```puppet
-  class { 'fail2ban':
-    config_file_template => "profile/fail2ban/etc/fail2ban/jail.conf.epp"
-  }
+```shell
+# Backup fail2ban configuration
+cp --recursive /etc/fail2ban /etc/fail2ban.old
+# Purge fail2ban package and configuration, according to your distribution and
+# then reinstall it with a clean configuration
+## Debian, Ubuntu
+sudo apt-get purge fail2ban && sudo apt-get install fail2ban
+## Enterprise Linux (Almalinux, CentOS Stream, RHEL, Rocky Linux)
+sudo dnf remove fail2ban && sudo dnf install fail2ban
+## openSUSE
+sudo zypper rm fail2ban && sudo zypper install fail2ban
 ```
-
-Or using Hiera:
-
-```hiera
-fail2ban::config_file_template: "profile/fail2ban/etc/fail2ban/jail.conf.epp"
-```
+Now compare the "stock" configuration of fail2ban in `/etc/fail2ban` with the
+one you have in `/etc/fail2ban.old` and use the module to only apply differences
+between the stock configuration and your old one.
 
 ## Usage
+
+### Package and Service
 
 Update the fail2ban package.
 
@@ -91,81 +104,6 @@ Purge the fail2ban package ***(All configuration files will be removed)***.
     }
 ```
 
-Deploy the configuration files from source directory.
-
-```puppet
-    class { 'fail2ban':
-      config_dir_source => "puppet:///modules/profile/fail2ban/etc/fail2ban",
-    }
-```
-
-Deploy the configuration files from source directory ***(Unmanaged configuration
-files will be removed)***.
-
-```puppet
-    class { 'fail2ban':
-      config_dir_purge  => true,
-      config_dir_source => "puppet:///modules/profile/fail2ban/etc/fail2ban",
-    }
-```
-
-Deploy the configuration file from source.
-
-```puppet
-    class { 'fail2ban':
-      config_file_source => "puppet:///modules/profile/fail2ban/etc/fail2ban/jail.conf",
-    }
-```
-
-Deploy the configuration file from string.
-
-```puppet
-    class { 'fail2ban':
-      config_file_string => '# THIS FILE IS MANAGED BY PUPPET',
-    }
-```
-
-Deploy the configuration file from template.
-
-```puppet
-    class { 'fail2ban':
-      config_file_template => "profile/fail2ban/etc/fail2ban/jail.conf.epp",
-    }
-```
-
-Deploy the configuration file from custom template ***(Additional parameters can
-be defined)***.
-
-```puppet
-    class { 'fail2ban':
-      config_file_template     => "profile/fail2ban/etc/fail2ban/jail.conf.epp",
-      config_file_options_hash => {
-        'key' => 'value',
-      },
-    }
-```
-
-Deploy additional configuration files from source, string or template.
-
-```puppet
-    class { 'fail2ban':
-      config_file_hash => {
-        'jail.2nd.conf' => {
-          config_file_path   => '/etc/fail2ban/jail.2nd.conf',
-          config_file_source => "puppet:///modules/profile/fail2ban/etc/fail2ban/jail.2nd.conf",
-        },
-        'jail.3rd.conf' => {
-          config_file_path   => '/etc/fail2ban/jail.3rd.conf',
-          config_file_string => '# THIS FILE IS MANAGED BY PUPPET',
-        },
-        'jail.4th.conf' => {
-          config_file_path     => '/etc/fail2ban/jail.4th.conf',
-          config_file_template => "profile/fail2ban/etc/fail2ban/jail.4th.conf.epp",
-        },
-      },
-    }
-```
-
 Disable the fail2ban service.
 
 ```puppet
@@ -174,302 +112,157 @@ Disable the fail2ban service.
     }
 ```
 
-## Jails available
+### jail.local
 
-### Pre-defined jails
+Parameters in `jail.conf` now are not edited directly but overridden in
+`jail.local`, so for example:
 
-#### RedHat
+```puppet
+    class { 'fail2ban':
+      bantime  => '30m',
+      maxretry => 5,
+      jails => {
+        sshd => {
+          enabled => true,
+          bantime => '1h',
+        },
+        ssh-selinux => {
+          enabled => true,
+        },
+      },
+    }
+```
 
-* 3proxy
-* apache-auth
-* apache-badbots
-* apache-botsearch
-* apache-fakegooglebot
-* apache-modsecurity
-* apache-nohome
-* apache-noscript
-* apache-overflows
-* apache-shellshock
-* assp
-* asterisk
-* counter-strike
-* courier-auth
-* courier-smtp
-* cyrus-imap
-* directadmin
-* dovecot
-* dropbear
-* drupal-auth
-* ejabberd-auth
-* exim
-* exim-spam
-* freeswitch
-* froxlor-auth
-* groupoffice
-* gssftpd
-* guacamole
-* horde
-* kerio
-* lighttpd-auth
-* monit
-* mysqld-auth
-* nagios
-* named-refused
-* nginx-botsearch
-* nginx-http-auth
-* nsd
-* openwebmail
-* oracleims
-* pam-generic
-* pass2allow-ftp
-* perdition
-* php-url-fopen
-* portsentry
-* postfix
-* postfix-rbl
-* postfix-sasl
-* proftpd
-* pure-ftpd
-* qmail-rbl
-* recidive
-* roundcube-auth
-* selinux-ssh
-* sendmail-auth
-* sendmail-reject
-* sieve
-* sogo-auth
-* solid-pop3d
-* squid
-* squirrelmail
-* sshd
-* sshd-ddos
-* stunnel
-* suhosin
-* tine20
-* uwimap-auth
-* vsftpd
-* webmin-auth
-* wuftpd
-* xinetd-fail
+Will result in:
 
-#### Debian
+```
+[DEFAULT]
+bantime = 30m
+maxretry = 5
 
-* 3proxy
-* apache-auth
-* apache-badbots
-* apache-botsearch
-* apache-fakegooglebot
-* apache-modsecurity
-* apache-multiport
-* apache-nohome
-* apache-noscript
-* apache-overflows
-* apache-shellshock
-* assp
-* asterisk
-* bitwarden
-* centreon
-* counter-strike
-* courierauth
-* courier-smtp
-* cyrus-imap
-* directadmin
-* domino-smtp
-* dovecot
-* dropbear
-* drupal-auth
-* ejabberd-auth
-* exim
-* exim-spam
-* freeswitch
-* froxlor-auth
-* groupoffice
-* gssftpd
-* guacamole
-* haproxy-http-auth
-* horde
-* kerio
-* lighttpd-auth
-* lighttpd-fastcgi
-* mongodb-auth
-* monit
-* murmur
-* mysqld-auth
-* nagios
-* named-refused
-* nginx-botsearch
-* nginx-http-auth
-* nginx-limit-req
-* nsd
-* openhab-auth
-* openwebmail
-* oracleims
-* pam-generic
-* pass2allow-ftp
-* perdition
-* php-url-fopen
-* phpmyadmin-syslog
-* portsentry
-* postfix
-* postfix-rbl
-* postfix-sasl
-* proftpd
-* pure-ftpd
-* qmail-rbl
-* recidive
-* roundcube-auth
-* sasl
-* selinux-ssh
-* sendmail-auth
-* sendmail-reject
-* sieve
-* screensharing
-* slapd
-* sogo-auth
-* solid-pop3d
-* squid
-* squirrelmail
-* ssh
-* ssh-blocklist
-* ssh-ddos
-* ssh-iptables-ipset4
-* ssh-iptables-ipset6
-* ssh-route
-* stunnel
-* suhosin
-* tine20
-* traefik-auth
-* uwimap-auth
-* vsftpd
-* webmin-auth
-* wuftpd
-* xinetd-fail
-* zoneminder
-* znc-adminlog
+[sshd]
+enabled = true
+bantime = 1h
 
-#### Suse
+[ssh-selinux]
+enabled = true
+```
 
-* 3proxy
-* apache-auth
-* apache-badbots
-* apache-botsearch
-* apache-common
-* apache-fakegooglebot
-* apache-modsecurity
-* apache-nohome
-* apache-noscript
-* apache-overflows
-* apache-pass
-* apache-shellshock
-* assp
-* asterisk
-* botsearch-common
-* common
-* counter-strike
-* courier-auth
-* courier-smtp
-* cyrus-imap
-* directadmin
-* domino-smtp
-* dovecot
-* dropbear
-* drupal-auth
-* ejabberd-auth
-* exim-common
-* exim-spam
-* exim
-* freeswitch
-* froxlor-auth
-* groupoffice
-* gssftpd
-* guacamole
-* haproxy-http-auth
-* horde
-* ignorecommands
-* kerio
-* lighttpd-auth
-* mongodb-auth
-* monit
-* murmur
-* mysqld-auth
-* nagios
-* named-refused
-* nginx-botsearch
-* nginx-http-auth
-* nginx-limit-req
-* nsd
-* openhab
-* openwebmail
-* oracleims
-* pam-generic
-* perdition
-* php-url-fopen
-* phpmyadmin-syslog
-* portsentry
-* postfix
-* proftpd
-* pure-ftpd
-* qmail
-* recidive
-* roundcube-auth
-* screensharingd
-* selinux-common
-* selinux-ssh
-* sendmail-auth
-* sendmail-reject
-* sieve
-* slapd
-* sogo-auth
-* solid-pop3d
-* squid
-* squirrelmail
-* sshd
-* stunnel
-* suhosin
-* tine20
-* uwimap-auth
-* vsftpd
-* webmin-auth
-* wuftpd
-* xinetd-fail
-* zoneminder
+Allowing to override default bantime and retry number, and enabling two default
+jails (already defined in `jail.conf`).
+
+### Custom actions
+
+Custom actions or changes to default actions are managed as resources.
+
+```puppet
+fail2ban::action { 'Set AbuseIPDB API key':
+  action_name => 'abuseipdb',
+  action_content => {
+    'Init' => {
+      'abuseipdb_apikey' => 'my-very-secret-api-key',
+    },
+  },
+}
+```
+
+Will create `/etc/fail2ban/action.d/abuseipdb.local`, that complements
+`abuseipdb.conf`:
+
+```
+[Init]
+abuseipdb_apikey = my-very-secret-api-key
+```
+
+**Note that there is no content validation** - everything in the content hash is
+inserted in the generated file.
+
+### Custom filters
+
+Custom filters or changes to default filters are managed as resources.
+
+```puppet
+fail2ban::filter { 'Change log type':
+  filter_name    => 'common',
+  filter_content => {
+    'DEFAULT' => {
+      'logtype' => 'short',
+    },
+  },
+}
+```
+
+Will result in `/etc/fail2ban/filter.d/common.local`
+
+```
+[DEFAULT]
+logtype = short
+```
+
+**Note that there is no content validation** - everything in the content hash is
+inserted in the generated file.
 
 ### Custom jails
 
-Users can add their own jails by using this YAML definition:
+Custom jails (or changes to default jails, even if for these is recommended
+`jail.local`) are managed as resources.
 
-```yaml
----
-  fail2ban::custom_jails:
-    'nginx-wp-login':
-      filter_failregex: '<HOST>.*] "POST /wp-login.php'
-      port: 'http,https'
-      logpath: '/var/log/nginx/access.log'
-      maxretry: 3
-      findtime: 120
-      bantime: 1200
-      ignoreip: ['127.0.0.1', '192.168.1.1/24']
-    'nginx-login':
-      filter_failregex: '^<HOST> -.*POST /sessions HTTP/1\.." 200'
-      action: 'iptables-multiport[name=NoLoginFailures, port="http,https"]'
-      logpath: '/var/log/nginx*/*access*.log'
-      maxretry: 6
-      bantime: 600
-      ignoreip: ['127.0.0.1', '192.168.1.1/24']
+```puppet
+fail2ban::jail { 'Filter attempt to wp-login':
+  jail_name    => 'nginx-wp-login',
+  jail_content => {
+    'nginx-wp-login' => {
+      jail_failregex => '<HOST>.*] "POST /wp-login.php',
+      port           => 'http,https',
+      logpath        => '/var/log/nginx/access.log',
+      maxretry       => 3,
+      findtime       => 120,
+      bantime        => 1200,
+      ignoreip       => ['127.0.0.1', '192.168.1.1/24'],
+    },
+  },
+}
 ```
 
-### Sendmail notifications
+Will create `/etc/fail2ban/jail.d/nginx-wp-login.local`:
 
-Default e-mail notification are defined in `/etc/fail2ban/action.d/sendmail-common.conf`. Following configuration will create override config `sendmail-common.local`.
+```
+[nginx-wp-login]
+jail_failregex = <HOST>.*] "POST /wp-login.php
+port = http,https
+logpath = /var/log/nginx/access.log
+maxretry = 3
+findtime = 120
+bantime = 1200
+ignoreip = 127.0.0.1, 192.168.1.1/24
+```
 
-```yaml
-fail2ban::sendmail_actions:
-  actionstart: ''
-  actionstop: ''
-fail2ban::sendmail_config:
-  dest: root@localhost
-  sender: fail2ban@localhost
-  sendername: Fail2Ban
+```puppet
+fail2ban::jail { 'Filter login attempts':
+  jail_name    => 'nginx-login',
+  jail_content => {
+    'nginx-wp-login' => {
+      filter_failregex => '^<HOST> -.*POST /sessions HTTP/1\.." 200',
+      action           => 'iptables-multiport[name=NoLoginFailures, port="http,https"]',
+      logpath          => '/var/log/nginx*/*access*.log',
+      maxretry         => 6,
+      bantime          => 600,
+      ignoreip         => ['127.0.0.1', '192.168.1.1/24'],
+    },
+  },
+}
+```
+
+Will create `/etc/fail2ban/jail.d/nginx-login.local`:
+
+```
+[nginx-login]
+filter_failregex = <HOST>.*] ^<HOST> -.*POST /sessions HTTP/1\.." 200
+action = iptables-multiport[name=NoLoginFailures, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+maxretry = 6
+findtime = 600
+ignoreip = 127.0.0.1, 192.168.1.1/24
 ```
 
 ## Limitations

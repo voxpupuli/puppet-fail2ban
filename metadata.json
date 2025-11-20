@@ -9,10 +9,6 @@
   "issues_url": "https://github.com/voxpupuli/puppet-fail2ban/issues",
   "dependencies": [
     {
-      "name": "puppet/extlib",
-      "version_requirement": ">= 3.0.0 < 8.0.0"
-    },
-    {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.25.0 < 10.0.0"
     }
