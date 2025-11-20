@@ -1,4 +1,6 @@
-# == Define: fail2ban::define
+# @summary Define fail2ban config files
+#
+# @api private
 #
 define fail2ban::define (
   Stdlib::Absolutepath $config_file_path = "${fail2ban::config_dir_path}/${title}",
