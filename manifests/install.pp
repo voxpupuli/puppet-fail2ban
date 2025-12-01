@@ -1,4 +1,6 @@
-# == Class: fail2ban::install
+# @summary Manage fail2ban packages
+#
+# @api private
 #
 class fail2ban::install {
   if $fail2ban::package_name {

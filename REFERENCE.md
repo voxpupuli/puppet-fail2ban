@@ -9,21 +9,22 @@
 #### Public Classes
 
 * [`fail2ban`](#fail2ban): Installs, configures and manages the Fail2ban service.
-* [`fail2ban::install`](#fail2ban--install): == Class: fail2ban::install
 
 #### Private Classes
 
 * `fail2ban::config`: Handles the configuration file.
+* `fail2ban::install`: Manage fail2ban packages
 * `fail2ban::service`: Handles the service.
 
 ### Defined types
 
-* [`fail2ban::define`](#fail2ban--define): == Define: fail2ban::define
-* [`fail2ban::jail`](#fail2ban--jail): Handles the jails.
+* [`fail2ban::action`](#fail2ban--action): Create a .local action in action.d
+* [`fail2ban::filter`](#fail2ban--filter): Create a .local filter in filter.d
+* [`fail2ban::jail`](#fail2ban--jail): Create a .local jail in jail.d
 
 ### Data types
 
-* [`Fail2ban::Logpath`](#Fail2ban--Logpath): Describes logpath format allowed
+* [`Fail2ban::IP`](#Fail2ban--IP): can be a list of IP addresses, CIDR masks or DNS hosts
 * [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
 
 ### Tasks
@@ -36,8 +37,20 @@
 
 ### <a name="fail2ban"></a>`fail2ban`
 
-This module installs, configures and manages the Fail2ban service.
-Main class, includes all other classes.
+@example Set some [DEFAULT] parameters and enable two jails
+  class { 'fail2ban':
+    bantime  => '30m',
+    maxretry => 5,
+    jails => {
+      sshd => {
+        enabled => true,
+        bantime => '1h',
+      },
+      ssh-selinux => {
+        enabled => true,
+      },
+    },
+  }
 
 #### Parameters
 
@@ -48,40 +61,29 @@ The following parameters are available in the `fail2ban` class:
 * [`package_list`](#-fail2ban--package_list)
 * [`config_dir_path`](#-fail2ban--config_dir_path)
 * [`config_dir_purge`](#-fail2ban--config_dir_purge)
-* [`config_dir_recurse`](#-fail2ban--config_dir_recurse)
-* [`config_dir_source`](#-fail2ban--config_dir_source)
 * [`config_file_path`](#-fail2ban--config_file_path)
 * [`config_file_owner`](#-fail2ban--config_file_owner)
 * [`config_file_group`](#-fail2ban--config_file_group)
 * [`config_file_mode`](#-fail2ban--config_file_mode)
-* [`config_file_source`](#-fail2ban--config_file_source)
-* [`config_file_string`](#-fail2ban--config_file_string)
 * [`config_file_template`](#-fail2ban--config_file_template)
 * [`config_file_notify`](#-fail2ban--config_file_notify)
 * [`config_file_require`](#-fail2ban--config_file_require)
-* [`config_file_hash`](#-fail2ban--config_file_hash)
-* [`config_file_options_hash`](#-fail2ban--config_file_options_hash)
-* [`manage_defaults`](#-fail2ban--manage_defaults)
-* [`manage_firewalld`](#-fail2ban--manage_firewalld)
+* [`debian_defaults_conf_ensure`](#-fail2ban--debian_defaults_conf_ensure)
+* [`el_firewalld_conf_ensure`](#-fail2ban--el_firewalld_conf_ensure)
 * [`service_ensure`](#-fail2ban--service_ensure)
 * [`service_name`](#-fail2ban--service_name)
 * [`service_enable`](#-fail2ban--service_enable)
 * [`action`](#-fail2ban--action)
 * [`bantime`](#-fail2ban--bantime)
-* [`email`](#-fail2ban--email)
+* [`destemail`](#-fail2ban--destemail)
 * [`sender`](#-fail2ban--sender)
 * [`iptables_chain`](#-fail2ban--iptables_chain)
 * [`jails`](#-fail2ban--jails)
 * [`maxretry`](#-fail2ban--maxretry)
-* [`whitelist`](#-fail2ban--whitelist)
-* [`custom_jails`](#-fail2ban--custom_jails)
+* [`default_backend`](#-fail2ban--default_backend)
+* [`ignoreip`](#-fail2ban--ignoreip)
 * [`banaction`](#-fail2ban--banaction)
 * [`banaction_allports`](#-fail2ban--banaction_allports)
-* [`config_file_before`](#-fail2ban--config_file_before)
-* [`config_dir_filter_path`](#-fail2ban--config_dir_filter_path)
-* [`default_backend`](#-fail2ban--default_backend)
-* [`sendmail_config`](#-fail2ban--sendmail_config)
-* [`sendmail_actions`](#-fail2ban--sendmail_actions)
 
 ##### <a name="-fail2ban--package_ensure"></a>`package_ensure`
 
@@ -111,7 +113,7 @@ Default value: `undef`
 
 Data type: `Stdlib::Absolutepath`
 
-Determines if the configuration directory should be managed.
+Configuration directory path
 
 Default value: `'/etc/fail2ban'`
 
@@ -123,29 +125,13 @@ Determines if unmanaged configuration files should be removed.
 
 Default value: `false`
 
-##### <a name="-fail2ban--config_dir_recurse"></a>`config_dir_recurse`
-
-Data type: `Boolean`
-
-Determines if the configuration directory should be recursively managed.
-
-Default value: `true`
-
-##### <a name="-fail2ban--config_dir_source"></a>`config_dir_source`
-
-Data type: `Optional[String]`
-
-Determines the source of a configuration directory.
-
-Default value: `undef`
-
 ##### <a name="-fail2ban--config_file_path"></a>`config_file_path`
 
 Data type: `Stdlib::Absolutepath`
 
 Determines if the configuration file should be managed.
 
-Default value: `'/etc/fail2ban/jail.conf'`
+Default value: `'/etc/fail2ban/jail.local'`
 
 ##### <a name="-fail2ban--config_file_owner"></a>`config_file_owner`
 
@@ -171,35 +157,19 @@ Determines the desired permissions mode of the configuration file.
 
 Default value: `'0644'`
 
-##### <a name="-fail2ban--config_file_source"></a>`config_file_source`
-
-Data type: `Optional[String[1]]`
-
-Determines the source of a configuration file.
-
-Default value: `undef`
-
-##### <a name="-fail2ban--config_file_string"></a>`config_file_string`
-
-Data type: `Optional[String[1]]`
-
-Determines the content of a configuration file.
-
-Default value: `undef`
-
 ##### <a name="-fail2ban--config_file_template"></a>`config_file_template`
 
-Data type: `Optional[String[1]]`
+Data type: `String[1]`
 
-Determines the content of a configuration file.
+Determines which configuration file template to use.
 
-Default value: `undef`
+Default value: `'fail2ban/jail.local.epp'`
 
 ##### <a name="-fail2ban--config_file_notify"></a>`config_file_notify`
 
 Data type: `String[1]`
 
-Determines if the service should be restarted after configuration changes.
+Determines which service should be restarted after configuration changes.
 
 Default value: `'Service[fail2ban]'`
 
@@ -211,37 +181,21 @@ Determines which package a configuration file depends on.
 
 Default value: `'Package[fail2ban]'`
 
-##### <a name="-fail2ban--config_file_hash"></a>`config_file_hash`
-
-Data type: `Hash[String[1], Any]`
-
-Determines which configuration files should be managed via `fail2ban::define`.
-
-Default value: `{}`
-
-##### <a name="-fail2ban--config_file_options_hash"></a>`config_file_options_hash`
-
-Data type: `Hash`
-
-Determines which parameters should be passed to an ERB template.
-
-Default value: `{}`
-
-##### <a name="-fail2ban--manage_defaults"></a>`manage_defaults`
+##### <a name="-fail2ban--debian_defaults_conf_ensure"></a>`debian_defaults_conf_ensure`
 
 Data type: `Enum['absent', 'present']`
 
 Determines whether the file `/etc/fail2ban/jail.d/defaults-debian.conf` should be deleted or not.
 
-Default value: `'absent'`
+Default value: `'present'`
 
-##### <a name="-fail2ban--manage_firewalld"></a>`manage_firewalld`
+##### <a name="-fail2ban--el_firewalld_conf_ensure"></a>`el_firewalld_conf_ensure`
 
 Data type: `Enum['absent', 'present']`
 
 Determines whether the file `/etc/fail2ban/jail.d/00-firewalld.conf` should be deleted or not.
 
-Default value: `'absent'`
+Default value: `'present'`
 
 ##### <a name="-fail2ban--service_ensure"></a>`service_ensure`
 
@@ -269,467 +223,259 @@ Default value: `true`
 
 ##### <a name="-fail2ban--action"></a>`action`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Determines how banned ip addresses should be reported.
 
-Default value: `'action_mb'`
+Default value: `undef`
 
 ##### <a name="-fail2ban--bantime"></a>`bantime`
 
-Data type: `Fail2ban::Time`
+Data type: `Optional[Fail2ban::Time]`
 
 Determines how many time (second or hour or week) ip addresses will be banned.
 
-Default value: `432000`
+Default value: `undef`
 
-##### <a name="-fail2ban--email"></a>`email`
+##### <a name="-fail2ban--destemail"></a>`destemail`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Determines which email address should be notified about restricted hosts and suspicious logins.
 
-Default value: `"fail2ban@${facts['networking']['domain']}"`
+Default value: `undef`
 
 ##### <a name="-fail2ban--sender"></a>`sender`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Determines which email address should notify about restricted hosts and suspicious logins.
 
-Default value: `"fail2ban@${facts['networking']['fqdn']}"`
+Default value: `undef`
 
 ##### <a name="-fail2ban--iptables_chain"></a>`iptables_chain`
 
-Data type: `String[1]`
+Data type: `Optional[String[1]]`
 
 Determines chain where jumps will to be added in iptables-\* actions.
 
-Default value: `'INPUT'`
+Default value: `undef`
 
 ##### <a name="-fail2ban--jails"></a>`jails`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Hash]`
 
-Determines which services should be protected by Fail2ban.
+Configures defaults jails in jail.local
 
-Default value: `['ssh', 'ssh-ddos']`
+Default value: `undef`
 
 ##### <a name="-fail2ban--maxretry"></a>`maxretry`
 
-Data type: `Integer[0]`
+Data type: `Optional[Integer[0]]`
 
 Determines the number of failed login attempts needed to block a host.
 
-Default value: `3`
-
-##### <a name="-fail2ban--whitelist"></a>`whitelist`
-
-Data type: `Array`
-
-Determines which ip addresses will not be reported
-
-Default value: `['127.0.0.1/8', '192.168.56.0/24']`
-
-##### <a name="-fail2ban--custom_jails"></a>`custom_jails`
-
-Data type: `Hash[String, Hash]`
-
-Determines which custom jails should be included
-
-Default value: `{}`
-
-##### <a name="-fail2ban--banaction"></a>`banaction`
-
-Data type: `String[1]`
-
-Determines which action to perform when performing a global ban (not overridden in a specific jail).
-
-Default value: `'iptables-multiport'`
-
-##### <a name="-fail2ban--banaction_allports"></a>`banaction_allports`
-
-Data type: `String[1]`
-
-Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
-
-Default value: `'iptables-allports'`
-
-##### <a name="-fail2ban--config_file_before"></a>`config_file_before`
-
-Data type: `String[1]`
-
-
-
-##### <a name="-fail2ban--config_dir_filter_path"></a>`config_dir_filter_path`
-
-Data type: `Stdlib::Absolutepath`
-
-
-
-Default value: `'/etc/fail2ban/filter.d'`
+Default value: `undef`
 
 ##### <a name="-fail2ban--default_backend"></a>`default_backend`
 
-Data type: `Enum['pyinotify', 'gamin', 'polling', 'systemd', 'auto']`
+Data type: `Optional[Enum['pyinotify', 'polling', 'systemd', 'auto']]`
 
+Default backend in use by fail2ban.
 
+Default value: `undef`
 
-Default value: `'auto'`
+##### <a name="-fail2ban--ignoreip"></a>`ignoreip`
 
-##### <a name="-fail2ban--sendmail_config"></a>`sendmail_config`
+Data type: `Optional[Array[Fail2ban::IP]]`
 
-Data type: `Hash`
+Determines which ip addresses will not be reported
 
+Default value: `undef`
 
+##### <a name="-fail2ban--banaction"></a>`banaction`
 
-Default value: `{}`
+Data type: `Optional[String[1]]`
 
-##### <a name="-fail2ban--sendmail_actions"></a>`sendmail_actions`
+Determines which action to perform when performing a global ban (not overridden in a specific jail).
 
-Data type: `Hash`
+Default value: `undef`
 
+##### <a name="-fail2ban--banaction_allports"></a>`banaction_allports`
 
+Data type: `Optional[String[1]]`
 
-Default value: `{}`
+Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
 
-### <a name="fail2ban--install"></a>`fail2ban::install`
-
-== Class: fail2ban::install
+Default value: `undef`
 
 ## Defined types
 
-### <a name="fail2ban--define"></a>`fail2ban::define`
+### <a name="fail2ban--action"></a>`fail2ban::action`
 
-== Define: fail2ban::define
+Create a .local action in action.d
+
+#### Examples
+
+##### Override action.d/abuseipdb.conf
+
+```puppet
+fail2ban::action { 'abuseipdb':
+  action_name => 'abuseipdb',
+  action_content => {
+    'Definition' => {
+      norestored => '0',
+    },
+    'Init' => {
+      abuseipdb_apikey => 'my-very-secret-api-key',
+    },
+  },
+}
+```
 
 #### Parameters
 
-The following parameters are available in the `fail2ban::define` defined type:
+The following parameters are available in the `fail2ban::action` defined type:
 
-* [`config_file_path`](#-fail2ban--define--config_file_path)
-* [`config_file_owner`](#-fail2ban--define--config_file_owner)
-* [`config_file_group`](#-fail2ban--define--config_file_group)
-* [`config_file_mode`](#-fail2ban--define--config_file_mode)
-* [`config_file_source`](#-fail2ban--define--config_file_source)
-* [`config_file_string`](#-fail2ban--define--config_file_string)
-* [`config_file_template`](#-fail2ban--define--config_file_template)
-* [`config_file_notify`](#-fail2ban--define--config_file_notify)
-* [`config_file_require`](#-fail2ban--define--config_file_require)
-* [`config_file_options_hash`](#-fail2ban--define--config_file_options_hash)
+* [`action_ensure`](#-fail2ban--action--action_ensure)
+* [`action_name`](#-fail2ban--action--action_name)
+* [`action_content`](#-fail2ban--action--action_content)
 
-##### <a name="-fail2ban--define--config_file_path"></a>`config_file_path`
+##### <a name="-fail2ban--action--action_ensure"></a>`action_ensure`
 
-Data type: `Stdlib::Absolutepath`
+Data type: `Enum['present', 'absent']`
 
+Removes the action if set to 'absent'
 
+Default value: `'present'`
 
-Default value: `"${fail2ban::config_dir_path}/${title}"`
+##### <a name="-fail2ban--action--action_name"></a>`action_name`
 
-##### <a name="-fail2ban--define--config_file_owner"></a>`config_file_owner`
+Data type: `Optional[String[1]]`
 
-Data type: `String`
-
-
-
-Default value: `$fail2ban::config_file_owner`
-
-##### <a name="-fail2ban--define--config_file_group"></a>`config_file_group`
-
-Data type: `String`
-
-
-
-Default value: `$fail2ban::config_file_group`
-
-##### <a name="-fail2ban--define--config_file_mode"></a>`config_file_mode`
-
-Data type: `String`
-
-
-
-Default value: `$fail2ban::config_file_mode`
-
-##### <a name="-fail2ban--define--config_file_source"></a>`config_file_source`
-
-Data type: `Optional[String]`
-
-
+Name of the action, without .local
 
 Default value: `undef`
 
-##### <a name="-fail2ban--define--config_file_string"></a>`config_file_string`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--define--config_file_template"></a>`config_file_template`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--define--config_file_notify"></a>`config_file_notify`
-
-Data type: `String`
-
-
-
-Default value: `$fail2ban::config_file_notify`
-
-##### <a name="-fail2ban--define--config_file_require"></a>`config_file_require`
-
-Data type: `String`
-
-
-
-Default value: `$fail2ban::config_file_require`
-
-##### <a name="-fail2ban--define--config_file_options_hash"></a>`config_file_options_hash`
+##### <a name="-fail2ban--action--action_content"></a>`action_content`
 
 Data type: `Hash`
 
+Content of the action, each section is a sub-hash
 
+Default value: `{}`
 
-Default value: `$fail2ban::config_file_options_hash`
+### <a name="fail2ban--filter"></a>`fail2ban::filter`
+
+Create a .local filter in filter.d
+
+#### Examples
+
+##### Create filter.d/common.local
+
+```puppet
+fail2ban::filter { 'common':
+  filter_name    => 'common',
+  filter_content => {
+    'DEFAULT' => {
+      'logtype' => 'short',
+     },
+   },
+  }
+```
+
+#### Parameters
+
+The following parameters are available in the `fail2ban::filter` defined type:
+
+* [`filter_ensure`](#-fail2ban--filter--filter_ensure)
+* [`filter_name`](#-fail2ban--filter--filter_name)
+* [`filter_content`](#-fail2ban--filter--filter_content)
+
+##### <a name="-fail2ban--filter--filter_ensure"></a>`filter_ensure`
+
+Data type: `Enum['present', 'absent']`
+
+Removes the filter if set to 'absent'
+
+Default value: `'present'`
+
+##### <a name="-fail2ban--filter--filter_name"></a>`filter_name`
+
+Data type: `Optional[String[1]]`
+
+Name of the filter, without .local
+
+Default value: `undef`
+
+##### <a name="-fail2ban--filter--filter_content"></a>`filter_content`
+
+Data type: `Hash`
+
+Content of the filter, each section is a sub-hash
+
+Default value: `{}`
 
 ### <a name="fail2ban--jail"></a>`fail2ban::jail`
 
-Handles the jails.
+Create a .local jail in jail.d
+
+#### Examples
+
+##### Create jail.d/nginx-wp-login.local
+
+```puppet
+fail2ban::jail { 'nginx-wp-login':
+  jail_name    => 'nginx-wp-login',
+  jail_content => {
+    'nginx-wp-login' => {
+      'jail_failregex' => '<HOST>.*] "POST /wp-login.php',
+      'port'           => 'http,https',
+      'logpath'        => '/var/log/nginx/access.log',
+    },
+  },
+}
+```
 
 #### Parameters
 
 The following parameters are available in the `fail2ban::jail` defined type:
 
-* [`logpath`](#-fail2ban--jail--logpath)
-* [`filter_includes`](#-fail2ban--jail--filter_includes)
-* [`filter_failregex`](#-fail2ban--jail--filter_failregex)
-* [`filter_ignoreregex`](#-fail2ban--jail--filter_ignoreregex)
-* [`filter_maxlines`](#-fail2ban--jail--filter_maxlines)
-* [`filter_datepattern`](#-fail2ban--jail--filter_datepattern)
-* [`filter_additional_config`](#-fail2ban--jail--filter_additional_config)
-* [`enabled`](#-fail2ban--jail--enabled)
-* [`action`](#-fail2ban--jail--action)
-* [`filter`](#-fail2ban--jail--filter)
-* [`maxretry`](#-fail2ban--jail--maxretry)
-* [`findtime`](#-fail2ban--jail--findtime)
-* [`bantime`](#-fail2ban--jail--bantime)
-* [`port`](#-fail2ban--jail--port)
-* [`backend`](#-fail2ban--jail--backend)
-* [`journalmatch`](#-fail2ban--jail--journalmatch)
-* [`ignoreip`](#-fail2ban--jail--ignoreip)
-* [`config_dir_filter_path`](#-fail2ban--jail--config_dir_filter_path)
-* [`config_file_owner`](#-fail2ban--jail--config_file_owner)
-* [`config_file_group`](#-fail2ban--jail--config_file_group)
-* [`config_file_mode`](#-fail2ban--jail--config_file_mode)
-* [`config_file_source`](#-fail2ban--jail--config_file_source)
-* [`config_file_notify`](#-fail2ban--jail--config_file_notify)
-* [`config_file_require`](#-fail2ban--jail--config_file_require)
+* [`jail_ensure`](#-fail2ban--jail--jail_ensure)
+* [`jail_name`](#-fail2ban--jail--jail_name)
+* [`jail_content`](#-fail2ban--jail--jail_content)
 
-##### <a name="-fail2ban--jail--logpath"></a>`logpath`
+##### <a name="-fail2ban--jail--jail_ensure"></a>`jail_ensure`
 
-Data type: `Optional[Fail2ban::Logpath]`
+Data type: `Enum['present', 'absent']`
 
-Filename(s) of the log files to be monitored
+Removes the jail if set to 'absent'
 
-Default value: `undef`
+Default value: `'present'`
 
-##### <a name="-fail2ban--jail--filter_includes"></a>`filter_includes`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter_failregex"></a>`filter_failregex`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter_ignoreregex"></a>`filter_ignoreregex`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter_maxlines"></a>`filter_maxlines`
-
-Data type: `Optional[Integer]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter_datepattern"></a>`filter_datepattern`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter_additional_config"></a>`filter_additional_config`
-
-Data type: `Any`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--enabled"></a>`enabled`
-
-Data type: `Boolean`
-
-
-
-Default value: `true`
-
-##### <a name="-fail2ban--jail--action"></a>`action`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--filter"></a>`filter`
-
-Data type: `String`
-
-
-
-Default value: `$title`
-
-##### <a name="-fail2ban--jail--maxretry"></a>`maxretry`
-
-Data type: `Integer`
-
-
-
-Default value: `$fail2ban::maxretry`
-
-##### <a name="-fail2ban--jail--findtime"></a>`findtime`
-
-Data type: `Optional[Fail2ban::Time]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--bantime"></a>`bantime`
-
-Data type: `Fail2ban::Time`
-
-
-
-Default value: `$fail2ban::bantime`
-
-##### <a name="-fail2ban--jail--port"></a>`port`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--backend"></a>`backend`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-fail2ban--jail--journalmatch"></a>`journalmatch`
+##### <a name="-fail2ban--jail--jail_name"></a>`jail_name`
 
 Data type: `Optional[String[1]]`
 
-
+Name of the jail, without .local
 
 Default value: `undef`
 
-##### <a name="-fail2ban--jail--ignoreip"></a>`ignoreip`
+##### <a name="-fail2ban--jail--jail_content"></a>`jail_content`
 
-Data type: `Array[Stdlib::IP::Address]`
+Data type: `Hash`
 
+Content of the jail, each section is a sub-hash
 
-
-Default value: `[]`
-
-##### <a name="-fail2ban--jail--config_dir_filter_path"></a>`config_dir_filter_path`
-
-Data type: `Stdlib::Absolutepath`
-
-
-
-Default value: `$fail2ban::config_dir_filter_path`
-
-##### <a name="-fail2ban--jail--config_file_owner"></a>`config_file_owner`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_owner`
-
-##### <a name="-fail2ban--jail--config_file_group"></a>`config_file_group`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_group`
-
-##### <a name="-fail2ban--jail--config_file_mode"></a>`config_file_mode`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_mode`
-
-##### <a name="-fail2ban--jail--config_file_source"></a>`config_file_source`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_source`
-
-##### <a name="-fail2ban--jail--config_file_notify"></a>`config_file_notify`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_notify`
-
-##### <a name="-fail2ban--jail--config_file_require"></a>`config_file_require`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `$fail2ban::config_file_require`
+Default value: `{}`
 
 ## Data types
 
-### <a name="Fail2ban--Logpath"></a>`Fail2ban::Logpath`
+### <a name="Fail2ban--IP"></a>`Fail2ban::IP`
 
-Describes logpath format allowed
+can be a list of IP addresses, CIDR masks or DNS hosts
 
-Alias of `Variant[String[1], Array[String[1]]]`
+Alias of `Variant[Stdlib::Fqdn, Stdlib::IP::Address, Stdlib::IP::Address::CIDR]`
 
 ### <a name="Fail2ban--Time"></a>`Fail2ban::Time`
 
