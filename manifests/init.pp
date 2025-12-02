@@ -51,11 +51,65 @@
 # @param service_enable
 #   Determines if the service should be enabled at boot.
 #
-# @param action
-#   Determines how banned ip addresses should be reported.
+# @param bantime_increment
+#   Increment ban time for previously banned IPs.
+#
+# @param bantime_rndtime
+#   Maximum number of seconds to randomly add to ban time.
+#
+# @param bantime_maxtime
+#   Maximum ban time.
+#
+# @param bantime_factor
+#   Coefficient to increment ban time by.
+#
+# @param bantime_formula
+#   Formula used to calculate ban time.
+#
+# @param bantime_multipliers
+#   Alternative to formula, multiply ban time by multipliers.
+#
+# @param bantime_overalljails
+#   Search banned IPs over all jails.
+#
+# @param ignoreself
+#   Ignore local IP address.
+#
+# @param ignoreip
+#   Determines which ip addresses will not be reported
+#
+# @param ignorecommand
+#   External command to evaluate if an IP should be ignored.
 #
 # @param bantime
 #   Determines how many time (second or hour or week) ip addresses will be banned.
+#
+# @param findtime
+#   Interval in which max retries are evaluated.
+#
+# @param maxretry
+#   Determines the number of failed login attempts needed to block a host.
+#
+# @param maxmatches
+#   Number of stored matches.
+#
+# @param default_backend
+#   Default backend in use by fail2ban for file modification.
+#
+# @param usedns
+#   Perform DNS lookup of encountered hostnames.
+#
+# @param logencoding
+#   Encoding of log files (ascii, utf-8...).
+#
+# @param enable_all_jails
+#   Enable all the jails known to fail2ban.
+#
+# @param default_mode
+#   Default mode of filters.
+#
+# @param default_filter
+#   Default filter in use by the jails.
 #
 # @param destemail
 #   Determines which email address should be notified about restricted hosts and suspicious logins.
@@ -63,26 +117,32 @@
 # @param sender
 #   Determines which email address should notify about restricted hosts and suspicious logins.
 #
+# @param mta
+#   MTA in use for mailing.
+#
+# @param protocol
+#   Default protocol.
+#
 # @param iptables_chain
 #   Determines chain where jumps will to be added in iptables-\* actions.
 #
-# @param jails
-#   Configures defaults jails in jail.local
+# @param port
+#   Port interval to be banned, usually to be overridden in jails.
 #
-# @param maxretry
-#   Determines the number of failed login attempts needed to block a host.
-#
-# @param default_backend
-#   Default backend in use by fail2ban.
-#
-# @param ignoreip
-#   Determines which ip addresses will not be reported
+# @param fail2ban_agent
+#   User-agent compliant to RFC7231 Section-5.5.3
 #
 # @param banaction
 #   Determines which action to perform when performing a global ban (not overridden in a specific jail).
 #
 # @param banaction_allports
 #   Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
+#
+# @param action
+#   Choose the default action to handle banned IPs.
+#
+# @param jails
+#   Configures defaults jails in jail.local
 #
 #  @example Set some [DEFAULT] parameters and enable two jails
 #   class { 'fail2ban':
@@ -118,13 +178,33 @@ class fail2ban (
   String[1]                                                  $service_name = 'fail2ban',
   Boolean                                                    $service_enable = true,
   # --------------------------- jails.local/[DEFAULT] -------------------------- #
+  Optional[Boolean]                                          $bantime_increment = undef,
+  Optional[Integer[1]]                                       $bantime_rndtime = undef,
+  Optional[Integer[1]]                                       $bantime_maxtime = undef,
+  Optional[Integer[1]]                                       $bantime_factor = undef,
+  Optional[String[1]]                                        $bantime_formula = undef,
+  Array[Integer]                                             $bantime_multipliers = [],
+  Optional[Boolean]                                          $bantime_overalljails = undef,
+  Optional[Boolean]                                          $ignoreself = undef,
+  Optional[String[1]]                                        $ignorecommand = undef,
   Optional[Array[Fail2ban::IP]]                              $ignoreip = undef,
   Optional[Fail2ban::Time]                                   $bantime = undef,
+  Optional[Fail2ban::Time]                                   $findtime = undef,
   Optional[Integer[0]]                                       $maxretry = undef,
+  Optional[String[1]]                                        $maxmatches = undef,
   Optional[Enum['pyinotify', 'polling', 'systemd', 'auto']]  $default_backend = undef,
+  Optional[Enum['yes', 'warn', 'no', 'raw']]                 $usedns = undef,
+  Optional[String[1]]                                        $logencoding = undef,
+  Optional[Boolean]                                          $enable_all_jails = undef,
+  Optional[String[1]]                                        $default_mode = undef,
+  Optional[String[1]]                                        $default_filter = undef,
   Optional[String[1]]                                        $destemail = undef,
   Optional[String[1]]                                        $sender = undef,
+  Optional[Enum['sendmail', 'mail']]                         $mta = undef,
+  Optional[Enum['tcp', 'udp']]                               $protocol = undef,
   Optional[String[1]]                                        $iptables_chain = undef,
+  Optional[String[1]]                                        $port = undef,
+  Optional[String[1]]                                        $fail2ban_agent = undef,
   Optional[String[1]]                                        $banaction = undef,
   Optional[String[1]]                                        $banaction_allports = undef,
   Optional[String[1]]                                        $action = undef,
@@ -134,6 +214,13 @@ class fail2ban (
   # Transform ignoreip array into a comma-separated string
   $ignoreip_string = if $ignoreip != undef {
     $ignoreip.join(', ')
+  }
+  else {
+    undef
+  }
+  # Transform bantime_multipliers array into a space-separated string
+  $bantime_multipliers_string = if $bantime_multipliers != [] {
+    $bantime_multipliers.join(' ')
   }
   else {
     undef

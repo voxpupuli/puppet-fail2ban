@@ -142,16 +142,36 @@ describe 'fail2ban' do
       it 'is_expected.to work with no errors' do
         pp = <<-EOS
           class { 'fail2ban':
-            ignoreip           => ['127.0.0.1/8', '::1'],
-            bantime            => 420,
-            maxretry           => 42,
-            default_backend    => 'auto',
-            destemail          => 'custom-destination@example.com',
-            sender             => 'custom-sender@example.com',
-            iptables_chain     => 'INPUT',
-            banaction          => 'iptables-multiport',
-            banaction_allports => 'iptables-allports',
-            action             => 'action_mw',
+            bantime_increment    => true,
+            bantime_rndtime      => 60,
+            bantime_maxtime      => 3600,
+            bantime_factor       => 2,
+            bantime_formula      => 'ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)',
+            bantime_multipliers  => [1, 5, 30, 60, 300, 720, 1440, 2880],
+            bantime_overalljails => true,
+            ignoreself           => true,
+            ignoreip             => ['127.0.0.1/8', '::1'],
+            ignorecommand        => '/usr/bin/false',
+            bantime              => 420,
+            findtime             => 420,
+            maxretry             => 42,
+            maxmatches           => '%(maxretry)s',
+            default_backend      => 'auto',
+            usedns               => 'yes',
+            logencoding          => 'utf-8',
+            enable_all_jails     => false,
+            default_mode         => 'normal',
+            default_filter       => '%(__name__)s[mode=%(mode)s]',
+            destemail            => 'custom-destination@example.com',
+            sender               => 'custom-sender@example.com',
+            mta                  => 'sendmail',
+            protocol             => 'tcp',
+            iptables_chain       => 'INPUT',
+            port                 => '0:65535',
+            fail2ban_agent       => 'Fail2Ban/antani',
+            banaction            => 'iptables-multiport',
+            banaction_allports   => 'iptables-allports',
+            action               => 'action_mw',
           }
         EOS
 
@@ -161,13 +181,33 @@ describe 'fail2ban' do
       describe file(config_file_path) do
         it { is_expected.to be_file }
         it { is_expected.to contain 'THIS FILE IS MANAGED BY PUPPET' }
+        it { is_expected.to contain %r{^bantime.increment = true$} }
+        it { is_expected.to contain %r{^bantime.rndtime = 60$} }
+        it { is_expected.to contain %r{^bantime.maxtime = 3600$} }
+        it { is_expected.to contain %r{^bantime.factor = 2$} }
+        it { is_expected.to contain 'bantime.formula = ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)' }
+        it { is_expected.to contain 'bantime.multipliers = 1 5 30 60 300 720 1440 2880' }
+        it { is_expected.to contain %r{^bantime.overalljails = true$} }
+        it { is_expected.to contain %r{^ignoreself = true$} }
         it { is_expected.to contain %r{^ignoreip = 127.0.0.1/8, ::1$} }
+        it { is_expected.to contain 'ignorecommand = /usr/bin/false' }
         it { is_expected.to contain %r{^bantime = 420$} }
+        it { is_expected.to contain %r{^findtime = 420$} }
         it { is_expected.to contain %r{^maxretry = 42$} }
+        it { is_expected.to contain 'maxmatches = %(maxretry)s' }
         it { is_expected.to contain %r{^backend = auto$} }
-        it { is_expected.to contain %r{^chain = INPUT$} }
+        it { is_expected.to contain %r{^usedns = yes$} }
+        it { is_expected.to contain 'logencoding = utf-8' }
+        it { is_expected.to contain 'enabled = false' }
+        it { is_expected.to contain %r{^mode = normal$} }
+        it { is_expected.to contain 'filter = %(__name__)s[mode=%(mode)s]' }
         it { is_expected.to contain %r{^destemail = custom-destination@example\.com$} }
         it { is_expected.to contain %r{^sender = custom-sender@example\.com$} }
+        it { is_expected.to contain %r{^mta = sendmail$} }
+        it { is_expected.to contain %r{^protocol = tcp$} }
+        it { is_expected.to contain %r{^chain = INPUT$} }
+        it { is_expected.to contain 'port = 0:65535' }
+        it { is_expected.to contain 'fail2ban_agent = Fail2Ban/antani' }
         it { is_expected.to contain %r{^banaction = iptables-multiport$} }
         it { is_expected.to contain %r{^banaction_allports = iptables-allports$} }
         it { is_expected.to contain %r{^action = action_mw$} }
@@ -197,6 +237,7 @@ describe 'fail2ban' do
         it { is_expected.to contain %r{^maxretry = 42$} }
         it { is_expected.to contain %r{^backend = auto$} }
         it { is_expected.to contain %r{^chain = INPUT$} }
+        it { is_expected.not_to contain %r{^bantime.multipliers$} }
         it { is_expected.not_to contain %r{^banaction$} }
         it { is_expected.not_to contain %r{^banaction_allports$} }
         it { is_expected.not_to contain %r{^action$} }
