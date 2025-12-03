@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v7.0.0) (2025-12-03)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v6.0.0...v7.0.0)
+
+**Breaking changes:**
+
+- Drop EoL Ubuntu 12.04-20.04 support [\#253](https://github.com/voxpupuli/puppet-fail2ban/pull/253) ([bastelfreak](https://github.com/bastelfreak))
+- Refactor: align module to upstream defaults [\#250](https://github.com/voxpupuli/puppet-fail2ban/pull/250) ([d1nuc0m](https://github.com/d1nuc0m))
+- Drop Debian 11, Ubuntu 18.04 & 20.04 support [\#249](https://github.com/voxpupuli/puppet-fail2ban/pull/249) ([d1nuc0m](https://github.com/d1nuc0m))
+
+**Implemented enhancements:**
+
+- feat: add missing \[DEFAULT\] parameters [\#255](https://github.com/voxpupuli/puppet-fail2ban/pull/255) ([d1nuc0m](https://github.com/d1nuc0m))
+
+**Closed issues:**
+
+- Still defaults to iptables instead of netfilter on distro that are using the later [\#245](https://github.com/voxpupuli/puppet-fail2ban/issues/245)
+- Customization files .local issue [\#232](https://github.com/voxpupuli/puppet-fail2ban/issues/232)
+- Change in case for operatingsystem fact on opensuse [\#184](https://github.com/voxpupuli/puppet-fail2ban/issues/184)
+- custom\_jail overrides default filters or correct way to change just logpath in default jail [\#157](https://github.com/voxpupuli/puppet-fail2ban/issues/157)
+
+**Merged pull requests:**
+
+- CI: Delete unused nodesets [\#254](https://github.com/voxpupuli/puppet-fail2ban/pull/254) ([bastelfreak](https://github.com/bastelfreak))
+- Delete Centos 6 & 7 leftovers [\#252](https://github.com/voxpupuli/puppet-fail2ban/pull/252) ([bastelfreak](https://github.com/bastelfreak))
+- Delete Debian 10 leftovers [\#251](https://github.com/voxpupuli/puppet-fail2ban/pull/251) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v6.0.0) (2025-11-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v5.0.2...v6.0.0)
