@@ -73,17 +73,37 @@ The following parameters are available in the `fail2ban` class:
 * [`service_ensure`](#-fail2ban--service_ensure)
 * [`service_name`](#-fail2ban--service_name)
 * [`service_enable`](#-fail2ban--service_enable)
-* [`action`](#-fail2ban--action)
+* [`bantime_increment`](#-fail2ban--bantime_increment)
+* [`bantime_rndtime`](#-fail2ban--bantime_rndtime)
+* [`bantime_maxtime`](#-fail2ban--bantime_maxtime)
+* [`bantime_factor`](#-fail2ban--bantime_factor)
+* [`bantime_formula`](#-fail2ban--bantime_formula)
+* [`bantime_multipliers`](#-fail2ban--bantime_multipliers)
+* [`bantime_overalljails`](#-fail2ban--bantime_overalljails)
+* [`ignoreself`](#-fail2ban--ignoreself)
+* [`ignoreip`](#-fail2ban--ignoreip)
+* [`ignorecommand`](#-fail2ban--ignorecommand)
 * [`bantime`](#-fail2ban--bantime)
+* [`findtime`](#-fail2ban--findtime)
+* [`maxretry`](#-fail2ban--maxretry)
+* [`maxmatches`](#-fail2ban--maxmatches)
+* [`default_backend`](#-fail2ban--default_backend)
+* [`usedns`](#-fail2ban--usedns)
+* [`logencoding`](#-fail2ban--logencoding)
+* [`enable_all_jails`](#-fail2ban--enable_all_jails)
+* [`default_mode`](#-fail2ban--default_mode)
+* [`default_filter`](#-fail2ban--default_filter)
 * [`destemail`](#-fail2ban--destemail)
 * [`sender`](#-fail2ban--sender)
+* [`mta`](#-fail2ban--mta)
+* [`protocol`](#-fail2ban--protocol)
 * [`iptables_chain`](#-fail2ban--iptables_chain)
-* [`jails`](#-fail2ban--jails)
-* [`maxretry`](#-fail2ban--maxretry)
-* [`default_backend`](#-fail2ban--default_backend)
-* [`ignoreip`](#-fail2ban--ignoreip)
+* [`port`](#-fail2ban--port)
+* [`fail2ban_agent`](#-fail2ban--fail2ban_agent)
 * [`banaction`](#-fail2ban--banaction)
 * [`banaction_allports`](#-fail2ban--banaction_allports)
+* [`action`](#-fail2ban--action)
+* [`jails`](#-fail2ban--jails)
 
 ##### <a name="-fail2ban--package_ensure"></a>`package_ensure`
 
@@ -221,11 +241,83 @@ Determines if the service should be enabled at boot.
 
 Default value: `true`
 
-##### <a name="-fail2ban--action"></a>`action`
+##### <a name="-fail2ban--bantime_increment"></a>`bantime_increment`
+
+Data type: `Optional[Boolean]`
+
+Increment ban time for previously banned IPs.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--bantime_rndtime"></a>`bantime_rndtime`
+
+Data type: `Optional[Integer[1]]`
+
+Maximum number of seconds to randomly add to ban time.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--bantime_maxtime"></a>`bantime_maxtime`
+
+Data type: `Optional[Integer[1]]`
+
+Maximum ban time.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--bantime_factor"></a>`bantime_factor`
+
+Data type: `Optional[Integer[1]]`
+
+Coefficient to increment ban time by.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--bantime_formula"></a>`bantime_formula`
 
 Data type: `Optional[String[1]]`
 
-Determines how banned ip addresses should be reported.
+Formula used to calculate ban time.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--bantime_multipliers"></a>`bantime_multipliers`
+
+Data type: `Array[Integer]`
+
+Alternative to formula, multiply ban time by multipliers.
+
+Default value: `[]`
+
+##### <a name="-fail2ban--bantime_overalljails"></a>`bantime_overalljails`
+
+Data type: `Optional[Boolean]`
+
+Search banned IPs over all jails.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--ignoreself"></a>`ignoreself`
+
+Data type: `Optional[Boolean]`
+
+Ignore local IP address.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--ignoreip"></a>`ignoreip`
+
+Data type: `Optional[Array[Fail2ban::IP]]`
+
+Determines which ip addresses will not be reported
+
+Default value: `undef`
+
+##### <a name="-fail2ban--ignorecommand"></a>`ignorecommand`
+
+Data type: `Optional[String[1]]`
+
+External command to evaluate if an IP should be ignored.
 
 Default value: `undef`
 
@@ -234,6 +326,78 @@ Default value: `undef`
 Data type: `Optional[Fail2ban::Time]`
 
 Determines how many time (second or hour or week) ip addresses will be banned.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--findtime"></a>`findtime`
+
+Data type: `Optional[Fail2ban::Time]`
+
+Interval in which max retries are evaluated.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--maxretry"></a>`maxretry`
+
+Data type: `Optional[Integer[0]]`
+
+Determines the number of failed login attempts needed to block a host.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--maxmatches"></a>`maxmatches`
+
+Data type: `Optional[String[1]]`
+
+Number of stored matches.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--default_backend"></a>`default_backend`
+
+Data type: `Optional[Enum['pyinotify', 'polling', 'systemd', 'auto']]`
+
+Default backend in use by fail2ban for file modification.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--usedns"></a>`usedns`
+
+Data type: `Optional[Enum['yes', 'warn', 'no', 'raw']]`
+
+Perform DNS lookup of encountered hostnames.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--logencoding"></a>`logencoding`
+
+Data type: `Optional[String[1]]`
+
+Encoding of log files (ascii, utf-8...).
+
+Default value: `undef`
+
+##### <a name="-fail2ban--enable_all_jails"></a>`enable_all_jails`
+
+Data type: `Optional[Boolean]`
+
+Enable all the jails known to fail2ban.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--default_mode"></a>`default_mode`
+
+Data type: `Optional[String[1]]`
+
+Default mode of filters.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--default_filter"></a>`default_filter`
+
+Data type: `Optional[String[1]]`
+
+Default filter in use by the jails.
 
 Default value: `undef`
 
@@ -253,6 +417,22 @@ Determines which email address should notify about restricted hosts and suspicio
 
 Default value: `undef`
 
+##### <a name="-fail2ban--mta"></a>`mta`
+
+Data type: `Optional[Enum['sendmail', 'mail']]`
+
+MTA in use for mailing.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--protocol"></a>`protocol`
+
+Data type: `Optional[Enum['tcp', 'udp']]`
+
+Default protocol.
+
+Default value: `undef`
+
 ##### <a name="-fail2ban--iptables_chain"></a>`iptables_chain`
 
 Data type: `Optional[String[1]]`
@@ -261,35 +441,19 @@ Determines chain where jumps will to be added in iptables-\* actions.
 
 Default value: `undef`
 
-##### <a name="-fail2ban--jails"></a>`jails`
+##### <a name="-fail2ban--port"></a>`port`
 
-Data type: `Optional[Hash]`
+Data type: `Optional[String[1]]`
 
-Configures defaults jails in jail.local
-
-Default value: `undef`
-
-##### <a name="-fail2ban--maxretry"></a>`maxretry`
-
-Data type: `Optional[Integer[0]]`
-
-Determines the number of failed login attempts needed to block a host.
+Port interval to be banned, usually to be overridden in jails.
 
 Default value: `undef`
 
-##### <a name="-fail2ban--default_backend"></a>`default_backend`
+##### <a name="-fail2ban--fail2ban_agent"></a>`fail2ban_agent`
 
-Data type: `Optional[Enum['pyinotify', 'polling', 'systemd', 'auto']]`
+Data type: `Optional[String[1]]`
 
-Default backend in use by fail2ban.
-
-Default value: `undef`
-
-##### <a name="-fail2ban--ignoreip"></a>`ignoreip`
-
-Data type: `Optional[Array[Fail2ban::IP]]`
-
-Determines which ip addresses will not be reported
+User-agent compliant to RFC7231 Section-5.5.3
 
 Default value: `undef`
 
@@ -306,6 +470,22 @@ Default value: `undef`
 Data type: `Optional[String[1]]`
 
 Determines which action to perform when performing a global ban for all ports (not overridden in a specific jail).
+
+Default value: `undef`
+
+##### <a name="-fail2ban--action"></a>`action`
+
+Data type: `Optional[String[1]]`
+
+Choose the default action to handle banned IPs.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--jails"></a>`jails`
+
+Data type: `Optional[Hash]`
+
+Configures defaults jails in jail.local
 
 Default value: `undef`
 

@@ -2,36 +2,36 @@
 # DO NOT EDIT MANUALLY!
 <%# Parameters in [DEFAULTS] -%>
 <%- $default_params = {
-  #bantime.increment
-  #bantime.rndtime
-  #bantime.maxtime
-  #bantime.factor
-  #bantime.formula
-  #bantime.multipliers
-  #bantime.overalljails
-  #ignoreself
-  ignoreip             => $fail2ban::ignoreip_string,
-  #ignorecommand
-  bantime              => $fail2ban::bantime,
-  #findtime
-  maxretry             => $fail2ban::maxretry,
-  #maxmatches
-  backend              => $fail2ban::default_backend,
-  #usedns
-  #logencoding
-  #enabled
-  #mode
-  #filter
-  destemail           => $fail2ban::destemail,
-  sender              => $fail2ban::sender,
-  #mta
-  #protocol
-  chain                => $fail2ban::iptables_chain,
-  #port
-  #fail2ban_agent
-  banaction            => $fail2ban::banaction,
-  banaction_allports   => $fail2ban::banaction_allports,
-  action               => $fail2ban::action,
+  'bantime.increment'    => $fail2ban::bantime_increment,
+  'bantime.rndtime'      => $fail2ban::bantime_rndtime, 
+  'bantime.maxtime'      => $fail2ban::bantime_maxtime, 
+  'bantime.factor'       => $fail2ban::bantime_factor,
+  'bantime.formula'      => $fail2ban::bantime_formula,
+  'bantime.multipliers'  => $fail2ban::bantime_multipliers_string,
+  'bantime.overalljails' => $fail2ban::bantime_overalljails,
+  ignoreself             => $fail2ban::ignoreself,
+  ignoreip               => $fail2ban::ignoreip_string,
+  ignorecommand          => $fail2ban::ignorecommand,
+  bantime                => $fail2ban::bantime,
+  findtime               => $fail2ban::findtime,
+  maxretry               => $fail2ban::maxretry,
+  maxmatches             => $fail2ban::maxmatches,
+  backend                => $fail2ban::default_backend,
+  usedns                 => $fail2ban::usedns,
+  logencoding            => $fail2ban::logencoding,
+  enabled                => $fail2ban::enable_all_jails,
+  mode                   => $fail2ban::default_mode,
+  filter                 => $fail2ban::default_filter,
+  destemail              => $fail2ban::destemail,
+  sender                 => $fail2ban::sender,
+  mta                    => $fail2ban::mta,
+  protocol               => $fail2ban::protocol,
+  chain                  => $fail2ban::iptables_chain,
+  port                   => $fail2ban::port,
+  fail2ban_agent         => $fail2ban::fail2ban_agent,
+  banaction              => $fail2ban::banaction,
+  banaction_allports     => $fail2ban::banaction_allports,
+  action                 => $fail2ban::action,
  }
  # After removing undefined values, is the hash not empty?
  $has_default_params = !$default_params.filter |$key, $value| { $value != undef }.empty()
