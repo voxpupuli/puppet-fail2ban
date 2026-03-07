@@ -23,7 +23,7 @@ describe 'fail2ban', type: :class do
         context 'defaults' do
           it do
             is_expected.to contain_package('fail2ban').with(
-              'ensure' => 'present'
+              'ensure' => 'present',
             )
           end
         end
@@ -31,13 +31,13 @@ describe 'fail2ban', type: :class do
         context 'when package latest' do
           let(:params) do
             {
-              package_ensure: 'latest'
+              package_ensure: 'latest',
             }
           end
 
           it do
             is_expected.to contain_package('fail2ban').with(
-              'ensure' => 'latest'
+              'ensure' => 'latest',
             )
           end
         end
@@ -47,20 +47,20 @@ describe 'fail2ban', type: :class do
             {
               package_ensure: 'absent',
               service_ensure: 'stopped',
-              service_enable: false
+              service_enable: false,
             }
           end
 
           it do
             is_expected.to contain_package('fail2ban').with(
-              'ensure' => 'absent'
+              'ensure' => 'absent',
             )
           end
 
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
-              'enable' => false
+              'enable' => false,
             )
           end
         end
@@ -70,20 +70,20 @@ describe 'fail2ban', type: :class do
             {
               package_ensure: 'purged',
               service_ensure: 'stopped',
-              service_enable: false
+              service_enable: false,
             }
           end
 
           it do
             is_expected.to contain_package('fail2ban').with(
-              'ensure' => 'purged'
+              'ensure' => 'purged',
             )
           end
 
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
-              'enable' => false
+              'enable' => false,
             )
           end
         end
@@ -94,7 +94,7 @@ describe 'fail2ban', type: :class do
         context 'when manage_firewalld' do
           let(:params) do
             {
-              el_firewalld_conf_ensure: 'absent'
+              el_firewalld_conf_ensure: 'absent',
             }
           end
 
@@ -103,7 +103,7 @@ describe 'fail2ban', type: :class do
               'ensure' => 'absent',
               'path' => '/etc/fail2ban/jail.d/00-firewalld.conf',
               'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
+              'require' => 'Package[fail2ban]',
             )
           end
         end
@@ -111,7 +111,7 @@ describe 'fail2ban', type: :class do
         context 'when manage_defaults' do
           let(:params) do
             {
-              debian_defaults_conf_ensure: 'absent'
+              debian_defaults_conf_ensure: 'absent',
             }
           end
 
@@ -120,7 +120,7 @@ describe 'fail2ban', type: :class do
               'ensure' => 'absent',
               'path' => '/etc/fail2ban/jail.d/defaults-debian.conf',
               'notify' => 'Service[fail2ban]',
-              'require' => 'Package[fail2ban]'
+              'require' => 'Package[fail2ban]',
             )
           end
         end
@@ -131,7 +131,7 @@ describe 'fail2ban', type: :class do
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'running',
-              'enable' => true
+              'enable' => true,
             )
           end
         end
@@ -139,14 +139,14 @@ describe 'fail2ban', type: :class do
         context 'when service stopped' do
           let(:params) do
             {
-              service_ensure: 'stopped'
+              service_ensure: 'stopped',
             }
           end
 
           it do
             is_expected.to contain_service('fail2ban').with(
               'ensure' => 'stopped',
-              'enable' => true
+              'enable' => true,
             )
           end
         end

@@ -15,7 +15,7 @@ describe 'Fail2ban::IP' do
 
   [
     'fd07:e689:f0d2:5ca9:zzzz:zzzz:gggg:gggg',
-    'example:com'
+    'example:com',
   ].each do |invalid_value|
     it { is_expected.not_to allow_value(invalid_value) }
   end
