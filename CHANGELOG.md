@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.1.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v7.1.0) (2026-09-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 26.04 support [\#265](https://github.com/voxpupuli/puppet-fail2ban/pull/265) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 10.x [\#264](https://github.com/voxpupuli/puppet-fail2ban/pull/264) ([QueerCodingGirl](https://github.com/QueerCodingGirl))
+
 ## [v7.0.0](https://github.com/voxpupuli/puppet-fail2ban/tree/v7.0.0) (2025-12-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-fail2ban/compare/v6.0.0...v7.0.0)
