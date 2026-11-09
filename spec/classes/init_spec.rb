@@ -17,7 +17,8 @@ describe 'fail2ban', type: :class do
       it { is_expected.to contain_class('fail2ban::install').that_comes_before('Class[fail2ban::config]') }
       it { is_expected.to contain_class('fail2ban::config').that_notifies('Class[fail2ban::service]') }
       it { is_expected.to contain_class('fail2ban::service') }
-      it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/jail.local.epp') }
+      it { is_expected.to contain_class('fail2ban').with_config_file_template('fail2ban/fail2ban.local.epp') }
+      it { is_expected.to contain_class('fail2ban').with_jail_file_template('fail2ban/jail.local.epp') }
 
       describe 'fail2ban::install' do
         context 'defaults' do
