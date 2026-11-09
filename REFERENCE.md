@@ -25,7 +25,7 @@
 ### Data types
 
 * [`Fail2ban::IP`](#Fail2ban--IP): can be a list of IP addresses, CIDR masks or DNS hosts
-* [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided 
+* [`Fail2ban::Time`](#Fail2ban--Time): Describes time format allowed for bantime and findtime The time entries in fail2ban configuration (like findtime or bantime) can be provided
 
 ### Tasks
 
@@ -68,11 +68,22 @@ The following parameters are available in the `fail2ban` class:
 * [`config_file_template`](#-fail2ban--config_file_template)
 * [`config_file_notify`](#-fail2ban--config_file_notify)
 * [`config_file_require`](#-fail2ban--config_file_require)
+* [`jail_file_path`](#-fail2ban--jail_file_path)
+* [`jail_file_template`](#-fail2ban--jail_file_template)
 * [`debian_defaults_conf_ensure`](#-fail2ban--debian_defaults_conf_ensure)
 * [`el_firewalld_conf_ensure`](#-fail2ban--el_firewalld_conf_ensure)
 * [`service_ensure`](#-fail2ban--service_ensure)
 * [`service_name`](#-fail2ban--service_name)
 * [`service_enable`](#-fail2ban--service_enable)
+* [`log_level`](#-fail2ban--log_level)
+* [`logtarget`](#-fail2ban--logtarget)
+* [`syslogsocket`](#-fail2ban--syslogsocket)
+* [`socket`](#-fail2ban--socket)
+* [`pidfile`](#-fail2ban--pidfile)
+* [`allowipv6`](#-fail2ban--allowipv6)
+* [`dbfile`](#-fail2ban--dbfile)
+* [`dbpurgeage`](#-fail2ban--dbpurgeage)
+* [`dbmaxmatches`](#-fail2ban--dbmaxmatches)
 * [`bantime_increment`](#-fail2ban--bantime_increment)
 * [`bantime_rndtime`](#-fail2ban--bantime_rndtime)
 * [`bantime_maxtime`](#-fail2ban--bantime_maxtime)
@@ -151,7 +162,7 @@ Data type: `Stdlib::Absolutepath`
 
 Determines if the configuration file should be managed.
 
-Default value: `'/etc/fail2ban/jail.local'`
+Default value: `'/etc/fail2ban/fail2ban.local'`
 
 ##### <a name="-fail2ban--config_file_owner"></a>`config_file_owner`
 
@@ -183,7 +194,7 @@ Data type: `String[1]`
 
 Determines which configuration file template to use.
 
-Default value: `'fail2ban/jail.local.epp'`
+Default value: `'fail2ban/fail2ban.local.epp'`
 
 ##### <a name="-fail2ban--config_file_notify"></a>`config_file_notify`
 
@@ -200,6 +211,22 @@ Data type: `String[1]`
 Determines which package a configuration file depends on.
 
 Default value: `'Package[fail2ban]'`
+
+##### <a name="-fail2ban--jail_file_path"></a>`jail_file_path`
+
+Data type: `Stdlib::Absolutepath`
+
+Determines if the jail configuration file should be managed.
+
+Default value: `'/etc/fail2ban/jail.local'`
+
+##### <a name="-fail2ban--jail_file_template"></a>`jail_file_template`
+
+Data type: `String[1]`
+
+Determines which jail configuration file template to use
+
+Default value: `'fail2ban/jail.local.epp'`
 
 ##### <a name="-fail2ban--debian_defaults_conf_ensure"></a>`debian_defaults_conf_ensure`
 
@@ -240,6 +267,93 @@ Data type: `Boolean`
 Determines if the service should be enabled at boot.
 
 Default value: `true`
+
+##### <a name="-fail2ban--log_level"></a>`log_level`
+
+Data type: `Optional[Enum['DEBUG','INFO','NOTICE','WARNING','ERROR','CRITICAL']]`
+
+Set the log level output.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--logtarget"></a>`logtarget`
+
+Data type:
+
+```puppet
+Optional[Variant[
+    Enum['STDOUT','STDERR','SYSLOG','SYSOUT', 'SYSTEMD-JOURNAL'],
+    Stdlib::AbsolutePath
+  ]]
+```
+
+Set the log target. This could be a file, SYSTEMD-JOURNAL, SYSLOG, STDERR or STDOUT.
+Only one log target can be specified.
+If you change logtarget from the default value and you are
+using logrotate -- also adjust or disable rotation in the
+corresponding configuration file
+
+Default value: `undef`
+
+##### <a name="-fail2ban--syslogsocket"></a>`syslogsocket`
+
+Data type: `Optional[Variant[Enum['auto'],Stdlib::Absolutepath]]`
+
+Set the syslog socket file. Only used when logtarget is SYSLOG
+auto uses platform.system() to determine predefined paths
+
+Default value: `undef`
+
+##### <a name="-fail2ban--socket"></a>`socket`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Set the socket file. This is used to communicate with the daemon. Do
+not remove this file when Fail2ban runs. It will not be possible to
+communicate with the server afterwards.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--pidfile"></a>`pidfile`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Set the PID file. This is used to store the process ID of the
+fail2ban server.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--allowipv6"></a>`allowipv6`
+
+Data type: `Optional[Enum['auto','yes','no']]`
+
+Allows IPv6 interface
+
+Default value: `undef`
+
+##### <a name="-fail2ban--dbfile"></a>`dbfile`
+
+Data type: `Optional[Variant[Enum['None',':memory:'],Stdlib::Absolutepath]]`
+
+Set the file for the fail2ban persistent data to be stored.
+
+Default value: `undef`
+
+##### <a name="-fail2ban--dbpurgeage"></a>`dbpurgeage`
+
+Data type: `Optional[Integer[1]]`
+
+Sets age at which bans should be purged from the database
+
+Default value: `undef`
+
+##### <a name="-fail2ban--dbmaxmatches"></a>`dbmaxmatches`
+
+Data type: `Optional[Integer[1]]`
+
+Number of matches stored in database per ticket
+
+Default value: `undef`
 
 ##### <a name="-fail2ban--bantime_increment"></a>`bantime_increment`
 
@@ -740,4 +854,3 @@ The jail to operate on
 Data type: `Array[Stdlib::IP::Address]`
 
 IP addresses to unban
-
