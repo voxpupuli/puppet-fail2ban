@@ -36,6 +36,12 @@
 # @param config_file_require
 #   Determines which package a configuration file depends on.
 #
+# @param jail_file_path
+#   Determines if the jail configuration file should be managed.
+#
+# @param jail_file_template
+#   Determines which jail configuration file template to use
+#
 # @param debian_defaults_conf_ensure
 #   Determines whether the file `/etc/fail2ban/jail.d/defaults-debian.conf` should be deleted or not.
 #
@@ -50,6 +56,41 @@
 #
 # @param service_enable
 #   Determines if the service should be enabled at boot.
+#
+# @param log_level
+#   Set the log level output.
+#
+# @param logtarget
+#   Set the log target. This could be a file, SYSTEMD-JOURNAL, SYSLOG, STDERR or STDOUT.
+#   Only one log target can be specified.
+#   If you change logtarget from the default value and you are
+#   using logrotate -- also adjust or disable rotation in the
+#   corresponding configuration file
+#
+# @param syslogsocket
+#   Set the syslog socket file. Only used when logtarget is SYSLOG
+#   auto uses platform.system() to determine predefined paths
+#
+# @param socket
+#   Set the socket file. This is used to communicate with the daemon. Do
+#   not remove this file when Fail2ban runs. It will not be possible to
+#   communicate with the server afterwards.
+#
+# @param pidfile
+#   Set the PID file. This is used to store the process ID of the
+#   fail2ban server.
+#
+# @param allowipv6
+#   Allows IPv6 interface
+#
+# @param dbfile
+#   Set the file for the fail2ban persistent data to be stored.
+#
+# @param dbpurgeage
+#   Sets age at which bans should be purged from the database
+#
+# @param dbmaxmatches
+#   Number of matches stored in database per ticket
 #
 # @param bantime_increment
 #   Increment ban time for previously banned IPs.
@@ -158,25 +199,40 @@
 #       },
 #     },
 #   }
-# 
+#
 class fail2ban (
   Enum['absent', 'latest', 'present', 'purged']              $package_ensure = 'present',
   String[1]                                                  $package_name = 'fail2ban',
   Optional[Array[String]]                                    $package_list = undef,
   Stdlib::Absolutepath                                       $config_dir_path = '/etc/fail2ban',
   Boolean                                                    $config_dir_purge = false,
-  Stdlib::Absolutepath                                       $config_file_path = '/etc/fail2ban/jail.local',
+  Stdlib::Absolutepath                                       $config_file_path = '/etc/fail2ban/fail2ban.local',
   String[1]                                                  $config_file_owner = 'root',
   String[1]                                                  $config_file_group = 'root',
   String[1]                                                  $config_file_mode = '0644',
-  String[1]                                                  $config_file_template = 'fail2ban/jail.local.epp',
+  String[1]                                                  $config_file_template = 'fail2ban/fail2ban.local.epp',
   String[1]                                                  $config_file_notify = 'Service[fail2ban]',
   String[1]                                                  $config_file_require = 'Package[fail2ban]',
+  Stdlib::Absolutepath                                       $jail_file_path = '/etc/fail2ban/jail.local',
+  String[1]                                                  $jail_file_template = 'fail2ban/jail.local.epp',
   Enum['absent', 'present']                                  $debian_defaults_conf_ensure = 'present',
   Enum['absent', 'present']                                  $el_firewalld_conf_ensure = 'present',
   Enum['running', 'stopped']                                 $service_ensure = 'running',
   String[1]                                                  $service_name = 'fail2ban',
   Boolean                                                    $service_enable = true,
+  # ------------------------- fail2ban.local/[DEFAULT] ------------------------- #
+  Optional[Enum['DEBUG','INFO','NOTICE','WARNING','ERROR','CRITICAL']] $log_level = undef,
+  Optional[Variant[
+    Enum['STDOUT','STDERR','SYSLOG','SYSOUT', 'SYSTEMD-JOURNAL'],
+    Stdlib::AbsolutePath
+  ]]                                                                   $logtarget = undef,
+  Optional[Variant[Enum['auto'],Stdlib::Absolutepath]]                 $syslogsocket = undef,
+  Optional[Stdlib::Absolutepath]                                       $socket = undef,
+  Optional[Stdlib::Absolutepath]                                       $pidfile = undef,
+  Optional[Enum['auto','yes','no']]                                    $allowipv6 = undef,
+  Optional[Variant[Enum['None',':memory:'],Stdlib::Absolutepath]]      $dbfile = undef,
+  Optional[Integer[1]]                                                 $dbpurgeage = undef,
+  Optional[Integer[1]]                                                 $dbmaxmatches = undef,
   # --------------------------- jails.local/[DEFAULT] -------------------------- #
   Optional[Boolean]                                          $bantime_increment = undef,
   Optional[Integer[1]]                                       $bantime_rndtime = undef,

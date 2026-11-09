@@ -13,10 +13,21 @@ class fail2ban::config {
     require => $fail2ban::config_file_require,
   }
 
-  file { 'jail.local':
+  file { 'fail2ban.local':
     ensure  => $fail2ban::config_file_ensure,
     content => epp($fail2ban::config_file_template),
     path    => $fail2ban::config_file_path,
+    owner   => $fail2ban::config_file_owner,
+    group   => $fail2ban::config_file_group,
+    mode    => $fail2ban::config_file_mode,
+    notify  => $fail2ban::config_file_notify,
+    require => $fail2ban::config_file_require,
+  }
+
+  file { 'jail.local':
+    ensure  => $fail2ban::config_file_ensure,
+    content => epp($fail2ban::jail_file_template),
+    path    => $fail2ban::jail_file_path,
     owner   => $fail2ban::config_file_owner,
     group   => $fail2ban::config_file_group,
     mode    => $fail2ban::config_file_mode,

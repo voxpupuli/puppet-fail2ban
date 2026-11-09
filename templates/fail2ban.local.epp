@@ -1,0 +1,27 @@
+# THIS FILE IS MANAGED BY PUPPET
+# DO NOT EDIT MANUALLY!
+<%# Parameters in [DEFAULTS] -%>
+<%- $default_params = {
+  loglevel     => $fail2ban::log_level,
+  logtarget    => $fail2ban::logtarget,
+  syslogsocket => $fail2ban::syslogsocket,
+  socket       => $fail2ban::socket,
+  pidfile      => $fail2ban::pidfile,
+  allowipv6    => $fail2ban::allowipv6,
+  dbfile       => $fail2ban::dbfile,
+  dbpurgeage   => $fail2ban::dbpurgeage,
+  dbmaxmatches => $fail2ban::dbmaxmatches,
+ }
+ # After removing undefined values, is the hash not empty?
+ $has_default_params = !$default_params.filter |$key, $value| { $value != undef }.empty()
+ -%>
+<%# If there is at least one parameter, populate the section with defined params -%>
+<%- if $has_default_params { -%>
+[DEFAULT]
+<%-   $default_params.each |$name, $value| { -%>
+<%-     if $value != undef { -%>
+<%=       $name %> = <%= $value %>
+<%-     } -%>
+<%-   } -%>
+<%- } -%>
+#
